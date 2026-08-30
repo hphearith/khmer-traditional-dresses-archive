@@ -1,7 +1,7 @@
 // Five entries connected top-to-bottom by a vertical line.
-// Entries 02-05 are placeholders to be replaced with real archive entries.
+// All entries are placeholders to be replaced with real archive entries.
 const entries = [
-  { id: "entry-01", number: "ENTRY 01", title: "Khmer Traditional Dresses Archive", description: "The process of making Khmer traditional dresses in Cambodia — Archived.", contributor: "Heng Phearith", place: "Phnom Penh" },
+  { id: "entry-01", number: "ENTRY 01", title: "Placeholder entry", description: "This entry will be documented later this semester.", contributor: "Heng Phearith", place: "Phnom Penh" },
   { id: "entry-02", number: "ENTRY 02", title: "Placeholder entry", description: "This entry will be documented later this semester.", contributor: "Heng Phearith", place: "Phnom Penh" },
   { id: "entry-03", number: "ENTRY 03", title: "Placeholder entry", description: "This entry will be documented later this semester.", contributor: "Heng Phearith", place: "Phnom Penh" },
   { id: "entry-04", number: "ENTRY 04", title: "Placeholder entry", description: "This entry will be documented later this semester.", contributor: "Heng Phearith", place: "Phnom Penh" },
@@ -10,6 +10,7 @@ const entries = [
 
 const styles = {
   list: { marginTop: 48 },
+  heading: { fontSize: 22, fontWeight: 600, marginBottom: 16, color: "#E8ECF1" },
   row: { display: "flex", gap: 16 },
   rail: { display: "flex", flexDirection: "column", alignItems: "center", width: 12 },
   dot: { width: 10, height: 10, borderRadius: "50%", backgroundColor: "#2EE6A8", marginTop: 26, flexShrink: 0 },
@@ -23,6 +24,7 @@ const styles = {
 export default function EntryCard() {
   return (
     <section style={styles.list}>
+      <h2 style={styles.heading}>Khmer Traditional Dresses Archive</h2>
       {entries.map((entry, i) => (
         <div key={entry.id} style={styles.row}>
           <div style={styles.rail}>
