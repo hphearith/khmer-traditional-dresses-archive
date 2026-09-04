@@ -21,6 +21,9 @@ const styles = {
   meta: { fontSize: 13, color: "#97A1B3", lineHeight: 1.6, margin: 0 },
 };
 
+/**
+ * Renders a vertical timeline of placeholder archive entries connected by a line.
+ */
 export default function EntryCard() {
   return (
     <section style={styles.list}>

@@ -1,20 +1,21 @@
 import collection from "../collection.config.js";
-import EntryCard from "../components/EntryCard.js";
+import GarmentsArchive from "../components/GarmentsArchive.js";
 
 const styles = {
   wrap: {
-    maxWidth: 720,
+    maxWidth: 960,
     margin: "0 auto",
-    padding: "80px 24px",
+    padding: "64px 24px 80px",
   },
   kicker: {
     fontFamily: "'Courier New', monospace",
     color: "#2EE6A8",
     fontSize: 14,
     letterSpacing: 1,
+    margin: 0,
   },
   title: {
-    fontSize: 48,
+    fontSize: 44,
     fontWeight: 700,
     margin: "16px 0 12px",
     lineHeight: 1.1,
@@ -25,9 +26,14 @@ const styles = {
     lineHeight: 1.6,
     margin: 0,
   },
+  metaGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: 16,
+    marginTop: 36,
+  },
   card: {
-    marginTop: 48,
-    padding: 24,
+    padding: 20,
     backgroundColor: "#1C222C",
     border: "1px solid #2E3644",
     borderRadius: 10,
@@ -39,14 +45,9 @@ const styles = {
     margin: 0,
   },
   cardValue: {
-    fontSize: 16,
+    fontSize: 15,
     margin: "6px 0 0",
-  },
-  count: {
-    fontFamily: "'Courier New', monospace",
-    fontSize: 14,
-    color: "#2EE6A8",
-    marginTop: 48,
+    lineHeight: 1.5,
   },
   footer: {
     marginTop: 64,
@@ -64,18 +65,18 @@ export default function Home() {
       <h1 style={styles.title}>{collection.name}</h1>
       <p style={styles.description}>{collection.description}</p>
 
-      <div style={styles.card}>
-        <p style={styles.cardLabel}>CURATED BY</p>
-        <p style={styles.cardValue}>{collection.curator}</p>
-      </div>
-      <div style={styles.card}>
-        <p style={styles.cardLabel}>SOURCE</p>
-        <p style={styles.cardValue}>{collection.source}</p>
+      <div style={styles.metaGrid}>
+        <div style={styles.card}>
+          <p style={styles.cardLabel}>CURATED BY</p>
+          <p style={styles.cardValue}>{collection.curator}</p>
+        </div>
+        <div style={styles.card}>
+          <p style={styles.cardLabel}>SOURCE</p>
+          <p style={styles.cardValue}>{collection.source}</p>
+        </div>
       </div>
 
-      <p style={styles.count}>entries in the archive: 5</p>
-
-      <EntryCard />
+      <GarmentsArchive />
 
       <footer style={styles.footer}>
         Built in ICT 340 — Vibe Coding, American University of Phnom Penh, Fall
