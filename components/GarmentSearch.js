@@ -3,7 +3,9 @@
 import { useState } from "react";
 
 const styles = {
-  wrap: { position: "relative", marginTop: 20 },
+  field: { marginTop: 20 },
+  hint: { margin: "6px 0 0", fontSize: 12, color: "#97A1B3", lineHeight: 1.4 },
+  wrap: { position: "relative" },
   input: {
     width: "100%", padding: "12px 36px 12px 14px", backgroundColor: "#1C222C",
     border: "1px solid #2E3644", borderRadius: 8, color: "#E8EDF2", fontSize: 14, outline: "none", boxSizing: "border-box",
@@ -46,31 +48,34 @@ export default function GarmentSearch({ query, onQueryChange, garments }) {
   const selectItem = (name) => { onQueryChange(name); setOpen(false); setCursor(-1); };
 
   return (
-    <div style={styles.wrap}>
-      <input
-        type="search" placeholder="Search garments by name, Khmer script, or material..."
-        value={query} style={styles.input} onKeyDown={handleKeyDown}
-        onChange={(e) => { onQueryChange(e.target.value); setOpen(true); setCursor(-1); }}
-        onFocus={() => setOpen(true)} onClick={() => setOpen(true)}
-        onBlur={() => { setOpen(false); setCursor(-1); }}
-      />
-      {query && (
-        <button type="button" onClick={() => { onQueryChange(""); setOpen(false); }} style={styles.clear} aria-label="Clear search">✕</button>
-      )}
-      {open && suggestions.length > 0 && (
-        <ul style={styles.list}>
-          {suggestions.map((g, i) => (
-            <li
-              key={g.id} onMouseEnter={() => setCursor(i)}
-              onMouseDown={(e) => { e.preventDefault(); selectItem(g.nameEn); }}
-              style={{ ...styles.item, ...(i === cursor ? styles.active : {}) }}
-            >
-              <span style={{ color: "#E8EDF2" }}>{g.nameEn}</span>
-              <span style={{ color: "#2EE6A8" }}>{g.nameKh}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div style={styles.field}>
+      <div style={styles.wrap}>
+        <input
+          type="search" placeholder="Try sampot…" aria-label="Search garments" aria-describedby="garment-search-hint"
+          value={query} style={styles.input} onKeyDown={handleKeyDown}
+          onChange={(e) => { onQueryChange(e.target.value); setOpen(true); setCursor(-1); }}
+          onFocus={() => setOpen(true)} onClick={() => setOpen(true)}
+          onBlur={() => { setOpen(false); setCursor(-1); }}
+        />
+        {query && (
+          <button type="button" onClick={() => { onQueryChange(""); setOpen(false); }} style={styles.clear} aria-label="Clear search">✕</button>
+        )}
+        {open && suggestions.length > 0 && (
+          <ul style={styles.list}>
+            {suggestions.map((g, i) => (
+              <li
+                key={g.id} onMouseEnter={() => setCursor(i)}
+                onMouseDown={(e) => { e.preventDefault(); selectItem(g.nameEn); }}
+                style={{ ...styles.item, ...(i === cursor ? styles.active : {}) }}
+              >
+                <span style={{ color: "#E8EDF2" }}>{g.nameEn}</span>
+                <span style={{ color: "#2EE6A8" }}>{g.nameKh}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <p id="garment-search-hint" style={styles.hint}>Search by name, Khmer script, or material.</p>
     </div>
   );
 }
