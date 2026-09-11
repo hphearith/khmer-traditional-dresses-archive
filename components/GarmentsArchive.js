@@ -7,6 +7,14 @@ import GarmentFilter from "./GarmentFilter.js";
 import GarmentCard from "./GarmentCard.js";
 import GarmentSearch from "./GarmentSearch.js";
 
+// Noun phrase shown in the empty state for each facet, keyed by tab id.
+const EMPTY_LABELS = {
+  all: "traditional garments",
+  lower: "lower body garments",
+  upper: "upper body garments",
+  ensemble: "ensembles",
+};
+
 const styles = {
   section: { marginTop: 48 },
   headerRow: {
@@ -51,7 +59,10 @@ export default function GarmentsArchive() {
       <GarmentFilter activeTab={activeTab} onSelectTab={setActiveTab} />
 
       {filtered.length === 0 ? (
-        <p style={styles.empty}>No traditional garments found matching &quot;{query}&quot;.</p>
+        <p style={styles.empty}>
+          No {EMPTY_LABELS[activeTab]} found
+          {query.trim() ? ` matching "${query}"` : ""}.
+        </p>
       ) : (
         <div style={styles.grid}>
           {filtered.map((item) => (
