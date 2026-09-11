@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import garments from "../data/garments.js";
+import { filterGarments } from "../lib/garmentSearch.js";
 import GarmentFilter from "./GarmentFilter.js";
 import GarmentCard from "./GarmentCard.js";
 import GarmentSearch from "./GarmentSearch.js";
@@ -34,13 +35,8 @@ export default function GarmentsArchive() {
   const [activeTab, setActiveTab] = useState("all");
   const [query, setQuery] = useState("");
 
-  const q = query.trim().toLowerCase();
-  const filtered = garments.filter((g) => {
-    const matchCat = activeTab === "all" || g.category === activeTab;
-    const matchQuery = !q || g.nameEn.toLowerCase().includes(q) ||
-      g.nameKh.includes(q) || g.material.toLowerCase().includes(q);
-    return matchCat && matchQuery;
-  });
+  // Category facet AND keyword search: both narrow the same list.
+  const filtered = filterGarments(garments, { activeTab, query });
 
   return (
     <section style={styles.section} aria-labelledby="garments-heading">

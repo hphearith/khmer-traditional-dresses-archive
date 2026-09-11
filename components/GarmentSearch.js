@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { matchGarment, parseQuery } from "../lib/garmentSearch.js";
 
 const styles = {
   field: { marginTop: 20 },
@@ -28,11 +29,11 @@ const styles = {
 export default function GarmentSearch({ query, onQueryChange, garments }) {
   const [open, setOpen] = useState(false);
   const [cursor, setCursor] = useState(-1);
-  const q = query.trim().toLowerCase();
+  const terms = parseQuery(query);
 
-  const suggestions = q ? garments.filter((g) =>
-    g.nameEn.toLowerCase().includes(q) || g.nameKh.includes(q) || g.material.toLowerCase().includes(q)
-  ).slice(0, 5) : [];
+  const suggestions = terms.length
+    ? garments.filter((g) => matchGarment(g, terms)).slice(0, 5)
+    : [];
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -75,7 +76,9 @@ export default function GarmentSearch({ query, onQueryChange, garments }) {
           </ul>
         )}
       </div>
-      <p id="garment-search-hint" style={styles.hint}>Search by name, Khmer script, or material.</p>
+      <p id="garment-search-hint" style={styles.hint}>
+        Search by name, Khmer script, material, or description. Use &quot;quotes&quot; for a phrase.
+      </p>
     </div>
   );
 }
