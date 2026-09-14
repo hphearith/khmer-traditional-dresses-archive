@@ -3,3 +3,8 @@ node_modules
 out
 .env*
 .DS_Store
+
+# codex-workflow-managed-start
+.codex_workflow_hidden_resources/
+agent_docs
+# codex-workflow-managed-end
