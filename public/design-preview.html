@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archive design preview</title>
+<style>
+/* Visual values follow DESIGN.md. No external assets or dependencies. */
+:root{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--gutter:40px;--serif:Georgia,"Noto Serif Khmer",serif;--sans:Arial,"Noto Sans Khmer",sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 var(--sans)}
+h1,h2,h3,p,figure{margin:0}
+a{color:inherit;text-underline-offset:5px}
+button,input{font:inherit}
+button,a,summary{touch-action:manipulation}
+button{cursor:pointer}
+button,a,input,summary{transition:background-color .15s,color .15s,border-color .15s}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.container{width:min(1200px,calc(100% - var(--gutter)*2));margin-inline:auto}
+.skip{position:absolute;top:8px;left:16px;transform:translateY(-160%);background:var(--surface);padding:12px;z-index:5}
+.skip:focus{transform:translateY(0)}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:24px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark{width:32px;height:40px;border:1px solid var(--wine);display:grid;place-items:center;color:var(--wine);font:26px var(--serif)}
+.label{font-size:12px;line-height:1.5;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.subtle{color:var(--muted)}
+nav{display:flex;gap:24px;flex-wrap:wrap}
+nav a{min-height:44px;display:flex;align-items:center;font-size:14px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:48px;padding-block:56px 80px}
+.hero-copy>.label{color:var(--wine);margin-bottom:24px}
+h1{font:400 clamp(40px,5.5vw,72px)/1.08 var(--serif);letter-spacing:-.035em}
+.lead{font-size:18px;line-height:1.7;max-width:42ch;margin-block:24px 32px;color:var(--muted)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:48px;padding:8px 16px;border:1px solid var(--wine);border-radius:4px;background:var(--wine);color:var(--surface);text-decoration:none}
+.button:hover{background:var(--wine-hover)}
+.secondary{background:transparent;color:var(--ink);border-color:var(--control)}
+.secondary:hover{background:var(--fabric)}
+.hero-note{font-size:14px;color:var(--muted);margin-top:24px}
+.hero-art{position:relative;aspect-ratio:1/1;background:var(--fabric);overflow:hidden}
+.hero-art::before{content:"";position:absolute;inset:24px;border:1px solid var(--control)}
+.cloth{position:absolute;inset:6% 20% 12% 16%;transform:rotate(-12deg);background:repeating-linear-gradient(90deg,transparent 0 22px,#96744533 23px 24px),repeating-linear-gradient(0deg,transparent 0 3px,#ffffff0a 3px 4px),linear-gradient(100deg,#542229,#702F36 38%,#9c5b60 49%,#702F36 62%,#542229)}
+.cloth::after{content:"";position:absolute;inset:0 12%;border-inline:8px double var(--gold)}
+.cloth.second{inset:34% 5% -8% 48%;transform:rotate(15deg);background:repeating-linear-gradient(90deg,#ffffff00 0 18px,#ffffff15 19px 20px),linear-gradient(100deg,#967445,#ceaf78 40%,#967445 75%,#725332)}
+.art-label{position:absolute;left:24px;bottom:24px;background:var(--surface);padding:12px 16px;border:1px solid var(--line);font-size:12px;max-width:calc(100% - 48px)}
+figcaption{font-size:14px;color:var(--muted);margin-top:12px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:24px}
+h2{font:400 clamp(32px,3.5vw,40px)/1.2 var(--serif)}
+.section-head .label{margin-bottom:12px;color:var(--wine)}
+#count{font-size:14px;color:var(--muted)}
+#collection{scroll-margin-top:24px}
+.search-label{display:block;font-size:14px;font-weight:700;margin-bottom:8px}
+.search-row{display:flex;gap:12px}
+input{width:100%;min-width:0;height:56px;padding:12px 16px;border:1px solid var(--control);border-radius:4px;background:var(--surface);color:var(--ink)}
+.search-hint{font-size:14px;color:var(--muted);margin-top:8px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding-block:24px;border-bottom:1px solid var(--line);margin-bottom:32px}
+.filter{min-height:48px;padding:8px 16px;background:transparent;color:var(--muted);border:1px solid var(--control);border-radius:4px}
+.filter:hover{background:var(--fabric)}
+.filter[aria-pressed="true"]{background:var(--wine);color:var(--surface);border-color:var(--wine);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 24px}
+article{min-width:0;border-bottom:1px solid var(--line);padding-bottom:24px}
+.swatch{aspect-ratio:4/5;background:var(--fabric);position:relative;overflow:hidden;display:flex;align-items:end;padding:16px;margin-bottom:16px}
+.swatch::before{content:"";position:absolute;inset:12% 21% 22%;background:repeating-linear-gradient(90deg,transparent 0 12px,#ffffff1c 13px 14px),linear-gradient(100deg,#542229,#9c5b60 50%,#702F36);transform:rotate(-6deg)}
+.swatch::after{content:"";position:absolute;left:25%;right:23%;top:17%;bottom:27%;border:1px solid #ffffff50;transform:rotate(-6deg)}
+article:nth-child(3n+2) .swatch::before{background:repeating-linear-gradient(0deg,transparent 0 14px,#ffffff25 15px 16px),linear-gradient(110deg,#967445,#ceaf78,#967445);transform:rotate(5deg)}
+article:nth-child(3n+3) .swatch::before{background:repeating-linear-gradient(90deg,transparent 0 8px,#ffffff25 9px 10px),linear-gradient(110deg,#686057,#b5ab9b,#686057)}
+.photo-note{position:relative;z-index:1;font-size:12px;background:var(--surface);padding:8px 12px;border:1px solid var(--line)}
+.card-top{display:flex;justify-content:space-between;gap:8px;color:var(--muted);margin-bottom:8px}
+h3{font:400 26px/1.3 var(--serif)}
+:lang(km){font-family:"Noto Sans Khmer","Khmer OS",sans-serif;letter-spacing:0;line-height:1.9}
+.khmer{font-size:18px;color:var(--wine);margin-block:4px 12px}
+.material{font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+summary{cursor:pointer;min-height:44px;padding-block:12px;text-decoration:underline;text-underline-offset:5px;font-size:14px}
+details p{padding-top:8px}
+.empty{padding:48px 24px;border:1px solid var(--line);background:var(--surface)}
+[hidden]{display:none!important}
+.source{margin-block:80px;background:var(--wine);color:var(--surface);padding-block:48px}
+.source-inner{display:grid;grid-template-columns:1fr 1.6fr;gap:48px}
+.source h2{margin-top:16px}
+.source-copy{font:400 26px/1.5 var(--serif);max-width:640px}
+.byline{margin-top:24px;font-size:14px}
+.process{margin-bottom:80px;scroll-margin-top:24px}
+.process-intro{max-width:640px;margin-bottom:48px}
+.process-intro h2{margin-block:16px}
+.process-intro p:last-child{margin-top:16px;color:var(--muted)}
+.process-map{list-style:none;margin:0;padding:0}
+.process-step{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px;align-items:center;padding-bottom:80px}
+.process-step:last-child{padding-bottom:0}
+.process-media{grid-column:1;grid-row:1;min-height:240px;padding:24px;background:var(--fabric);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.step-number{font:400 72px/1.08 var(--serif);color:var(--wine)}
+.process-media .label{color:var(--muted)}
+.process-copy{grid-column:2;grid-row:1;min-width:0}
+.process-copy h3{margin-block:8px 16px}
+.process-copy p:last-child{color:var(--muted);max-width:42ch}
+.process-step:nth-child(even) .process-media{grid-column:2}
+.process-step:nth-child(even) .process-copy{grid-column:1}
+.process-connector{position:absolute;bottom:0;left:calc(25% - 12px);width:calc(50% + 24px);height:80px;overflow:visible;color:var(--gold);pointer-events:none}
+.process-step:nth-child(even) .process-connector{transform:scaleX(-1)}
+.process-connector path{fill:none;stroke:currentColor;stroke-width:1;vector-effect:non-scaling-stroke}
+.process .text-link{display:inline-flex;align-items:center;min-height:44px;margin-top:32px}
+footer{border-top:1px solid var(--line);padding-block:24px 32px;display:flex;gap:24px;justify-content:space-between;font-size:14px;color:var(--muted)}
+.preview-note{font-size:12px;border-bottom:1px solid var(--line);padding-block:8px;text-align:center;color:var(--muted)}
+@media(max-width:999px){:root{--gutter:24px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero,.source-inner{grid-template-columns:1fr}.hero-art{aspect-ratio:3/2}.hero{gap:32px}.hero-copy{max-width:640px}.source-inner{gap:24px}}
+@media(max-width:639px){:root{--gutter:16px}.grid{grid-template-columns:1fr}.masthead{flex-wrap:wrap;gap:12px;padding-block:16px}.hero{padding-block:32px 56px}.section-head{align-items:start;flex-direction:column}.search-row{flex-wrap:wrap}.search-row .button{width:100%}.source{margin-block:56px;padding-block:32px}.process{margin-bottom:56px}.process-intro{margin-bottom:32px}.process-step{grid-template-columns:1fr;gap:16px;padding:0 0 48px 24px;border-left:1px solid var(--gold)}.process-step:last-child{border-left-color:transparent}.process-step::before{content:"";position:absolute;left:-5px;top:0;width:9px;height:9px;background:var(--wine)}.process-step .process-media,.process-step:nth-child(even) .process-media{grid-column:1;grid-row:1;min-height:200px}.process-step .process-copy,.process-step:nth-child(even) .process-copy{grid-column:1;grid-row:2}.process-connector{display:none}footer{flex-direction:column;gap:8px}.hero-art{aspect-ratio:1/1}.source-copy{font-size:26px}.filter{flex-grow:1}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#collection">Skip to collection</a>
+<div class="preview-note">Design preview · Abstract textile studies are illustrative; archive photographs are pending.</div>
+<header class="container masthead">
+<a class="brand" href="#top"><span class="mark" aria-hidden="true">✳</span><span class="label">Khmer Living Archive</span></a>
+<nav aria-label="Main navigation"><a href="#collection">Collection</a><a href="#about">About the archive</a></nav>
+</header>
+<main id="top">
+<section class="container hero" aria-labelledby="archive-name">
+<div class="hero-copy">
+<p class="label">A personal collection · Dress &amp; craft</p>
+<h1 id="archive-name"></h1>
+<p class="lead" id="archive-description"></p>
+<a class="button" href="#collection">Browse the collection <span aria-hidden="true">↗</span></a>
+<p class="hero-note">An archive of garments, materials, and the knowledge behind them.</p>
+</div>
+<figure><div class="hero-art"><div class="cloth" aria-hidden="true"></div><div class="cloth second" aria-hidden="true"></div><span class="art-label"><span class="label">Colour &amp; cloth</span><br>Illustrative textile study</span></div><figcaption>A visual study for the archive, not a documentary photograph.</figcaption></figure>
+</section>
+<section class="container" id="collection" aria-labelledby="collection-heading">
+<div class="section-head"><div><p class="label">01 / The catalogue</p><h2 id="collection-heading">Explore the garments</h2></div><p id="count" role="status" aria-live="polite" aria-atomic="true"></p></div>
+<label class="search-label" for="search">Search the archive</label>
+<div class="search-row"><input id="search" type="search" placeholder="Try sampot, silk, or a Khmer name…" aria-describedby="search-hint"><button class="button secondary" type="button" id="reset">Reset</button></div>
+<p class="search-hint" id="search-hint">Search English or Khmer names, materials, and descriptions. Use quotes for an exact phrase.</p>
+<div class="filters" role="group" aria-label="Garment category">
+<button class="filter" data-category="all" aria-pressed="true">All garments</button>
+<button class="filter" data-category="lower" aria-pressed="false">Lower body</button>
+<button class="filter" data-category="upper" aria-pressed="false">Upper body</button>
+<button class="filter" data-category="ensemble" aria-pressed="false">Ensembles</button>
+</div>
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" hidden><h3>No garments found</h3><p>Try a different name or material, or reset the search and category above.</p></div>
+</section>
+<section class="source" id="about" aria-labelledby="source-heading"><div class="container source-inner">
+<div><p class="label">02 / Behind the archive</p><h2 id="source-heading">Knowledge from<br>a tailor’s practice.</h2></div>
+<div><p class="source-copy" id="source-copy"></p><p class="byline">Source recorded by <span id="curator"></span></p></div>
+</div></section>
+<section class="container process" id="making-process" aria-labelledby="process-heading">
+<div class="process-intro"><p class="label">03 / The making process</p><h2 id="process-heading">Follow the making,<br>step by step.</h2><p>A place to archive the work behind a garment, from the first preparations to the finished piece.</p><p>Five proposed stages are shown below. Their names and order await the tailor’s documentation; photographs and process notes have not yet been recorded.</p></div>
+<ol class="process-map" aria-label="Five proposed stages of making a garment">
+<li class="process-step">
+<div class="process-media"><span class="label">Step 1</span><span class="step-number" aria-hidden="true">01</span><span class="label">Photo or video pending</span></div>
+<div class="process-copy"><p class="label subtle">Proposed stage · Not yet documented</p><h3>Materials &amp; preparation</h3><p>This space will record the selected fabric and tools, together with the tailor’s explanation of the starting preparations.</p></div>
+<svg class="process-connector" viewBox="0 0 100 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 V40 H100 V80"/></svg>
+</li>
+<li class="process-step">
+<div class="process-media"><span class="label">Step 2</span><span class="step-number" aria-hidden="true">02</span><span class="label">Photo or video pending</span></div>
+<div class="process-copy"><p class="label subtle">Proposed stage · Not yet documented</p><h3>Measurements &amp; planning</h3><p>This space will preserve notes on how the garment is planned, including any measurements or pattern references used in this particular making process.</p></div>
+<svg class="process-connector" viewBox="0 0 100 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 V40 H100 V80"/></svg>
+</li>
+<li class="process-step">
+<div class="process-media"><span class="label">Step 3</span><span class="step-number" aria-hidden="true">03</span><span class="label">Photo or video pending</span></div>
+<div class="process-copy"><p class="label subtle">Proposed stage · Not yet documented</p><h3>Shaping the garment</h3><p>This space will document how the material takes shape. The actual technique and sequence will come from the tailor’s account.</p></div>
+<svg class="process-connector" viewBox="0 0 100 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 V40 H100 V80"/></svg>
+</li>
+<li class="process-step">
+<div class="process-media"><span class="label">Step 4</span><span class="step-number" aria-hidden="true">04</span><span class="label">Photo or video pending</span></div>
+<div class="process-copy"><p class="label subtle">Proposed stage · Not yet documented</p><h3>Assembly &amp; detailing</h3><p>This space will pair close-up documentation with notes on how the piece is brought together and which details are added, where applicable.</p></div>
+<svg class="process-connector" viewBox="0 0 100 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0 V40 H100 V80"/></svg>
+</li>
+<li class="process-step">
+<div class="process-media"><span class="label">Step 5</span><span class="step-number" aria-hidden="true">05</span><span class="label">Photo or video pending</span></div>
+<div class="process-copy"><p class="label subtle">Proposed stage · Not yet documented</p><h3>Finishing &amp; final piece</h3><p>This space will show the finished garment alongside the tailor’s notes on final adjustments and a reference to its archive entry.</p></div>
+</li>
+</ol>
+<a class="text-link" href="#collection">Return to the catalogue ↑</a>
+</section>
+</main>
+<footer class="container"><p id="footer-name"></p><p>ICT 340 · AUPP · Collection in progress</p></footer>
+<noscript><p class="container">This standalone preview needs JavaScript to display the collection snapshot and search controls.</p></noscript>
+<script>
+// Generated snapshot from collection.config.js and data/garments.js.
+// Edit those source files, not this snapshot. The production app imports them directly.
+const snapshot = {"collection":{"name":"Khmer Traditional Dresses","description":"A documented archive of the creation of Khmer traditional dresses, built for ICT 340.","curator":"Heng Phearith","source":"My mother, owner of a tailor shop, who has been making traditional Khmer dresses for over 20 years."},"garments":[{"id":"sampot-chang-kben","nameEn":"Sampot Chang Kben","nameKh":"សំពត់ចងក្បិន","category":"lower","material":"Khmer Golden Silk (សូត្រមាស)","description":"A rectangular cloth wrapped around the waist, twisted between the legs, and tucked into the back waistband to create voluminous pleated pantaloons.","imageUrl":"/images/garments/placeholder.svg"},{"id":"sampot-hol","nameEn":"Sampot Hol","nameKh":"សំពត់ហូល","category":"lower","material":"Chong Kiet Tie-Dyed Silk (សូត្រចងគៀត)","description":"A renowned traditional wrap skirt woven using the intricate Chong Kiet (ikat) resist-dyeing method, distinguished by geometric motifs and natural pigments.","imageUrl":"/images/garments/placeholder.svg"},{"id":"sampot-phamuong","nameEn":"Sampot Phamuong","nameKh":"សំពត់ផាមួង","category":"lower","material":"Twill-Woven Golden Silk (សូត្រផាមួង)","description":"A luxurious single-color or two-tone twill-woven silk skirt known for its dense, shimmering body and traditional floral border (Kbach Krum).","imageUrl":"/images/garments/placeholder.svg"},{"id":"av-pak","nameEn":"Av Pak","nameKh":"អាវប៉ាក់","category":"upper","material":"Embroidered Cotton & Organza (ក្រណាត់ប៉ាក់)","description":"A graceful, tailored front-buttoned blouse celebrated for intricate cutwork embroidery along the collar, hem, and cuffs, favored for formal visits and festivals.","imageUrl":"/images/garments/placeholder.svg"},{"id":"sbai","nameEn":"Sbui / Sbai","nameKh":"ស្បៃ","category":"upper","material":"Pleated Silk with Gold Thread & Sequins (ស្បៃប៉ាក់ខ្សែសយ)","description":"A ceremonial pleated silk shawl draped diagonally across the left shoulder, trailing down the back with gilded thread embroidery.","imageUrl":"/images/garments/placeholder.svg"},{"id":"av-chang-pong","nameEn":"Av Chang Pong","nameKh":"អាវចងពង់","category":"upper","material":"Lightweight Silk Crepe or Fine Cotton","description":"A classic tube-like chest-wrap garment secured by folding and tucking firmly across the bust, historically worn in daily life and ceremonial preparations.","imageUrl":"/images/garments/placeholder.svg"},{"id":"traditional-wedding-ensemble","nameEn":"Traditional Wedding Ensemble","nameKh":"សំលៀកបំពាក់ការប្រពៃណី","category":"ensemble","material":"Gold Brocade, Handwoven Silk Kben & Gilded Sbai","description":"A magnificent matrimonial attire ensemble combining a silk Sampot Chang Kben, an ornate metallic-threaded Sbai, and royal-inspired jewelry.","imageUrl":"/images/garments/placeholder.svg"},{"id":"pagoda-ensemble","nameEn":"Pagoda Ensemble","nameKh":"សំលៀកបំពាក់ទៅវត្ត","category":"ensemble","material":"White Embroidered Av Pak with Sampot Hol / Phamuong","description":"A modest and dignified traditional attire pairing a pure white or pastel Av Pak blouse with a finely woven silk Sampot, worn during Pchum Ben and temple ceremonies.","imageUrl":"/images/garments/placeholder.svg"}]};
+// Search semantics copied unchanged from lib/garmentSearch.js.
+// Shared keyword + faceted search rules for garment entries.
+// Plain module (no React) so that the results grid and the autocomplete
+// dropdown always agree on what a match is.
+
+// Every field a keyword is allowed to hit.
+const FIELDS = ["nameEn", "nameKh", "material", "description"];
+
+/**
+ * Turns the raw search box value into a list of keywords.
+ * Words wrapped in double quotes stay together as one phrase, so
+ * `"sampot chang"` matches those two words only when they are adjacent.
+ * Bare words each count as their own keyword. An unclosed quote (still
+ * being typed, e.g. `"sam`) is treated as a normal keyword so the
+ * autocomplete keeps working mid-type.
+ */
+function parseQuery(input) {
+  const terms = [];
+  const pattern = /"([^"]+)"|(\S+)/g;
+  let match;
+  while ((match = pattern.exec(String(input || ""))) !== null) {
+    const term = (match[1] || match[2] || "").replace(/"/g, "").trim();
+    if (term) terms.push(term.toLowerCase());
+  }
+  return terms;
+}
+
+/** True when every keyword appears somewhere in the entry (AND match). */
+function matchGarment(garment, terms) {
+  if (!terms.length) return true;
+  return terms.every((term) =>
+    FIELDS.some((field) =>
+      String(garment[field] || "").toLowerCase().includes(term)
+    )
+  );
+}
+
+/**
+ * Faceted (category tab) + keyword search, combined with AND:
+ * an entry must belong to the active category *and* match every keyword.
+ */
+function filterGarments(garments, { activeTab, query }) {
+  const terms = parseQuery(query);
+  return garments.filter(
+    (g) =>
+      (activeTab === "all" || g.category === activeTab) &&
+      matchGarment(g, terms)
+  );
+}
+
+const { collection, garments } = snapshot;
+const byId = id => document.getElementById(id);
+const setText = (id, value) => { byId(id).textContent = value; };
+document.title = collection.name + " — Design preview";
+setText("archive-name", collection.name);
+setText("archive-description", collection.description);
+setText("source-copy", collection.source);
+setText("curator", collection.curator);
+setText("footer-name", collection.name);
+const labels = { lower: "Lower body", upper: "Upper body", ensemble: "Ensemble" };
+let activeTab = "all";
+function element(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text) node.textContent = text;
+  return node;
+}
+function card(garment) {
+  const article = element("article");
+  const swatch = element("div", "swatch");
+  swatch.append(element("span", "photo-note", "Photograph pending · illustrative study"));
+  const top = element("div", "card-top label");
+  top.append(element("span", "", labels[garment.category]));
+  const title = element("h3", "", garment.nameEn);
+  const khmer = element("p", "khmer", garment.nameKh);
+  khmer.lang = "km";
+  const details = element("details");
+  const summary = element("summary", "", "Read entry");
+  summary.setAttribute("aria-label", "Read entry: " + garment.nameEn);
+  details.append(summary, element("p", "", garment.description));
+  article.append(swatch, top, title, khmer, element("p", "material", garment.material), details);
+  return article;
+}
+function render() {
+  const results = filterGarments(garments, { activeTab, query: byId("search").value });
+  byId("grid").replaceChildren(...results.map(card));
+  setText("count", results.length + " of " + garments.length + " entries");
+  byId("empty").hidden = results.length > 0;
+  document.querySelectorAll("[data-category]").forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.category === activeTab));
+  });
+}
+byId("search").addEventListener("input", render);
+document.querySelectorAll("[data-category]").forEach(button => {
+  button.addEventListener("click", () => { activeTab = button.dataset.category; render(); });
+});
+byId("reset").addEventListener("click", () => {
+  activeTab = "all";
+  byId("search").value = "";
+  render();
+  byId("search").focus();
+});
+render();
+</script>
+</body>
+</html>
