@@ -1,88 +1,62 @@
 import collection from "../collection.config.js";
 import GarmentsArchive from "../components/GarmentsArchive.js";
-
-const styles = {
-  wrap: {
-    maxWidth: 960,
-    margin: "0 auto",
-    padding: "64px 24px 80px",
-  },
-  kicker: {
-    fontFamily: "'Courier New', monospace",
-    color: "#2EE6A8",
-    fontSize: 14,
-    letterSpacing: 1,
-    margin: 0,
-  },
-  title: {
-    fontSize: 44,
-    fontWeight: 700,
-    margin: "16px 0 12px",
-    lineHeight: 1.1,
-  },
-  description: {
-    fontSize: 18,
-    color: "#97A1B3",
-    lineHeight: 1.6,
-    margin: 0,
-  },
-  metaGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: 16,
-    marginTop: 36,
-  },
-  card: {
-    padding: 20,
-    backgroundColor: "#1C222C",
-    border: "1px solid #2E3644",
-    borderRadius: 10,
-  },
-  cardLabel: {
-    fontFamily: "'Courier New', monospace",
-    fontSize: 12,
-    color: "#97A1B3",
-    margin: 0,
-  },
-  cardValue: {
-    fontSize: 15,
-    margin: "6px 0 0",
-    lineHeight: 1.5,
-  },
-  footer: {
-    marginTop: 64,
-    paddingTop: 24,
-    borderTop: "1px solid #2E3644",
-    fontSize: 13,
-    color: "#5A6373",
-  },
-};
+import ProcessMap from "../components/ProcessMap.js";
 
 export default function Home() {
   return (
-    <main style={styles.wrap}>
-      <p style={styles.kicker}>KHMER LIVING ARCHIVE</p>
-      <h1 style={styles.title}>{collection.name}</h1>
-      <p style={styles.description}>{collection.description}</p>
+    <>
+      <a className="skip" href="#collection">Skip to collection</a>
+      <p className="archive-note">Illustrative textile studies are shown while archive photographs are pending.</p>
+      <header className="container masthead">
+        <a className="brand" href="#top">
+          <span className="mark" aria-hidden="true">✳</span>
+          <span className="label">Khmer Living Archive</span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#collection">Collection</a>
+          <a href="#about">About the archive</a>
+        </nav>
+      </header>
+      <main id="top">
+        <section className="container hero" aria-labelledby="archive-name">
+          <div className="hero-copy">
+            <p className="label">A personal collection · Dress &amp; craft</p>
+            <h1 id="archive-name">{collection.name}</h1>
+            <p className="lead">{collection.description}</p>
+            <a className="button" href="#collection">Browse the collection <span aria-hidden="true">↗</span></a>
+            <p className="hero-note">An archive of garments, materials, and the knowledge behind them.</p>
+          </div>
+          <figure>
+            <div className="hero-art">
+              <div className="cloth" aria-hidden="true" />
+              <div className="cloth second" aria-hidden="true" />
+              <span className="art-label"><span className="label">Colour &amp; cloth</span><br />Illustrative textile study</span>
+            </div>
+            <figcaption>A visual study for the archive, not a documentary photograph.</figcaption>
+          </figure>
+        </section>
 
-      <div style={styles.metaGrid}>
-        <div style={styles.card}>
-          <p style={styles.cardLabel}>CURATED BY</p>
-          <p style={styles.cardValue}>{collection.curator}</p>
-        </div>
-        <div style={styles.card}>
-          <p style={styles.cardLabel}>SOURCE</p>
-          <p style={styles.cardValue}>{collection.source}</p>
-        </div>
-      </div>
+        <GarmentsArchive />
 
-      <GarmentsArchive />
+        <section className="source" id="about" aria-labelledby="source-heading">
+          <div className="container source-inner">
+            <div>
+              <p className="label">02 / Behind the archive</p>
+              <h2 id="source-heading">Knowledge from<br />a tailor’s practice.</h2>
+            </div>
+            <div>
+              <p className="source-copy">{collection.source}</p>
+              <p className="byline">Source recorded by {collection.curator}</p>
+            </div>
+          </div>
+        </section>
 
-      <footer style={styles.footer}>
-        Built in ICT 340 — Vibe Coding, American University of Phnom Penh, Fall
-        2026. This archive is under construction all semester. Come back in
-        December.
+        <ProcessMap />
+      </main>
+      <footer className="container">
+        <p>{collection.name}</p>
+        <p>Built in ICT 340 — Vibe Coding, American University of Phnom Penh, Fall 2026. This archive is under construction all semester. Come back in December.</p>
       </footer>
-    </main>
+    </>
   );
 }
