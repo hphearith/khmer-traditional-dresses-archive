@@ -8,3 +8,6 @@ out
 .codex_workflow_hidden_resources/
 agent_docs
 # codex-workflow-managed-end
+
+.agents
+skills-lock.json
