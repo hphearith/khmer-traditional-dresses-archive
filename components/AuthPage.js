@@ -1,5 +1,4 @@
 import Link from "next/link";
-import collection from "../collection.config.js";
 import AuthForm from "./AuthForm.js";
 
 export default function AuthPage({ signup = false }) {
@@ -9,9 +8,6 @@ export default function AuthPage({ signup = false }) {
       padding: "48px 24px", display: "grid", placeItems: "center",
     }}>
       <section aria-labelledby="auth-title" style={{ width: "100%", maxWidth: 440 }}>
-        <Link href="/" style={{ display: "inline-block", marginBottom: 32 }}>
-          ← {collection.name}
-        </Link>
         <h1 id="auth-title" style={{ fontSize: 40, marginBottom: 16 }}>
           {signup ? "Sign up" : "Log in"}
         </h1>
