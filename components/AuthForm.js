@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../lib/supabase/client.js";
 
 export default function AuthForm({ signup = false }) {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -43,6 +48,8 @@ export default function AuthForm({ signup = false }) {
       setPending(false);
     }
   }
+
+  if (!mounted) return null;
 
   return (
     <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 20 }}>
