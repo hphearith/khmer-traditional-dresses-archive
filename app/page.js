@@ -1,8 +1,23 @@
 import collection from "../collection.config.js";
 import GarmentsArchive from "../components/GarmentsArchive.js";
 import ProcessMap from "../components/ProcessMap.js";
+import { createClient } from "../lib/supabase/server.js";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  async function logout() {
+    "use server";
+
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+
+    redirect("/");
+  }
+
   return (
     <>
       <a className="skip" href="#collection">Skip to collection</a>
@@ -15,6 +30,23 @@ export default function Home() {
         <nav aria-label="Main navigation">
           <a href="#collection">Collection</a>
           <a href="#about">About the archive</a>
+          {user ? (
+            <>
+              <span style={{ display: "flex", minHeight: 44, alignItems: "center", color: "var(--muted)", fontSize: 14 }}>
+                {user.email}
+              </span>
+              <form action={logout} style={{ display: "flex" }}>
+                <button type="submit" style={{ border: 0, padding: 0, background: "transparent", color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 5 }}>
+                  Log out
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <a href="/login">Log in</a>
+              <a href="/signup">Sign up</a>
+            </>
+          )}
         </nav>
       </header>
       <main id="top">
