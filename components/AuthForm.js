@@ -62,7 +62,7 @@ export default function AuthForm({ signup = false }) {
           minLength={signup ? 6 : undefined} aria-describedby={signup ? "password-hint" : undefined} />
         {signup && <p id="password-hint" style={{ marginTop: 8, fontSize: 14 }}>Use at least 6 characters.</p>}
       </div>
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert" style={{ color: "red" }}>{error}</p>}
       {message && <p role="status">{message}</p>}
       <button type="submit" disabled={pending} style={{
         minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
