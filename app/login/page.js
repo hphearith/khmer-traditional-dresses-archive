@@ -1,5 +1,7 @@
 import AuthPage from "../../components/AuthPage.js";
 
-export default function LoginPage() {
-  return <AuthPage />;
+export default async function LoginPage({ searchParams }) {
+  const params = await searchParams;
+
+  return <AuthPage verificationRequested={params?.verify === "1"} />;
 }

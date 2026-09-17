@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "../lib/supabase/client.js";
 
 export default function AuthForm({ signup = false }) {
-  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
@@ -39,8 +37,8 @@ export default function AuthForm({ signup = false }) {
         form.reset();
         setMessage("Check your email to confirm your account, then log in.");
       } else {
-        router.replace("/");
-        router.refresh();
+        const verificationPath = signup ? "/signup?verify=1" : "/login?verify=1";
+        window.location.assign(verificationPath);
       }
     } catch {
       setError(signup ? "Unable to sign up. Please try again." : "Invalid email or password");
