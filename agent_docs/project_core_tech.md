@@ -25,11 +25,14 @@ objects or plain CSS.
 ## External Services and Infrastructure
 
 Supabase provides browser/server authentication through environment-configured
-clients. Supabase's Confirm Email setting is currently disabled as a temporary
-development/course configuration and will be enabled soon, before contributor
-authentication is treated as final. `middleware.js` refreshes existing SSR
-sessions on `/`, `/login`, and
-`/signup`, permits guests to browse `/` without a cookie, and redirects
+clients. The project owner reports that Confirm Email is enabled and that the
+production Site URL plus local and production `/auth/callback` redirects are
+configured. Signup and resend pass the current origin explicitly. The default
+confirmation template is locked unless custom SMTP is configured. The dynamic
+callback exchanges the PKCE code through the SSR cookie bridge and sends
+no-store/no-referrer headers; live confirmation on the deployed app remains to
+be checked. `middleware.js` refreshes existing SSR sessions on `/`, `/login`,
+and `/signup`, permits guests to browse `/` without a cookie, and redirects
 authenticated auth-page requests to `/` with query parameters cleared. The
 `/cookies` page documents necessary first-party session storage for contributor
 accounts and confirms that optional analytics/advertising cookies are not used.

@@ -6,13 +6,14 @@ generated inventories and details better owned by module documents.
 ## Directory Layout
 
 - `app/`: Next.js App Router entry points (`layout.js`, `page.js`, `login/`,
-  `signup/`, `cookies/`) and the global responsive stylesheet (`globals.css`).
+  `signup/`, `cookies/`, `auth/callback/`) and the global responsive stylesheet
+  (`globals.css`).
 - `components/`: archive UI components and auth UI, including the client-side
   archive controller, search and suggestions, filters, garment cards, process
-  map, and `AuthPage`/`AuthForm`.
+  map, and `AuthPage`/`AuthForm` plus confirmation notices and callback UI.
 - `data/`: static archive records in `garments.js`.
-- `lib/`: framework-independent search helpers and Supabase browser/server/
-  middleware helpers.
+- `lib/`: framework-independent search and confirmation helpers plus Supabase
+  browser/server/middleware helpers.
 - `middleware.js`: root session refresher delegating cookie handling and
   authenticated auth-path redirects to `lib/supabase/middleware.js`.
 - `public/images/garments/`: image assets; the current records use
@@ -26,9 +27,14 @@ generated inventories and details better owned by module documents.
   global styling; `app/page.js` renders the editorial shell, configured
   heading, curator/source details, archive, and process map.
 - `app/login/page.js` and `app/signup/page.js` select the shared auth page;
-  `AuthForm` signs users in or up with Supabase, performs a full-navigation
-  cookie-persistence check through `?verify=1`, and offers guest fallback; the
-  archive page provides the server-side logout action.
+  `AuthForm` signs users in or up with Supabase, sends confirmation links to
+  `/auth/callback`, performs a full-navigation cookie-persistence check through
+  `?verify=1`, and offers guest fallback. `ConfirmationNotice` resends links
+  with a cooldown; the archive page provides the server-side logout action.
+- `app/auth/callback/page.js` and its exchange route complete PKCE email
+  confirmation through the SSR cookie bridge. `ConfirmationCallback` removes
+  provider details from the URL and offers login/resend recovery for unusable
+  links; callback responses are dynamic and no-store.
 - `app/cookies/page.js` explains cookie-free guest browsing, necessary
   contributor session storage, and the absence of optional analytics or
   advertising cookies.
@@ -47,6 +53,9 @@ generated inventories and details better owned by module documents.
   `lib/supabase/middleware.js` validates JWT claims, persists refreshed
   cookies and headers, permits guests at `/`, and redirects signed-in
   auth-page requests to `/` after clearing query parameters.
+- `lib/authConfirmation.js` defines callback URL, code-exchange, cookie-bridge,
+  and no-store response helpers; `lib/useConfirmationCallback.js` owns the
+  browser callback exchange lifecycle, including repeated-effect protection.
 - `data/garments.js` is the current static record set. `lib/garmentSearch.js`
   defines parsing, matching, and faceted filtering shared by archive search
   and autocomplete.
@@ -67,8 +76,9 @@ an explicit pending illustrative state.
 
 ## Tests and Supporting Assets
 
-No test files or test script are present in the repository. `README.md`
-contains local-run and Vercel deployment instructions. `DESIGN.md` and
+`tests/auth-confirmation.test.mjs` covers confirmation URL handling, safe
+recovery behavior, and response helpers. `README.md` contains local-run and
+Vercel deployment instructions. `DESIGN.md` and
 `public/design-preview.html` document the visual direction and standalone
 reference preview; `public/images/garments/placeholder.svg` remains the
 available record image sentinel.

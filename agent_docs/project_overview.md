@@ -32,11 +32,15 @@ rules live in `lib/garmentSearch.js`. Supabase SSR clients provide contributor
 auth state, and root `middleware.js` delegates claim validation and cookie
 refresh to `lib/supabase/middleware.js`: guests may view `/` without an auth
 cookie, while authenticated `/login` or `/signup` requests go to `/` with
-query parameters cleared. Auth forms verify cookie persistence with a full
-`?verify=1` navigation and offer guest fallback if storage is blocked. The
-`/cookies` page documents necessary account storage and the absence of optional
-analytics/advertising cookies. See `project_structure.md` and
-`project_core_tech.md` for boundaries and constraints.
+query parameters cleared. Signup and resend use the current origin's
+`/auth/callback`; that dynamic, no-store callback exchanges the confirmation
+code through the SSR cookie bridge before checking session persistence. Invalid
+or unusable links offer login and resend recovery. The default confirmation
+email template remains locked unless custom SMTP is configured. Auth forms
+verify cookie persistence with a full `?verify=1` navigation and offer guest
+fallback if storage is blocked. The `/cookies` page documents necessary account
+storage and the absence of optional analytics/advertising cookies. See
+`project_structure.md` and `project_core_tech.md` for boundaries and constraints.
 
 ## Main Workflows
 
@@ -47,7 +51,9 @@ analytics/advertising cookies. See `project_structure.md` and
 - Read entry descriptions in place, review the configured provenance, and
   follow the explicitly provisional five-stage making-process outline.
 - Browse the public archive without an auth cookie; create an account, log in,
-  or log out when contributor session storage is available.
+  confirm signup by email, resend a confirmation link when needed, or log out
+  when contributor session storage is available. The deployed callback still
+  requires live verification.
 - Read `/cookies` before sign-in; auth forms perform a full-navigation
   persistence check and return to guest browsing when the cookie cannot be
   verified.

@@ -16,7 +16,7 @@ export default function AuthPage({ signup = false, verificationRequested = false
         </p>
         {verificationRequested && (
           <p role="alert" style={{ marginBottom: 24, color: "var(--wine)" }}>
-            Cookies are required for contributor accounts. Your sign-in could not be verified in this browser; you can continue browsing as a guest below.
+            Your email may have been confirmed, but this browser could not complete sign-in. Contributor accounts require essential cookies. Try logging in below, or continue browsing as a guest.
           </p>
         )}
         <AuthForm signup={signup} />

@@ -1,46 +1,47 @@
 # Latest Session Work
 
-Reviewed the static catalogue and recommended a pre-SQL entries schema using
-the Heavy route. The user requested finishing without Supabase sign-in. See
-`database_schema_worksheet.md` for the proposed contract and classroom answers.
-This is a recommendation, not an implemented database schema.
+Implemented Supabase signup email confirmation before the deferred catalogue
+migration. The saved database plan is `supabase_migration_plan.md`; no live schema,
+policy, or garment data changed.
 
 ## Detailed Current State
 
-The catalogue still comes from eight records in `data/garments.js`. Supabase
-handles authentication only. There are no catalogue queries or repository
-migrations. All image paths are placeholders; text IDs have no observed route
-dependency. Proposed UUID identity and ownership follow the course contract.
-All proposed entry columns are public, including the owner UUID; account emails
-and other Auth records are outside this table. Ownership controls writes.
+Signup and confirmation resend use the current browser origin plus
+`/auth/callback`, supporting the configured production and localhost URLs. The
+callback removes provider details from the browser URL, exchanges a PKCE code for
+an SSR cookie session, and passes through `/login?verify=1`; middleware redirects a
+valid session to `/`, while an unpersisted session receives the existing cookie
+recovery message. Invalid, expired, reused, and other-browser links provide safe
+login and resend recovery without exposing provider details.
 
-## Session Changes
-
-Only the worksheet and required progress, diary, and handoff documentation are
-in scope. No application code, garment content, dependency, credential, or live
-database state changed. No commit or push was requested.
+The callback GET and exchange POST are dynamic and send private no-store,
+no-referrer, expiry, pragma, and nosniff headers. Resend uses neutral messages,
+handles returned Supabase errors, and applies a 60-second cooldown. The default
+Supabase email template remains unchanged because editing requires custom SMTP.
+`AuthForm` waits until the first client effect before rendering credential fields,
+so password-manager DOM changes cannot conflict with server-rendered form markup.
 
 ## Verification
 
-- Two independent Explorers confirmed the source and integration findings.
-  Baseline worktree was clean on `main` tracking `origin/main`.
-- Main directly reviewed garments, collection configuration, search, and cards.
-- Independent Tester checked field coverage, bilingual content, missing photos,
-  UUID compatibility, and missing owner/source backfill information.
-- Official Supabase documentation informed the proposed foreign key, grants,
-  and ownership rules. No build/runtime tests were warranted or run for this
-  documentation-only task.
+- `node --test tests/auth-confirmation.test.mjs` passed all focused cases.
+- `npm run build` passed and classified both callback routes as dynamic.
+- Independent local production HTTP checks verified the five required response
+  headers and no Next.js static-cache markers.
+- A synthetic local Auth service verified safe success/failure bodies, session
+  cookie propagation, and no token material in response bodies.
+- A repeated-effect harness verified one exchange request, stable pending UI, URL
+  cleanup, and one success redirect.
+- Protected configuration and dependency files are unchanged; `git diff --check`
+  passed. No remote Auth request or database mutation was made.
+- After a reported `/signup` hydration mismatch, focused tests and the production
+  build passed with the restored mount guard. The executor also verified that the
+  initial production HTML contains no credential inputs. Independent browser-level
+  extension reproduction was unavailable in the sandbox.
 
-## Pending Work and Blockers
+## Pending Work
 
-Live metadata access returned `USER_NOT_LOGGED_IN`; no further account access
-was attempted after the user's instruction. Remote schema/RLS is unverified.
-Before import, confirm public source attribution and a real owner account.
-
-## Next Entry Point
-
-Partner review is next. An eventual implementation must verify the live schema,
-confirm source and owner values, adapt database names to the existing UI,
-preserve Khmer/search behavior, and test public reads and owner-only writes.
-Review/publication fields remain Sprint 3 work. Earlier manual verification of
-authenticated redirects, refresh, and logout remains pending.
+The deployed Vercel site still returns 404 for `/auth/callback` because this change
+has not been deployed. After deployment, create a fresh test account and verify the
+real email link, automatic sign-in, refresh persistence, resend, and expired-link
+recovery. Then continue with `supabase_migration_plan.md`, confirming the owner UUID
+and public source credit before importing the eight entries.

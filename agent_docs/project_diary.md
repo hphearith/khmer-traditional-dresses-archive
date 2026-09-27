@@ -50,3 +50,16 @@ session chronology, releases, commits, routine maintenance, or raw logs.
   navigation so browsers that block cookies receive a stable guest fallback
   instead of a redirect loop. Do not replace cookies with local storage merely
   to avoid cookie disclosure; both are client-side storage mechanisms.
+- With Supabase's locked default confirmation template, pass an explicit
+  per-origin `/auth/callback` URL to signup and resend, then exchange the PKCE code
+  using the browser's verifier cookie. Treat another-browser links as a recoverable
+  login case. Make every code-bearing callback response dynamic, no-store, and
+  no-referrer; a successful build alone did not reveal that Next.js had initially
+  prerendered and cached the callback page.
+- React development can replay an effect after its cleanup. Cache confirmation
+  input and the exchange promise across that replay so URL cleanup does not turn a
+  valid pending callback into a false missing-link state or issue a second exchange.
+- Browser password managers can insert styles and controls into credential fields
+  before React hydrates them. Keep the auth form's server and first client render
+  empty, then reveal the fields after mount; removing that guard caused a verified
+  hydration mismatch on `/signup`.
