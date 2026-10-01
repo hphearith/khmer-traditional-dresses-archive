@@ -1,35 +1,33 @@
 # Project Progress
 
-The site still reads eight static garment entries. Supabase now handles accounts
-with an implemented email-confirmation callback and resend recovery. The auth
-form's extension-triggered hydration mismatch is repaired locally.
+The eight official garment entries remain curated website content in
+`data/garments.js`. Supabase provides contributor authentication, but no catalogue
+database migration is planned. The future contributor-post pool is intentionally
+paused for requirements work.
 
 ## Goal
 
-Deploy and manually validate signup confirmation against the live Supabase
-project, then continue with the saved catalogue migration plan.
+Keep the official archive stable and static while defining the separate future
+experience for contributor posts about ordered or custom-made traditional dresses.
 
 ## Overall Progress
 
-Public guest browsing, cookie-backed contributor accounts, confirmation-code
-exchange, expired-link recovery, and resend are implemented. The user enabled
-Confirm Email and configured the production Site URL and local and production
-`/auth/callback` redirects. No catalogue migration has been performed.
+Public guest browsing, search/filter behavior, and cookie-backed contributor
+authentication are implemented. The abandoned official-catalogue SQL setup,
+guarded import, and focused migration test have been removed. No live catalogue
+schema, policy, or data mutation occurred.
 
 ## Current Position
 
-Heavy deployment `email-confirmation-20260927` passed focused tests, a production
-build, synthetic Auth exchange checks, repeated-effect checks, and local production
-HTTP checks. The callback is dynamic and sends no-store/no-referrer headers. The
-default email template remains unchanged because Dashboard editing requires custom
-SMTP. Follow-up deployment `auth-hydration-repair-20260927` restored the form's
-post-mount render guard; focused tests and the production build pass. Database
-schema, grants, and policies remain unverified.
+The official catalogue continues to load from `data/garments.js` and is published
+through normal website code deployments. Contributor accounts do not own or write
+those records. A separate contributor-post data model, ownership boundary, media
+rules, and review/publishing workflow have not been approved or implemented.
+The current weekly course documentation is drafted truthfully as a blocker submission;
+only its live Vercel URL placeholder remains for the student to fill.
 
 ## Next Milestone
 
-Deploy the app and use a fresh signup email to verify delivery, confirmation,
-automatic sign-in, refresh persistence, resend, and expired-link recovery. The
-current Vercel deployment does not yet contain `/auth/callback`. After that check,
-start `supabase_migration_plan.md`; it requires a real owner UUID and approved
-public source credit. Submit/review/publish remains Sprint 3 work.
+Revise `supabase_migration_plan.md` to decide the future contributor-post scope and
+workflow before any database schema or SQL is written. Keep that work separate from
+the official catalogue and do not build ahead of the approved course sprint.

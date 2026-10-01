@@ -1,47 +1,39 @@
 # Latest Session Work
 
-Implemented Supabase signup email confirmation before the deferred catalogue
-migration. The saved database plan is `supabase_migration_plan.md`; no live schema,
-policy, or garment data changed.
+Retired the planned Supabase migration for the eight official garment entries after
+the user clarified that they are curated website content, not contributor-owned
+records. The official catalogue remains in `data/garments.js`; no live database
+change or application cutover occurred.
 
-## Detailed Current State
+## Implemented
 
-Signup and confirmation resend use the current browser origin plus
-`/auth/callback`, supporting the configured production and localhost URLs. The
-callback removes provider details from the browser URL, exchanges a PKCE code for
-an SSR cookie session, and passes through `/login?verify=1`; middleware redirects a
-valid session to `/`, while an unpersisted session receives the existing cookie
-recovery message. Invalid, expired, reused, and other-browser links provide safe
-login and resend recovery without exposing provider details.
+- Removed `supabase/01_entries_setup.sql` and
+  `supabase/02_entries_import.sql` from the working tree and Git index.
+- Removed `tests/supabase-migration.test.mjs` from the working tree and Git index.
+- Preserved Supabase authentication and all existing official catalogue behavior.
+- Reframed future database work as a separate contributor-post pool for ordered or
+  custom-made traditional dress stories; its schema and workflow remain undecided.
 
-The callback GET and exchange POST are dynamic and send private no-store,
-no-referrer, expiry, pragma, and nosniff headers. Resend uses neutral messages,
-handles returned Supabase errors, and applies a 60-second cooldown. The default
-Supabase email template remains unchanged because editing requires custom SMTP.
-`AuthForm` waits until the first client effect before rendering credential fields,
-so password-manager DOM changes cannot conflict with server-rendered form markup.
+## Verification Evidence
 
-## Verification
+- `node --test tests/auth-confirmation.test.mjs` passed.
+- One read-only Dashboard query, `to_regclass('public.entries')`, returned `NULL`.
+  No schema-changing or data-changing Supabase SQL was executed.
+- The deleted SQL files were the only files under `supabase/`.
+- Documentation reconciliation and final Git checks belong to the deployment
+  closure handoff.
 
-- `node --test tests/auth-confirmation.test.mjs` passed all focused cases.
-- `npm run build` passed and classified both callback routes as dynamic.
-- Independent local production HTTP checks verified the five required response
-  headers and no Next.js static-cache markers.
-- A synthetic local Auth service verified safe success/failure bodies, session
-  cookie propagation, and no token material in response bodies.
-- A repeated-effect harness verified one exchange request, stable pending UI, URL
-  cleanup, and one success redirect.
-- Protected configuration and dependency files are unchanged; `git diff --check`
-  passed. No remote Auth request or database mutation was made.
-- After a reported `/signup` hydration mismatch, focused tests and the production
-  build passed with the restored mount guard. The executor also verified that the
-  initial production HTML contains no credential inputs. Independent browser-level
-  extension reproduction was unavailable in the sandbox.
+## Weekly Course Documentation
 
-## Pending Work
+`WEEKLY_DOCUMENTATION.md` contains copy-ready worksheet reflection, weekly learning
+log, and blocker-form Vercel submission text based on the earlier database proposal.
+It distinguishes drafted checks from completed work and intentionally makes no claim
+that the migration, cutover, session-level RLS checks, or phone/live Khmer database
+checks succeeded. The student must replace the Vercel URL placeholder before use.
 
-The deployed Vercel site still returns 404 for `/auth/callback` because this change
-has not been deployed. After deployment, create a fresh test account and verify the
-real email link, automatic sign-in, refresh persistence, resend, and expired-link
-recovery. Then continue with `supabase_migration_plan.md`, confirming the owner UUID
-and public source credit before importing the eight entries.
+## Continuation Point
+
+Pause before database implementation. Revise `supabase_migration_plan.md` to decide
+the contributor-post purpose, fields, media, ownership, editing, review, publication,
+and relationship—if any—to the public archive. Do not reuse the official static
+catalogue or migrate `data/garments.js` as part of that future feature.

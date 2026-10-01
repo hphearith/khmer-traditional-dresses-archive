@@ -8,11 +8,14 @@ session chronology, releases, commits, routine maintenance, or raw logs.
 
 ## Decisions and Lessons
 
-- Keep pre-SQL schema proposals distinct from the live database. The current
-  catalogue has no recorded account ownership or per-entry source credit;
-  neither a display name nor collection-wide provenance proves those values.
-  Confirm them before import, preserve Khmer verbatim, and represent pending
-  photos as missing data rather than documentary images.
+- Keep the eight official garment records as curated website content in
+  `data/garments.js`; they do not need a database merely because contributor Auth
+  exists. Their approved source explanation remains in `collection.config.js`, Khmer
+  stays verbatim, and pending photos remain missing data rather than documentary
+  images.
+- Treat the official catalogue and contributor-created dress posts as separate data
+  pools. Design contributor ownership, media, and review/publishing rules only for
+  the future contributor pool instead of migrating or reusing the official records.
 
 - Keep archive identity in `collection.config.js`; both metadata and page
   content already consume it, so new UI should continue using that boundary.
@@ -63,3 +66,11 @@ session chronology, releases, commits, routine maintenance, or raw logs.
   before React hydrates them. Keep the auth form's server and first client render
   empty, then reveal the fields after mount; removing that guard caused a verified
   hydration mismatch on `/signup`.
+- A PostgREST `PGRST205` response proves that a table is not currently usable through
+  the exposed Data API, not that the physical table is absent. Inspect the Dashboard
+  schema, grants, policies, and Data API settings before creating or reconciling a
+  table; never use an API 404 as permission to overwrite unknown database state.
+- In course documentation, distinguish generated or statically checked artifacts from
+  deployed behavior. Use the permitted blocker format when migration, RLS sessions,
+  live-device checks, or cutover did not happen; never turn a draft into a completion
+  claim merely to match a sample submission.

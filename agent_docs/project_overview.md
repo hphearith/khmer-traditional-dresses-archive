@@ -17,8 +17,10 @@ categories, and explicitly pending illustrative media. It also includes
 provenance information and a five-stage making-process outline whose headings,
 notes, and media await the tailor's documentation. Contributor sign-up, login,
 and logout are implemented while guest browsing remains public and cookie-free.
-Own-your-entries and submit-review-publish, including any contributor-only
-routes, remain later course features.
+The official records stay in `data/garments.js` and are published through
+website code deployments. A separate pool for contributors' own ordered or
+custom-made dress posts is unimplemented, with planning paused while its
+requirements are decided.
 
 ## Architecture
 
@@ -66,6 +68,8 @@ storage and the absence of optional analytics/advertising cookies. See
   imported by both metadata and page content.
 - The project uses JavaScript, plain React, inline styles/plain CSS, and no
   additional dependencies.
-- The archive root is public; cookie-backed Supabase sessions are limited to
-  contributor accounts until explicit contributor-only routes are added.
+- The archive root is public; cookie-backed Supabase sessions support
+  contributor accounts. Official catalogue records remain static and are
+  published through website code deployments. Future contributor posts belong
+  to a separate, unimplemented pool with no approved schema or workflow.
 - Khmer text is first-class content and must remain verbatim.

@@ -72,7 +72,10 @@ contributor-only routes currently exist, so future protection should target
 those explicit routes rather than `/`. `ProcessMap` is a static presentation
 section until documentary process material exists. Public image paths are
 resolved under `/images/garments/`; the current placeholder sentinel produces
-an explicit pending illustrative state.
+an explicit pending illustrative state. The eight official entries remain
+static in `data/garments.js` and are published through website code deployments.
+Future contributor posts about ordered or custom-made dresses belong to a
+separate, unimplemented pool with no approved schema or workflow.
 
 ## Tests and Supporting Assets
 
