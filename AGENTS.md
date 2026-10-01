@@ -39,3 +39,17 @@ Everything else in the hard rules stands, especially rule 3:
 no keys, tokens, or passwords in any committed file, ever.
 Auth configuration lives in .env.local and in Vercel
 environment variables.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues for `hphearith/khmer-traditional-dresses-archive`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
