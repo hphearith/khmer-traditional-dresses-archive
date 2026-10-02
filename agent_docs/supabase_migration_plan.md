@@ -1,35 +1,41 @@
-# Contributor post pool planning
+# Contributor entries plan
 
-**Status:** Paused while requirements decisions are open.
+**Status:** Requirements decided and approved. Implementation is specified in
+[issue #9](https://github.com/hphearith/khmer-traditional-dresses-archive/issues/9)
+(Sprint 2) and has not started. The filename is kept for continuity; despite it,
+no catalogue migration is planned.
 
 The eight official records in `data/garments.js` remain curated website content
 and are published through website code deployments. They are not migrated,
-contributor-owned, or mixed with future posts. Supabase Auth is implemented for
-contributor accounts.
+contributor-owned, or mixed with Contributor entries. Supabase Auth is implemented
+for contributor accounts.
 
-Contributor posts about contributors' own ordered or custom-made traditional
-dresses are a separate, unimplemented pool. No post schema, table name, SQL,
-media storage, access rules, or post workflow has been approved or implemented.
+Contributor entries are one Contributor's story of one specific dress they
+ordered or had custom made. They are a separate, unimplemented kind of Entry. The
+terms used here are defined in [`CONTEXT.md`](../CONTEXT.md); earlier drafts of
+this plan called them "posts" and "the pool", which are retired words.
 
-## Decisions to revise before implementation
+## Where each decision is recorded
 
-- **Purpose and audience:** What are posts for, and who should read or contribute
-  them?
-- **Minimum post fields:** What information must each post contain?
-- **Photo/media and consent:** What media may contributors submit, what consent
-  is required, and how should media be handled?
-- **Ownership, editing, and deletion:** Who owns a post, who may edit or delete
-  it, and what happens to it when an account is removed?
-- **Draft, review, and publish:** Which states and transitions are needed, and
-  who has authority to review and publish?
-- **Public visibility and search:** Which posts are public, and how should
-  readers discover or search them?
-- **Moderation, privacy, and retention:** What moderation and privacy controls
-  apply, and what content is retained or removed, and when?
+- **Purpose, audience, and why two kinds of Entry:** `CONTEXT.md` and
+  [ADR 0001](../docs/adr/0001-official-records-static-contributor-entries-in-database.md).
+- **Review and publishing model:** [ADR 0002](../docs/adr/0002-contributor-entries-publish-without-approval.md),
+  status `proposed` until checked against the Sprint 3 brief.
+- **Fields, photos and consent, ownership, editing and deletion, public visibility,
+  search, usernames, moderation, and the Sprint 2 versus Sprint 3 split:**
+  issue #9.
+
+## What is still open
+
+- Photo file types and maximum size, text length limits, and the consent wording
+  need approval before implementation (listed in issue #9).
+- Whether stored photos need automatic cleanup when an account is removed.
+- ADR 0002 and the Sprint 3 work (entry states, the Curator flag, hide and delete)
+  wait for the Sprint 3 brief.
 
 ## Resume gate
 
-Begin implementation only after the decisions above are recorded and approved.
-Use the approved requirements to define the separate contributor-post data,
-access, media, and publication behavior before writing database or application
-code.
+Begin implementation only after the open parameters above are approved and the
+issue has been broken into tickets. Define the Contributor-entry data, access,
+storage, and publication behavior from the approved requirements before writing
+database or application code. Build only what the current sprint asks for.
