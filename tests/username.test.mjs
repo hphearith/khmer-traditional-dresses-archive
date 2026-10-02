@@ -1,0 +1,55 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {
+  formatUsername,
+  getUsernameMessage,
+  usernamesMatch,
+  validateUsername,
+} from "../lib/username.js";
+
+test("every failure reason has its own clear message telling the visitor how to fix it", () => {
+  const reasons = ["required", "invalid-characters", "too-short", "too-long", "taken"];
+  const messages = reasons.map(getUsernameMessage);
+  assert.equal(new Set(messages).size, reasons.length);
+  assert.match(getUsernameMessage("invalid-characters"), /English letters, digits/);
+  assert.match(getUsernameMessage("too-short"), /at least 3/);
+  assert.match(getUsernameMessage("too-long"), /at most 20/);
+  assert.match(getUsernameMessage("taken"), /already taken/);
+});
+
+test("Usernames are compared case-insensitively", () => {
+  assert.equal(usernamesMatch("Sokha_88", "SOKHA_88"), true);
+  assert.equal(usernamesMatch("sokha_88", "sokha_89"), false);
+});
+
+test("a Username is displayed with a leading @ and keeps the case it was chosen with", () => {
+  assert.equal(formatUsername("Sokha_88"), "@Sokha_88");
+});
+
+test("a plain English Username is accepted exactly as typed", () => {
+  assert.deepEqual(validateUsername("Sokha_88"), { ok: true, username: "Sokha_88" });
+});
+
+test("length must be 3 to 20 characters inclusive", () => {
+  assert.deepEqual(validateUsername("ab"), { ok: false, reason: "too-short" });
+  assert.equal(validateUsername("abc").ok, true);
+  assert.equal(validateUsername("a".repeat(20)).ok, true);
+  assert.deepEqual(validateUsername("a".repeat(21)), { ok: false, reason: "too-long" });
+});
+
+test("empty or missing input is reported as required", () => {
+  for (const input of ["", "   ", null, undefined]) {
+    assert.deepEqual(validateUsername(input), { ok: false, reason: "required" });
+  }
+});
+
+test("surrounding whitespace from a keyboard is trimmed, not stored", () => {
+  assert.deepEqual(validateUsername("  sokha_88 "), { ok: true, username: "sokha_88" });
+});
+
+test("only English letters, digits and underscore are allowed", () => {
+  const rejected = ["សុខា_88", "sokha!", "so kha", "so-kha", "so.kha", "@sokha", "sokhé", "sokha\nx"];
+  for (const input of rejected) {
+    assert.deepEqual(validateUsername(input), { ok: false, reason: "invalid-characters" }, input);
+  }
+});

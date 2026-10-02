@@ -1,6 +1,9 @@
-export default function AuthCredentialFields({ signup, pending }) {
+import UsernameField from "./UsernameField.js";
+
+export default function AuthCredentialFields({ signup, pending, usernameError }) {
   return (
     <>
+      {signup && <UsernameField pending={pending} error={usernameError} />}
       <div>
         <label htmlFor="email" style={{ display: "block", marginBottom: 8 }}>Email</label>
         <input id="email" name="email" type="email" autoComplete="email" required disabled={pending} />
