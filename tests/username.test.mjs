@@ -3,7 +3,6 @@ import test from "node:test";
 import {
   formatUsername,
   getUsernameMessage,
-  usernamesMatch,
   validateUsername,
 } from "../lib/username.js";
 
@@ -17,17 +16,17 @@ test("every failure reason has its own clear message telling the visitor how to 
   assert.match(getUsernameMessage("taken"), /already taken/);
 });
 
-test("Usernames are compared case-insensitively", () => {
-  assert.equal(usernamesMatch("Sokha_88", "SOKHA_88"), true);
-  assert.equal(usernamesMatch("sokha_88", "sokha_89"), false);
+test("a Username is displayed with a leading @", () => {
+  assert.equal(formatUsername("sokha_88"), "@sokha_88");
 });
 
-test("a Username is displayed with a leading @ and keeps the case it was chosen with", () => {
-  assert.equal(formatUsername("Sokha_88"), "@Sokha_88");
+test("a plain English Username is accepted as typed", () => {
+  assert.deepEqual(validateUsername("sokha_88"), { ok: true, username: "sokha_88" });
 });
 
-test("a plain English Username is accepted exactly as typed", () => {
-  assert.deepEqual(validateUsername("Sokha_88"), { ok: true, username: "Sokha_88" });
+test("Usernames are always lowercase, so different capitalisations are the same Username", () => {
+  assert.deepEqual(validateUsername("Sokha_88"), { ok: true, username: "sokha_88" });
+  assert.deepEqual(validateUsername("SOKHA_88"), validateUsername("sokha_88"));
 });
 
 test("length must be 3 to 20 characters inclusive", () => {

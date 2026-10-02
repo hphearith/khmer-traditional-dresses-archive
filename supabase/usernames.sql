@@ -10,8 +10,9 @@
 --      email-confirmation step because it is stored on the unconfirmed account.
 --   2. When the account is confirmed (email_confirmed_at goes from null to a
 --      value), a trigger copies the Username into public.usernames.
---   3. The table enforces the rules itself: format, length, and
---      case-insensitive uniqueness. The interface is not the only guard.
+--   3. The table enforces the rules itself: format, length, and uniqueness.
+--      Usernames are stored in lowercase only, so "Sokha" and "sokha" can
+--      never both exist. The interface is not the only guard.
 --
 -- Nothing here ever copies the email address into public data.
 
@@ -26,13 +27,13 @@ create table public.usernames (
   changed_at timestamptz,
 
   primary key (user_id),
+  -- Lowercase English letters, digits and underscore, 3 to 20 characters.
+  -- Capitals are rejected here, so a different capitalisation cannot be a
+  -- different Username.
   constraint usernames_username_format
-    check (username ~ '^[A-Za-z0-9_]{3,20}$')
+    check (username ~ '^[a-z0-9_]{3,20}$'),
+  constraint usernames_username_key unique (username)
 );
-
--- Case-insensitive uniqueness: "Sokha" and "sokha" are the same Username.
-create unique index usernames_username_lower_key
-  on public.usernames (lower(username));
 
 -- ---------------------------------------------------------------------------
 -- Access: anyone (including guests) can read; nobody can write through the API.
@@ -64,7 +65,7 @@ security invoker
 set search_path = ''
 as $$
   select not exists (
-    select 1 from public.usernames where lower(username) = lower(candidate)
+    select 1 from public.usernames where username = lower(candidate)
   );
 $$;
 
@@ -86,7 +87,7 @@ language plpgsql
 security definer set search_path = ''
 as $$
 declare
-  chosen text := new.raw_user_meta_data ->> 'username';
+  chosen text := lower(new.raw_user_meta_data ->> 'username');
 begin
   if new.email_confirmed_at is null then
     return new;
@@ -94,7 +95,7 @@ begin
   if tg_op = 'UPDATE' and old.email_confirmed_at is not null then
     return new;
   end if;
-  if chosen is null or chosen !~ '^[A-Za-z0-9_]{3,20}$' then
+  if chosen is null or chosen !~ '^[a-z0-9_]{3,20}$' then
     return new;
   end if;
 

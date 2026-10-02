@@ -11,12 +11,16 @@ Run each statement. Use two real test accounts' ids from Authentication → User
 Replace `<ID_A>` and `<ID_B>`.
 
 ```sql
-insert into public.usernames (user_id, username) values ('<ID_A>', 'Sokha_88');
+insert into public.usernames (user_id, username) values ('<ID_A>', 'sokha_88');
 -- expect: success
 
-insert into public.usernames (user_id, username) values ('<ID_B>', 'SOKHA_88');
+insert into public.usernames (user_id, username) values ('<ID_B>', 'sokha_88');
 -- expect: ERROR duplicate key value violates unique constraint
---         "usernames_username_lower_key"  (duplicate in another capitalisation)
+--         "usernames_username_key"
+
+insert into public.usernames (user_id, username) values ('<ID_B>', 'SOKHA_88');
+-- expect: ERROR violates check constraint "usernames_username_format"
+--         (capitals can never be stored, so no other capitalisation can exist)
 
 insert into public.usernames (user_id, username) values ('<ID_B>', 'ab');
 -- expect: ERROR violates check constraint "usernames_username_format"
@@ -24,7 +28,7 @@ insert into public.usernames (user_id, username) values ('<ID_B>', 'ab');
 insert into public.usernames (user_id, username) values ('<ID_B>', 'សុខា_88');
 -- expect: ERROR violates check constraint "usernames_username_format"
 
-select public.username_available('sOkHa_88');   -- expect: false
+select public.username_available('sOkHa_88');   -- expect: false (capitals are lowercased)
 select public.username_available('free_name');  -- expect: true
 ```
 
@@ -53,12 +57,12 @@ the confirmation trigger.
 
 ## 3. End to end through the app
 
-1. Sign up at `/signup` with a new email and Username `Test_User1`.
+1. Sign up at `/signup` with a new email and Username `Test_User1` (expect it to be saved as `test_user1`).
    Expect the "check your email" screen. In Table Editor, `public.usernames`
    has **no** row yet (account not confirmed).
 2. Click the confirmation link. In Table Editor, `public.usernames` now has a
-   row for that account with `username = Test_User1` and `changed_at` empty.
-3. Sign up with a second email and Username `test_user1` (different case).
+   row for that account with `username = test_user1` and `changed_at` empty.
+3. Sign up with a second email and Username `TEST_user1` (different case).
    Expect "That Username is already taken" before any email is sent.
 4. Sign up again with an email that already has an account. Expect the same
    "check your email" screen as a brand-new address: nothing reveals that the

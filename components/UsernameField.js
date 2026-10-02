@@ -10,7 +10,7 @@ export default function UsernameField({ pending, error }) {
         aria-describedby={error ? "username-hint username-error" : "username-hint"} />
       <p id="username-hint" style={{ marginTop: 8, fontSize: 14 }}>
         {USERNAME_MIN_LENGTH} to {USERNAME_MAX_LENGTH} English letters, digits or underscore.
-        It is shown publicly with an @ in front; never type the @.
+        Capitals are saved as lowercase. It is shown publicly with an @ in front; never type the @.
       </p>
       {error && <p id="username-error" role="alert" style={{ marginTop: 8, color: "red" }}>{error}</p>}
     </div>
