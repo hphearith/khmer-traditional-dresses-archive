@@ -1,5 +1,5 @@
 import collection from "../collection.config.js";
-import GarmentsArchive from "../components/GarmentsArchive.js";
+import HomeTabs from "../components/HomeTabs.js";
 import ProcessMap from "../components/ProcessMap.js";
 import { createClient } from "../lib/supabase/server.js";
 import { redirect } from "next/navigation";
@@ -68,7 +68,7 @@ export default async function Home() {
           </figure>
         </section>
 
-        <GarmentsArchive />
+        <HomeTabs />
 
         <section className="source" id="about" aria-labelledby="source-heading">
           <div className="container source-inner">
