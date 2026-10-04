@@ -1,6 +1,8 @@
 import collection from "../collection.config.js";
 import HomeTabs from "../components/HomeTabs.js";
 import ProcessMap from "../components/ProcessMap.js";
+import { logout } from "../lib/logoutAction.js";
+import { readUsername } from "../lib/readUsername.js";
 import { createClient } from "../lib/supabase/server.js";
 import { redirect } from "next/navigation";
 
@@ -8,14 +10,11 @@ export default async function Home() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  async function logout() {
-    "use server";
-
-    const supabase = await createClient();
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-
-    redirect("/");
+  // Guests have no user, so they never reach this lookup. A failed lookup is
+  // not "no Username": it lets the page load rather than trapping the account.
+  if (user) {
+    const { username, error } = await readUsername(supabase, user.id);
+    if (!error && !username) redirect("/choose-username");
   }
 
   return (
