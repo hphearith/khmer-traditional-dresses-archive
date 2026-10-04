@@ -480,6 +480,56 @@ input[type="search"]::-webkit-search-cancel-button {
   padding-bottom: 24px;
 }
 
+/* Contributor entry cards hold free text in Khmer, English or both. The
+   browser's own line breaking (which finds Khmer word boundaries) comes first;
+   overflow-wrap only steps in for a run with no break point at all, so it never
+   overflows a phone screen. Lines are tall enough for Khmer marks above and
+   below the letter. */
+.entry-card {
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+  overflow-wrap: anywhere;
+}
+
+.entry-card h3 {
+  line-height: 1.7;
+}
+
+.entry-credit {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.provenance {
+  margin-block: 12px 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.provenance div {
+  display: flex;
+  gap: 8px;
+}
+
+.provenance dt {
+  flex-shrink: 0;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.provenance dd {
+  min-width: 0;
+  margin: 0;
+}
+
+.entry-story {
+  line-height: 1.9;
+  white-space: pre-wrap;
+}
+
 .swatch {
   position: relative;
   display: flex;

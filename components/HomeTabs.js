@@ -10,7 +10,7 @@ const TABS = [
   { id: "community", label: "Community" },
 ];
 
-export default function HomeTabs() {
+export default function HomeTabs({ communityEntries, communityFailed }) {
   // The page-level tab lives in the address (?tab=). GarmentsArchive keeps its
   // own separate category filter state, so the two never share a name.
   const homeTab = parseHomeTab(useSearchParams().get("tab"));
@@ -53,7 +53,7 @@ export default function HomeTabs() {
         <GarmentsArchive />
       </div>
       <div role="tabpanel" id="home-panel-community" aria-labelledby="home-tab-community" hidden={homeTab !== "community"}>
-        <CommunityTab />
+        <CommunityTab entries={communityEntries} failed={communityFailed} />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import collection from "../collection.config.js";
 import HomeTabs from "../components/HomeTabs.js";
 import ProcessMap from "../components/ProcessMap.js";
 import { logout } from "../lib/logoutAction.js";
+import { readCommunityEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
 import { createClient } from "../lib/supabase/server.js";
 import { redirect } from "next/navigation";
@@ -16,6 +17,11 @@ export default async function Home() {
     const { username, error } = await readUsername(supabase, user.id);
     if (!error && !username) redirect("/choose-username");
   }
+
+  // Read with the visitor's own access: guests read as anonymous, and no
+  // cookie is set for them.
+  const community = await readCommunityEntries(supabase);
+  if (community.error) console.error("Reading Community entries failed:", community.error);
 
   return (
     <>
@@ -67,7 +73,7 @@ export default async function Home() {
           </figure>
         </section>
 
-        <HomeTabs />
+        <HomeTabs communityEntries={community.entries} communityFailed={Boolean(community.error)} />
 
         <section className="source" id="about" aria-labelledby="source-heading">
           <div className="container source-inner">
