@@ -63,6 +63,16 @@ test("limits count characters, not bytes or UTF-16 units", () => {
   assert.equal(validateEntry({ title: "ក".repeat(121), story: "s" }, YEAR).ok, false);
 });
 
+test("a long real Khmer title within 120 characters is accepted unchanged", () => {
+  // Every word is a dress or material name from data/garments.js. 117
+  // characters but 333 bytes, full of coeng subscripts and vowel signs.
+  const title = "សំលៀកបំពាក់ការប្រពៃណី សំលៀកបំពាក់ទៅវត្ត សំពត់ចងក្បិន សំពត់ផាមួង សំពត់ហូល អាវប៉ាក់ អាវចងពង់ ស្បៃ ក្រណាត់ប៉ាក់ សូត្រមាស";
+  const checked = validateEntry({ title, story: "s" }, YEAR);
+  assert.equal(checked.ok, true);
+  assert.deepEqual(Buffer.from(checked.entry.title, "utf8"), Buffer.from(title, "utf8"));
+  assert.deepEqual(validateEntry({ title: `${title} សូត្រ`, story: "s" }, YEAR).errors, { title: "too-long" });
+});
+
 test("spaces around a value do not count towards its limit", () => {
   const { entry } = validateEntry({ title: `  ${"a".repeat(120)}  `, story: "s" }, YEAR);
   assert.equal(entry.title, "a".repeat(120));

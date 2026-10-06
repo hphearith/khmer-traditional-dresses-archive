@@ -25,7 +25,11 @@ export default function EntryField({ name, label, hint, error, required = false,
     <div>
       <label htmlFor={name} style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
         {label}
-        {!required && <span style={{ fontWeight: 400, color: "var(--muted)" }}> (optional)</span>}
+        {/* Shown before submit. Hidden from screen readers, which already
+            announce "required" from aria-required on the control. */}
+        {required
+          ? <span aria-hidden="true" style={{ fontWeight: 400, color: "var(--muted)" }}> (required)</span>
+          : <span style={{ fontWeight: 400, color: "var(--muted)" }}> (optional)</span>}
       </label>
       {multiline
         ? <textarea {...control} rows={10} style={CONTROL} />
