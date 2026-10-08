@@ -1,4 +1,5 @@
 import EntryField from "./EntryField.js";
+import YearField from "./YearField.js";
 
 export default function ProvenanceFields({ errors }) {
   return (
@@ -9,7 +10,7 @@ export default function ProvenanceFields({ errors }) {
       </p>
       <div style={{ display: "grid", gap: 24 }}>
         <EntryField name="occasion" label="Occasion" error={errors.occasion} />
-        <EntryField name="year" label="Year" inputMode="numeric" hint="Four digits, for example 2019." error={errors.year} />
+        <YearField error={errors.year} />
         <EntryField name="maker" label="Maker or tailor" error={errors.maker} />
         <EntryField name="place" label="Place" hint="Where it was made." error={errors.place} />
         <EntryField name="materials" label="Materials" error={errors.materials} />

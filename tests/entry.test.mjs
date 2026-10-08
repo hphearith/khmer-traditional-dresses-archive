@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getEntryMessage, getSaveFailureMessage, resolveCredit, validateEntry } from "../lib/entry.js";
+import { characterCount, getEntryMessage, getSaveFailureMessage, isWithinLimit, resolveCredit, validateEntry } from "../lib/entry.js";
 
 const YEAR = { currentYear: 2026 };
 
@@ -73,6 +73,39 @@ test("a long real Khmer title within 120 characters is accepted unchanged", () =
   assert.deepEqual(validateEntry({ title: `${title} សូត្រ`, story: "s" }, YEAR).errors, { title: "too-long" });
 });
 
+test("typing stops at the limit, counted in characters like the database", () => {
+  assert.equal(isWithinLimit("title", "ក".repeat(120)), true);
+  assert.equal(isWithinLimit("title", "ក".repeat(121)), false);
+  // 😀 is 2 UTF-16 units but one character, so maxLength would stop it at 60.
+  assert.equal(isWithinLimit("title", "😀".repeat(120)), true);
+  assert.equal(isWithinLimit("story", "a".repeat(5000)), true);
+  assert.equal(isWithinLimit("story", "a".repeat(5001)), false);
+});
+
+test("the live count matches what validation counts: spaces trimmed, nothing else", () => {
+  // អាវប៉ាក់ is 8 characters: the marks ៉ and ់ each count as one.
+  assert.equal(characterCount("  អាវប៉ាក់  "), 8);
+  assert.equal(characterCount("\tអាវ\n"), 5);
+  assert.equal(isWithinLimit("title", `   ${"a".repeat(120)}   `), true);
+  assert.equal(isWithinLimit("title", `${"a".repeat(120)} b`), false);
+  assert.equal(characterCount(""), 0);
+  assert.equal(characterCount(undefined), 0);
+});
+
+test("a value the limit stop accepts is never refused by validation, and the reverse", () => {
+  for (const [field, limit] of Object.entries({ title: 120, story: 5000, credited_as: 50, occasion: 100, maker: 100, place: 100, materials: 200 })) {
+    for (const length of [limit, limit + 1]) {
+      const text = "ក".repeat(length);
+      const input = { title: "t", story: "s", [field]: text };
+      assert.equal(validateEntry(input, YEAR).ok, isWithinLimit(field, text), `${field} at ${length}`);
+    }
+  }
+});
+
+test("a field with no limit always fits", () => {
+  assert.equal(isWithinLimit("year", "x".repeat(10000)), true);
+});
+
 test("spaces around a value do not count towards its limit", () => {
   const { entry } = validateEntry({ title: `  ${"a".repeat(120)}  `, story: "s" }, YEAR);
   assert.equal(entry.title, "a".repeat(120));
@@ -132,7 +165,7 @@ test("an over-long field gets a message giving its limit in characters", () => {
 });
 
 test("an invalid year gets a message giving the allowed range", () => {
-  assert.match(getEntryMessage("year", "invalid", YEAR), /digits 0-9 from 1900 to 2026/);
+  assert.match(getEntryMessage("year", "invalid", YEAR), /from 1900 to 2026/);
 });
 
 test("optional fields left blank, or holding only spaces, are omitted", () => {

@@ -106,8 +106,12 @@ row-level security refusal.
 3. Log in as A and open `/contribute`. Press "Save entry" on the empty form:
    a message appears under Title and under Story, focus moves to Title, and
    nothing is sent (DevTools → Network shows no request to `/rest/v1/entries`).
-4. Paste 5,000 characters into Title and save: "Keep the title to 120
-   characters or fewer." Year `1899`, `2090` or `98`: the year message.
+4. Type past the limit in Title: typing stops at 120 and the counter reads
+   "120 of 120 characters · Limit reached." Paste 5,000 characters into Title:
+   nothing is pasted (the whole paste is refused, never cut). Repeat with
+   Khmer text in Title and Story. The Year field is a list, not a box: it
+   offers the current year down to 1900 and "Not sure", so a bad year can only
+   be sent by a direct call (section 2).
 5. Save with only a title and a story: you land on `/?tab=community` and the
    entry is first, credited `Shared by @<A's Username>`.
 6. Save another with every field filled, in Khmer and English mixed, with

@@ -1,4 +1,7 @@
+"use client";
+
 import { ENTRY_LIMITS } from "../lib/entry.js";
+import { useLimitedText } from "../lib/useLimitedText.js";
 
 const CONTROL = {
   width: "100%", minWidth: 0, border: "1px solid var(--control)", borderRadius: 4,
@@ -6,14 +9,16 @@ const CONTROL = {
   font: "inherit", fontSize: 16, lineHeight: 1.9, resize: "vertical",
 };
 
-// One labelled text field. There is deliberately no maxLength: the browser
-// would cut pasted text mid-way, which can split a Khmer cluster. Over-long
-// text is refused with a message instead (lib/entry.js).
-export default function EntryField({ name, label, hint, error, required = false, multiline = false, inputMode }) {
+// One labelled text field that stops at its limit (lib/useLimitedText.js). There
+// is deliberately no maxLength: the browser counts UTF-16 units, not characters,
+// and cuts pasted text mid-way, which can split a Khmer cluster.
+export default function EntryField({ name, label, hint, error, required = false, multiline = false }) {
   const limit = ENTRY_LIMITS[name];
-  const hintText = [hint, limit && `Up to ${limit.toLocaleString("en")} characters.`].filter(Boolean).join(" ");
-  const describedBy = [hintText && `${name}-hint`, error && `${name}-error`].filter(Boolean).join(" ");
+  const { count, inputProps } = useLimitedText(name);
+  const full = count >= limit;
+  const describedBy = [hint && `${name}-hint`, `${name}-count`, error && `${name}-error`].filter(Boolean).join(" ");
   const control = {
+    ...inputProps,
     id: name,
     name,
     "aria-required": required || undefined,
@@ -33,8 +38,12 @@ export default function EntryField({ name, label, hint, error, required = false,
       </label>
       {multiline
         ? <textarea {...control} rows={10} style={CONTROL} />
-        : <input {...control} type="text" inputMode={inputMode} />}
-      {hintText && <p id={`${name}-hint`} style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>{hintText}</p>}
+        : <input {...control} type="text" />}
+      {hint && <p id={`${name}-hint`} style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>{hint}</p>}
+      <p id={`${name}-count`} style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>
+        {count.toLocaleString("en")} of {limit.toLocaleString("en")} characters
+        {full && <span role="status"> · Limit reached.</span>}
+      </p>
       {error && <p id={`${name}-error`} style={{ marginTop: 8, color: "red" }}>{error}</p>}
     </div>
   );
