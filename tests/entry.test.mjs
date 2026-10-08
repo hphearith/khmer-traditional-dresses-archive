@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { changeWasSaved, characterCount, entryColumns, formValuesFromEntry, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry } from "../lib/entry.js";
+import { changeWasSaved, characterCount, entryColumns, formValuesFromEntry, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
 
 const YEAR = { currentYear: 2026 };
 
@@ -299,4 +299,30 @@ test("any other failed save suggests checking the connection and never repeats t
     assert.match(message, /connection/i);
     assert.doesNotMatch(message, /fetch|boom/i);
   }
+});
+
+test("the year list runs from the current year down to 1900", () => {
+  const years = yearOptions(2026);
+  assert.equal(years[0], 2026);
+  assert.equal(years.at(-1), 1900);
+  assert.equal(years.length, 127);
+});
+
+test("a stored year inside the list adds nothing", () => {
+  assert.deepEqual(yearOptions(2026, "2019"), yearOptions(2026));
+  assert.deepEqual(yearOptions(2026, ""), yearOptions(2026));
+});
+
+test("a stored year ahead of this browser's clock is still offered, so saving cannot erase it", () => {
+  // The database allows the year on the clock in UTC+14, which can be one ahead.
+  const years = yearOptions(2026, "2027");
+  assert.equal(years[0], 2027);
+  assert.equal(years[1], 2026);
+  assert.equal(years.length, 128);
+});
+
+test("a stored year that is not a whole number adds nothing", () => {
+  assert.deepEqual(yearOptions(2026, "abc"), yearOptions(2026));
+  assert.deepEqual(yearOptions(2026, "20.5"), yearOptions(2026));
+  for (const blank of [null, undefined, " ", 0]) assert.deepEqual(yearOptions(2026, blank), yearOptions(2026));
 });

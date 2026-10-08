@@ -7,8 +7,10 @@
 -- because the policy, the function and the trigger already exist.
 --
 -- How it fits together:
---   1. Only the owner of an entry can update it. For any other account, and
---      for a guest, the row is not matched, so nothing changes.
+--   1. Only the owner of an entry can update it, and only while the owner has
+--      a Username, the same rule as an insert (supabase/entries.sql). For any
+--      other account, and for a guest, the row is not matched, so nothing
+--      changes.
 --   2. A refused update is not an error. The API answers with no rows, which
 --      is why the form asks for the changed row back (.select()) and says
 --      "That change wasn't saved" when none comes back.
@@ -23,13 +25,20 @@
 -- no update changes.
 
 -- ---------------------------------------------------------------------------
--- Who may change a row: its owner, and only its owner.
+-- Who may change a row: its owner, and only its owner, and only an account
+-- that has chosen a Username (the insert policy asks the same).
 -- ---------------------------------------------------------------------------
 create policy "Owners update their own entries"
   on public.entries for update
   to authenticated
-  using (owner = (select auth.uid()))
-  with check (owner = (select auth.uid()));
+  using (
+    owner = (select auth.uid())
+    and exists (select 1 from public.usernames where user_id = (select auth.uid()))
+  )
+  with check (
+    owner = (select auth.uid())
+    and exists (select 1 from public.usernames where user_id = (select auth.uid()))
+  );
 
 -- ---------------------------------------------------------------------------
 -- Which columns may change: the form's fields only. Never owner, id or the

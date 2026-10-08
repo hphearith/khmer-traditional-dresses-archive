@@ -1,4 +1,4 @@
-import { EARLIEST_YEAR } from "../lib/entry.js";
+import { yearOptions } from "../lib/entry.js";
 
 const CONTROL = {
   width: "100%", minWidth: 0, height: 56, border: "1px solid var(--control)", borderRadius: 4,
@@ -6,12 +6,12 @@ const CONTROL = {
 };
 
 // The year is picked from a list, not typed: the current year down to
-// EARLIEST_YEAR, with a blank first choice. The pure rules and the database
-// still check it, because a direct call can send anything.
+// EARLIEST_YEAR (plus the entry's own year if that is outside it), with a
+// blank first choice. The pure rules and the database still check it,
+// because a direct call can send anything.
 // initialYear is the year an entry being edited already has ("" for none).
 export default function YearField({ error, initialYear = "" }) {
-  const latest = new Date().getFullYear();
-  const years = Array.from({ length: latest - EARLIEST_YEAR + 1 }, (_, index) => latest - index);
+  const years = yearOptions(new Date().getFullYear(), initialYear);
 
   return (
     <div>

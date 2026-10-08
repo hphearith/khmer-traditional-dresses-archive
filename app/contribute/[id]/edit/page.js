@@ -19,17 +19,17 @@ export default async function EditEntryPage({ params }) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // Same rule as /contribute: a failed lookup is not "no Username".
-  const { username, error: usernameError } = await readUsername(supabase, user.id);
-  if (!usernameError && !username) redirect("/choose-username");
+  // The two lookups do not depend on each other, so they run together. The
+  // rules still apply in order: Username first, then the entry. Entries are
+  // public, so the read succeeds for anyone; only the owner gets the form,
+  // and the database refuses a save from anyone else.
+  const [{ username, error: usernameError }, { data: entry, error }] = await Promise.all([
+    readUsername(supabase, user.id),
+    supabase.from("entries").select(ENTRY_COLUMNS).eq("id", id).maybeSingle(),
+  ]);
 
-  // Entries are public, so this read succeeds for anyone. Only the owner gets
-  // the form here, and the database refuses a save from anyone else.
-  const { data: entry, error } = await supabase
-    .from("entries")
-    .select(ENTRY_COLUMNS)
-    .eq("id", id)
-    .maybeSingle();
+  // Same rule as /contribute: a failed lookup is not "no Username".
+  if (!usernameError && !username) redirect("/choose-username");
   if (error) console.error("Reading the entry to edit failed:", error);
   else if (!entry) notFound();
 

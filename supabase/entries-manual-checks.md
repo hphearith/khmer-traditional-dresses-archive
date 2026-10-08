@@ -6,7 +6,10 @@ SQL Editor, and for editing, `supabase/entries-edit.sql` after it. Report the
 results as manually verified, not automated.
 
 You need two confirmed test accounts that each have a Username (A and B), and
-their ids from Authentication → Users. Replace `<ID_A>` and `<ID_B>`.
+their ids from Authentication → Users. Replace `<ID_A>` and `<ID_B>`. Section 2
+also needs `<ENTRY_ID_A>` and `<ENTRY_ID_B>`: the ids of one **throwaway test
+entry** each account owns (Table Editor → entries). Changes are aimed at those
+ids so a mistaken request cannot retitle real entries.
 
 ## 1. The table refuses bad data (SQL Editor)
 
@@ -86,26 +89,31 @@ curl -X POST "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries" \
   -d '{"owner":"<ID_A>","title":"t","story":"x","created_at":"2000-01-01T00:00:00Z"}'
 # expect: 401/403 permission denied for table entries
 
-# A can change A's own entries (Prefer asks for the changed rows back)
-curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_A>" \
+# A can change one of A's own entries (Prefer asks for the changed row back).
+# Use a throwaway test entry: <ENTRY_ID_A> is its id (look it up in Table Editor
+# → entries; the "as myself" entry created above works). Never filter on owner
+# here, that retitles every entry A has.
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_A>" \
   -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
   -H "Prefer: return=representation" -H "Content-Type: application/json" -d '{"title":"changed"}'
-# expect: 200 with A's entries, titled "changed", and a newer updated_at
+# expect: 200 with that one entry, titled "changed", and a newer updated_at
 
-# A cannot change B's entries: no row matches, so nothing changes
-curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_B>" \
+# A cannot change B's entry: no row matches, so nothing changes.
+# <ENTRY_ID_B> is one of B's test entries.
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_B>" \
   -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
   -H "Prefer: return=representation" -H "Content-Type: application/json" -d '{"title":"changed"}'
-# expect: 200 with [] (a refused change is not an error); B's entries are unchanged
+# expect: 200 with [] (a refused change is not an error); B's entry is unchanged
 
-# A cannot hand an entry to B
-curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_A>" \
+# A cannot hand an entry to B (the refusal comes before any row is touched,
+# but filter on the one test entry anyway)
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_A>" \
   -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
   -H "Content-Type: application/json" -d '{"owner":"<ID_B>"}'
 # expect: 401/403 permission denied (owner is not a column a Contributor may update)
 
 # A guest cannot change anything
-curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_A>" \
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_A>" \
   -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Content-Type: application/json" \
   -d '{"title":"guest change"}'
 # expect: 401/403 permission denied
@@ -116,7 +124,9 @@ expect every forged or guest write to be refused.
 
 An account with **no** Username (make one with "Auto Confirm" and no metadata)
 cannot create an entry even with its own id as owner: expect the same
-row-level security refusal.
+row-level security refusal. It cannot change an entry either: after giving the
+account an entry in the SQL Editor (`owner` set to its id), a PATCH on that
+entry with its token answers 200 with `[]` and the title is unchanged.
 
 ## 3. End to end through the app
 
