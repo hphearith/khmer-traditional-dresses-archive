@@ -63,6 +63,14 @@ test("limits count characters, not bytes or UTF-16 units", () => {
   assert.equal(validateEntry({ title: "ក".repeat(121), story: "s" }, YEAR).ok, false);
 });
 
+test("offline and timed-out saves each get their own message, and an error's own text is never shown", () => {
+  assert.match(getSaveFailureMessage({ code: "offline", message: "TypeError: Failed to fetch" }), /offline.*text is still here/i);
+  assert.match(getSaveFailureMessage({ code: "timeout", message: "AbortError" }), /taking too long.*text is still here/i);
+  for (const code of ["offline", "timeout"]) {
+    assert.doesNotMatch(getSaveFailureMessage({ code, message: "SECRET-DETAIL" }), /SECRET-DETAIL/);
+  }
+});
+
 test("a long real Khmer title within 120 characters is accepted unchanged", () => {
   // Every word is a dress or material name from data/garments.js. 117
   // characters but 333 bytes, full of coeng subscripts and vowel signs.

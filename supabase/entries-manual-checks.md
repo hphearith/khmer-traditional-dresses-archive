@@ -121,9 +121,21 @@ row-level security refusal.
 8. Save one titled `<script>alert(1)</script>`: the title is shown as text and
    no pop-up appears.
 9. While saving, the button reads "Saving…" and cannot be pressed again.
-10. Turn the network off (DevTools → Network → Offline) and save: "We could not
-    save your entry. Check your connection and try again." The console shows
-    the real error; the page never shows it.
+10. Failure messages. In each case the button comes back, your text is still
+    in the form, the console shows the real error, and the page never shows it:
+    - DevTools → Network → Offline, then save: at once, "You appear to be
+      offline. Your text is still here: reconnect, then save again."
+    - Throttle to a connection that stalls (a custom profile with a very low
+      speed works), then save: after about 15 seconds, "That is taking too
+      long. Your text is still here: check your connection, then save again."
+    - Stay logged in on the page for over an hour with the tab in the
+      background, go Offline, then save: the same "offline" message at once,
+      not a disabled button with nothing shown (a stale session used to make
+      the save wait about 25 seconds).
+    - With the network on, a refusal from the database (for example an account
+      with no Username): "This account cannot save entries right now…".
+    A request cut off at 15 seconds may still have reached the database, so
+    check the Community tab before saving the same text again.
 11. In a private window with no cookies, open `/?tab=community`: every entry
     shows, newest first, and DevTools → Application → Cookies is empty.
 12. Open the Community tab at phone width (375px) with a long Khmer story:
