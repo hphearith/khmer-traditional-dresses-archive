@@ -1,8 +1,9 @@
-# Contributor entries: manual checks (issue #13)
+# Contributor entries: manual checks (issues #13 and #14)
 
 These rules live in the database, and the repo holds no credentials, so they
 are checked **by hand** after running `supabase/entries.sql` in the Supabase
-SQL Editor. Report the results as manually verified, not automated.
+SQL Editor, and for editing, `supabase/entries-edit.sql` after it. Report the
+results as manually verified, not automated.
 
 You need two confirmed test accounts that each have a Username (A and B), and
 their ids from Authentication → Users. Replace `<ID_A>` and `<ID_B>`.
@@ -85,10 +86,28 @@ curl -X POST "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries" \
   -d '{"owner":"<ID_A>","title":"t","story":"x","created_at":"2000-01-01T00:00:00Z"}'
 # expect: 401/403 permission denied for table entries
 
-# A cannot change or delete anything yet (editing and deleting are later tickets)
+# A can change A's own entries (Prefer asks for the changed rows back)
 curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_A>" \
   -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
-  -H "Content-Type: application/json" -d '{"title":"changed"}'
+  -H "Prefer: return=representation" -H "Content-Type: application/json" -d '{"title":"changed"}'
+# expect: 200 with A's entries, titled "changed", and a newer updated_at
+
+# A cannot change B's entries: no row matches, so nothing changes
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_B>" \
+  -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
+  -H "Prefer: return=representation" -H "Content-Type: application/json" -d '{"title":"changed"}'
+# expect: 200 with [] (a refused change is not an error); B's entries are unchanged
+
+# A cannot hand an entry to B
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_A>" \
+  -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
+  -H "Content-Type: application/json" -d '{"owner":"<ID_B>"}'
+# expect: 401/403 permission denied (owner is not a column a Contributor may update)
+
+# A guest cannot change anything
+curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?owner=eq.<ID_A>" \
+  -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Content-Type: application/json" \
+  -d '{"title":"guest change"}'
 # expect: 401/403 permission denied
 ```
 
@@ -141,6 +160,22 @@ row-level security refusal.
 12. Open the Community tab at phone width (375px) with a long Khmer story:
     no sideways scrolling, and Khmer marks are not clipped or split.
 13. With no rows in `public.entries`, the Community tab shows "No entries yet".
+14. Editing (issue #14). As A, choose "Edit" on one of A's entries: the form
+    opens with the saved text, the Year list shows the saved year, and each
+    counter shows the saved length. Change the title and choose "Save changes":
+    you land on `/?tab=community`, the entry keeps its place in the list, and
+    the Khmer story is unchanged.
+15. "My entries" appears on the Community tab only while logged in, and shows
+    only A's entries. "Edit" appears on A's entries and on no one else's. A
+    guest sees neither "My entries" nor any "Edit".
+16. As a guest, open `/contribute/<any entry id>/edit`: you are sent to `/login`.
+17. As B, open `/contribute/<an entry id of A's>/edit` by typing the address:
+    the page says "You can only change entries you wrote" and shows no form.
+18. A change the database refuses. As A, open an entry's edit page, delete that
+    entry in the SQL Editor (test data only), then choose "Save changes": "That
+    change wasn't saved" appears, the text stays in the form, you are not sent
+    to the Community tab, and the console shows the real error. In a tab where
+    you have logged out, the same save says "You are no longer logged in".
 
 ## 4. Account removal
 

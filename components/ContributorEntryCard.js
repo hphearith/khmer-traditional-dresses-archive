@@ -26,6 +26,12 @@ export default function ContributorEntryCard({ entry }) {
         <summary aria-label={`Read story: ${entry.title}`}>Read story</summary>
         <p className="entry-story">{entry.story}</p>
       </details>
+      {/* Offered only on the signed-in owner's own entries. The database refuses any other change. */}
+      {entry.mine && (
+        <a className="button secondary entry-edit" href={`/contribute/${entry.id}/edit`} aria-label={`Edit: ${entry.title}`}>
+          Edit
+        </a>
+      )}
     </article>
   );
 }

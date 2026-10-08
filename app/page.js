@@ -19,8 +19,9 @@ export default async function Home() {
   }
 
   // Read with the visitor's own access: guests read as anonymous, and no
-  // cookie is set for them.
-  const community = await readCommunityEntries(supabase);
+  // cookie is set for them. A signed-in visitor's own entries are marked, so
+  // the Community tab can offer My entries.
+  const community = await readCommunityEntries(supabase, user?.id);
   if (community.error) console.error("Reading Community entries failed:", community.error);
 
   return (
@@ -73,7 +74,7 @@ export default async function Home() {
           </figure>
         </section>
 
-        <HomeTabs communityEntries={community.entries} communityFailed={Boolean(community.error)} />
+        <HomeTabs communityEntries={community.entries} communityFailed={Boolean(community.error)} signedIn={Boolean(user)} />
 
         <section className="source" id="about" aria-labelledby="source-heading">
           <div className="container source-inner">

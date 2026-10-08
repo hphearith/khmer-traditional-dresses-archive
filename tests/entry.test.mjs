@@ -1,8 +1,38 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { characterCount, getEntryMessage, getSaveFailureMessage, isWithinLimit, resolveCredit, validateEntry } from "../lib/entry.js";
+import { changeWasSaved, characterCount, entryColumns, formValuesFromEntry, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry } from "../lib/entry.js";
 
 const YEAR = { currentYear: 2026 };
+
+test("only the signed-in owner owns an entry; another account or a guest does not", () => {
+  assert.equal(isOwnedBy("owner-a", "owner-a"), true);
+  assert.equal(isOwnedBy("owner-a", "owner-b"), false);
+  for (const guest of [null, undefined, ""]) {
+    assert.equal(isOwnedBy("owner-a", guest), false, String(guest));
+  }
+});
+
+test("an update counts as saved only when the database handed back the changed row", () => {
+  assert.equal(changeWasSaved([{ id: "e1" }]), true);
+  // A refused update is not an error: the API answers with no rows.
+  for (const rows of [[], null, undefined]) {
+    assert.equal(changeWasSaved(rows), false, String(rows));
+  }
+});
+
+test("an insert or update names exactly the eight writable columns and never the owner", () => {
+  const { entry } = validateEntry({ title: "My wedding sampot", story: "Made by my aunt.", year: "2019" }, YEAR);
+  assert.deepEqual(entryColumns({ ...entry, owner: "someone-else" }), {
+    title: "My wedding sampot",
+    story: "Made by my aunt.",
+    credited_as: null,
+    occasion: null,
+    year: 2019,
+    maker: null,
+    place: null,
+    materials: null,
+  });
+});
 
 test("an entry with only a title and a story is accepted, with every optional field omitted", () => {
   assert.deepEqual(validateEntry({ title: "My wedding sampot", story: "Made by my aunt." }, YEAR), {
@@ -208,6 +238,55 @@ test("a save the database refuses for the account says how to fix the account, n
   assert.match(message, /log in again/i);
   assert.match(message, /Username/);
   assert.doesNotMatch(message, /connection/i);
+});
+
+test("editing starts from the stored values: blanks become empty text, and the year becomes its choice", () => {
+  const row = {
+    id: "e1",
+    owner: "owner-a",
+    title: "Sampot Hol",
+    story: "Made for my sister.",
+    credited_as: null,
+    occasion: null,
+    year: 2019,
+    maker: "Ms. Chan Thy",
+    place: null,
+    materials: "Hand-woven silk",
+  };
+  assert.deepEqual(formValuesFromEntry(row), {
+    title: "Sampot Hol",
+    story: "Made for my sister.",
+    credited_as: "",
+    occasion: "",
+    year: "2019",
+    maker: "Ms. Chan Thy",
+    place: "",
+    materials: "Hand-woven silk",
+  });
+  assert.equal(formValuesFromEntry({ ...row, year: null }).year, "");
+});
+
+test("a stored entry opened and saved again without changes writes back the same values, Khmer included", () => {
+  const stored = {
+    title: "សំពត់ចងក្បិន for my graduation",
+    story: "ខ្ញុំបានកុម្មង់អាវប៉ាក់​នេះ at a tailor in Phnom Penh.\nសំពត់ហូល too.",
+    credited_as: "គ្រួសារសុខា",
+    occasion: "ពិធីមង្គលការ wedding",
+    year: 2019,
+    maker: "Ms. Chan Thy",
+    place: "ភ្នំពេញ",
+    materials: "សូត្រ silk​",
+  };
+  const { ok, entry } = validateEntry(formValuesFromEntry(stored), YEAR);
+  assert.equal(ok, true);
+  assert.deepEqual(entryColumns(entry), stored);
+});
+
+test("a change the database refused says it was not saved, keeps the text, and never repeats a raw error", () => {
+  const message = getSaveFailureMessage({ code: "not-saved", message: "SECRET-DETAIL" });
+  assert.match(message, /That change wasn't saved/);
+  assert.match(message, /Your text is still here/);
+  assert.doesNotMatch(message, /SECRET-DETAIL/);
 });
 
 test("a save the database refuses for its content says to check the fields", () => {

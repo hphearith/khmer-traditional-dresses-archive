@@ -8,7 +8,8 @@ const CONTROL = {
 // The year is picked from a list, not typed: the current year down to
 // EARLIEST_YEAR, with a blank first choice. The pure rules and the database
 // still check it, because a direct call can send anything.
-export default function YearField({ error }) {
+// initialYear is the year an entry being edited already has ("" for none).
+export default function YearField({ error, initialYear = "" }) {
   const latest = new Date().getFullYear();
   const years = Array.from({ length: latest - EARLIEST_YEAR + 1 }, (_, index) => latest - index);
 
@@ -17,7 +18,7 @@ export default function YearField({ error }) {
       <label htmlFor="year" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
         Year <span style={{ fontWeight: 400, color: "var(--muted)" }}>(optional)</span>
       </label>
-      <select id="year" name="year" defaultValue="" style={CONTROL}
+      <select id="year" name="year" defaultValue={initialYear} style={CONTROL}
         aria-invalid={error ? true : undefined} aria-describedby={error ? "year-error" : undefined}>
         <option value="">Not sure</option>
         {years.map((year) => <option key={year} value={year}>{year}</option>)}

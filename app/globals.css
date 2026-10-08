@@ -530,6 +530,38 @@ input[type="search"]::-webkit-search-cancel-button {
   white-space: pre-wrap;
 }
 
+.entry-edit {
+  margin-top: 16px;
+}
+
+/* All entries or My entries, shown to a signed-in visitor on the Community tab. */
+.entry-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.entry-views button {
+  min-height: 48px;
+  border: 1px solid var(--control);
+  border-radius: 4px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+
+.entry-views button:hover {
+  background: var(--fabric);
+}
+
+.entry-views button[aria-pressed="true"] {
+  border-color: var(--wine);
+  background: var(--wine);
+  color: var(--surface);
+}
+
 .swatch {
   position: relative;
   display: flex;

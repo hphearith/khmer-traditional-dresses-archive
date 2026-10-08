@@ -12,9 +12,9 @@ const CONTROL = {
 // One labelled text field that stops at its limit (lib/useLimitedText.js). There
 // is deliberately no maxLength: the browser counts UTF-16 units, not characters,
 // and cuts pasted text mid-way, which can split a Khmer cluster.
-export default function EntryField({ name, label, hint, error, required = false, multiline = false }) {
+export default function EntryField({ name, label, hint, error, required = false, multiline = false, initialValue = "" }) {
   const limit = ENTRY_LIMITS[name];
-  const { count, inputProps } = useLimitedText(name);
+  const { count, inputProps } = useLimitedText(name, initialValue);
   const full = count >= limit;
   const describedBy = [hint && `${name}-hint`, `${name}-count`, error && `${name}-error`].filter(Boolean).join(" ");
   const control = {
