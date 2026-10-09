@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { changeWasSaved, characterCount, entryColumns, formValuesFromEntry, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
+import { changeWasSaved, characterCount, entryColumns, formValuesFromEntry, getDeleteFailureMessage, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
 
 const YEAR = { currentYear: 2026 };
 
@@ -325,4 +325,37 @@ test("a stored year that is not a whole number adds nothing", () => {
   assert.deepEqual(yearOptions(2026, "abc"), yearOptions(2026));
   assert.deepEqual(yearOptions(2026, "20.5"), yearOptions(2026));
   for (const blank of [null, undefined, " ", 0]) assert.deepEqual(yearOptions(2026, blank), yearOptions(2026));
+});
+
+test("a delete is confirmed only when the database handed back the one deleted row", () => {
+  // A refused delete is not an error either: the API answers with no rows.
+  assert.equal(changeWasSaved([{ id: "e1" }]), true);
+  for (const rows of [[], null, undefined, [{ id: "e1" }, { id: "e2" }]]) {
+    assert.equal(changeWasSaved(rows), false, String(rows));
+  }
+});
+
+test("a delete the database refused says that change wasn't saved and that the entry is still there", () => {
+  for (const code of ["not-saved", "42501"]) {
+    const message = getDeleteFailureMessage({ code, message: "SECRET-DETAIL" });
+    assert.match(message, /That change wasn't saved\./);
+    assert.match(message, /not been deleted/i);
+    assert.doesNotMatch(message, /SECRET-DETAIL/);
+  }
+});
+
+test("offline and timed-out deletes each get their own message, and neither claims the entry was deleted", () => {
+  assert.match(getDeleteFailureMessage({ code: "offline" }), /offline/i);
+  assert.match(getDeleteFailureMessage({ code: "timeout" }), /taking too long.*check.*before deleting again/i);
+  for (const code of ["offline", "timeout"]) {
+    assert.doesNotMatch(getDeleteFailureMessage({ code }), /wasn't saved/i);
+  }
+});
+
+test("any other failed delete suggests checking the connection and never repeats the raw error", () => {
+  for (const error of [new Error("SECRET-DETAIL"), { code: "XX000", message: "SECRET-DETAIL" }, null, undefined]) {
+    const message = getDeleteFailureMessage(error);
+    assert.match(message, /could not delete/i);
+    assert.doesNotMatch(message, /SECRET-DETAIL/);
+  }
 });

@@ -1,8 +1,9 @@
-# Contributor entries: manual checks (issues #13 and #14)
+# Contributor entries: manual checks (issues #13, #14 and #15)
 
 These rules live in the database, and the repo holds no credentials, so they
 are checked **by hand** after running `supabase/entries.sql` in the Supabase
-SQL Editor, and for editing, `supabase/entries-edit.sql` after it. Report the
+SQL Editor, and for editing, `supabase/entries-edit.sql` after it, and for
+deleting, `supabase/entries-delete.sql` after that. Report the
 results as manually verified, not automated.
 
 You need two confirmed test accounts that each have a Username (A and B), and
@@ -117,6 +118,23 @@ curl -X PATCH "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_A>" \
   -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Content-Type: application/json" \
   -d '{"title":"guest change"}'
 # expect: 401/403 permission denied
+
+# A can delete one of A's own entries. Use a throwaway entry: deleting is permanent.
+curl -X DELETE "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_A>" \
+  -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
+  -H "Prefer: return=representation"
+# expect: 200 with that one entry; it is gone from the Community tab
+
+# A cannot delete B's entry: no row matches, so nothing is deleted.
+curl -X DELETE "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_B>" \
+  -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" -H "Authorization: Bearer $TOKEN_A" \
+  -H "Prefer: return=representation"
+# expect: 200 with [] (a refused delete is not an error); B's entry is still there
+
+# A guest cannot delete anything
+curl -X DELETE "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/entries?id=eq.<ENTRY_ID_B>" \
+  -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"
+# expect: 401/403 permission denied; B's entry is still there
 ```
 
 Also run Lab 7's console attack script unchanged against the `entries` table:
@@ -126,7 +144,9 @@ An account with **no** Username (make one with "Auto Confirm" and no metadata)
 cannot create an entry even with its own id as owner: expect the same
 row-level security refusal. It cannot change an entry either: after giving the
 account an entry in the SQL Editor (`owner` set to its id), a PATCH on that
-entry with its token answers 200 with `[]` and the title is unchanged.
+entry with its token answers 200 with `[]` and the title is unchanged. A
+DELETE on that entry with its token also answers 200 with `[]` and the entry
+is still there.
 
 ## 3. End to end through the app
 
@@ -186,6 +206,23 @@ entry with its token answers 200 with `[]` and the title is unchanged.
     change wasn't saved" appears, the text stays in the form, you are not sent
     to the Community tab, and the console shows the real error. In a tab where
     you have logged out, the same save says "You are no longer logged in".
+
+19. Deleting (issue #15). As A, on the Community tab, choose "Delete" on one of
+    A's throwaway entries: the question "Delete this entry for good? This
+    cannot be undone." appears with the focus on Cancel. Choose "Cancel": the
+    question goes, the entry is untouched and the focus is back on Delete.
+    Choose Delete again, then "Delete for good": the entry leaves the
+    Community tab, and "My entries" if that view was open, without leaving the
+    page. Reload: it is still gone.
+20. "Delete" appears on A's entries and on no one else's. A guest sees none.
+21. A delete the database refuses. As A, open the Community tab, delete that
+    entry in the SQL Editor (test data only), then choose "Delete" and
+    "Delete for good" on the stale card: "That change wasn't saved" appears,
+    the console shows the real error, and the entry is never reported as
+    deleted. Also try it Offline: "You appear to be offline", the button comes
+    back.
+22. Delete an entry whose title is Khmer: the question names no title, but the
+    button's accessible name does (`Delete: <title>`); the Khmer is intact.
 
 ## 4. Account removal
 

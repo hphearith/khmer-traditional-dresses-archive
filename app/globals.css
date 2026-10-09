@@ -530,8 +530,37 @@ input[type="search"]::-webkit-search-cancel-button {
   white-space: pre-wrap;
 }
 
-.entry-edit {
+/* Edit and Delete on the owner's own entry. The confirmation takes the full row. */
+.entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: 16px;
+}
+
+.entry-confirm {
+  flex-basis: 100%;
+  border: 1px solid var(--wine);
+  border-radius: 4px;
+  padding: 16px;
+  background: var(--surface);
+}
+
+.entry-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.entry-confirm button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.entry-confirm-error {
+  margin-top: 12px;
+  color: var(--wine);
 }
 
 /* All entries or My entries, shown to a signed-in visitor on the Community tab. */

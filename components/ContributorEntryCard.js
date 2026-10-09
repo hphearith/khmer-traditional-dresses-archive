@@ -1,3 +1,5 @@
+import DeleteEntryButton from "./DeleteEntryButton.js";
+
 const PROVENANCE = [
   ["occasion", "Occasion"],
   ["year", "Year"],
@@ -26,11 +28,14 @@ export default function ContributorEntryCard({ entry }) {
         <summary aria-label={`Read story: ${entry.title}`}>Read story</summary>
         <p className="entry-story">{entry.story}</p>
       </details>
-      {/* Offered only on the signed-in owner's own entries. The database refuses any other change. */}
+      {/* Offered only on the signed-in owner's own entries. The database refuses any other change or delete. */}
       {entry.mine && (
-        <a className="button secondary entry-edit" href={`/contribute/${entry.id}/edit`} aria-label={`Edit: ${entry.title}`}>
-          Edit
-        </a>
+        <div className="entry-actions">
+          <a className="button secondary" href={`/contribute/${entry.id}/edit`} aria-label={`Edit: ${entry.title}`}>
+            Edit
+          </a>
+          <DeleteEntryButton entryId={entry.id} title={entry.title} />
+        </div>
       )}
     </article>
   );
