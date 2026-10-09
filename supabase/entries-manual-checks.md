@@ -192,6 +192,15 @@ entry with its token answers 200 with `[]` and the title is unchanged.
 Delete test account A in Authentication → Users. Expect every row with
 `owner = <ID_A>` to disappear from `public.entries` (`on delete cascade`).
 
+## Results (manually verified)
+
+These were checked by hand by the student, not by an automated test.
+
+| Date | Issue | Check | Result |
+| --- | --- | --- | --- |
+| 2026-10-09 | #14 | Section 2: A can change one of A's own entries; A cannot change B's entry; A cannot hand an entry to B; a guest cannot change anything; an account with no Username cannot change an entry | Pass |
+| 2026-10-09 | #14 | Section 3, steps 14-18: edit opens with the saved values and keeps its place in the list; "My entries" and "Edit" appear only for the signed-in owner; a guest is sent to `/login`; B sees "You can only change entries you wrote"; a refused save says "That change wasn't saved" | Pass |
+
 ## Before issue #16
 
 Entries made now have no photo. Delete them before running #16's SQL, which
