@@ -237,6 +237,7 @@ These were checked by hand by the student, not by an automated test.
 | --- | --- | --- | --- |
 | 2026-10-09 | #14 | Section 2: A can change one of A's own entries; A cannot change B's entry; A cannot hand an entry to B; a guest cannot change anything; an account with no Username cannot change an entry | Pass |
 | 2026-10-09 | #14 | Section 3, steps 14-18: edit opens with the saved values and keeps its place in the list; "My entries" and "Edit" appear only for the signed-in owner; a guest is sent to `/login`; B sees "You can only change entries you wrote"; a refused save says "That change wasn't saved" | Pass |
+| 2026-10-09 | #15 | Section 3, steps 19-20: Delete asks first and Cancel leaves the entry untouched; confirming removes the entry from the Community tab and My entries and it stays gone after a reload; "Delete" appears only on the signed-in owner's own entries | Pass |
 
 ## Before issue #16
 
