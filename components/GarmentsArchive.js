@@ -26,7 +26,7 @@ export default function GarmentsArchive() {
   };
 
   return (
-    <section className="container catalogue" id="collection" aria-labelledby="collection-heading">
+    <section className="container catalogue" aria-labelledby="collection-heading">
       <div className="section-head">
         <div><p className="label">01 / The catalogue</p><h2 id="collection-heading">Explore the garments</h2></div>
         <p className="count" role="status" aria-live="polite" aria-atomic="true">showing {filtered.length} of {garments.length} entries</p>

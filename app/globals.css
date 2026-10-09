@@ -282,6 +282,37 @@ figcaption {
   scroll-margin-top: 24px;
 }
 
+.home-tabs-wrap {
+  scroll-margin-top: 24px;
+}
+
+.home-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+
+.home-tab {
+  min-height: 48px;
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.home-tab:hover {
+  background: var(--fabric);
+}
+
+.home-tab[aria-selected="true"] {
+  border-bottom-color: var(--wine);
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .section-head {
   display: flex;
   align-items: end;
@@ -449,6 +480,117 @@ input[type="search"]::-webkit-search-cancel-button {
   padding-bottom: 24px;
 }
 
+/* Contributor entry cards hold free text in Khmer, English or both. The
+   browser's own line breaking (which finds Khmer word boundaries) comes first;
+   overflow-wrap only steps in for a run with no break point at all, so it never
+   overflows a phone screen. Lines are tall enough for Khmer marks above and
+   below the letter. */
+.entry-card {
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+  overflow-wrap: anywhere;
+}
+
+.entry-card h3 {
+  line-height: 1.7;
+}
+
+.entry-credit {
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.provenance {
+  margin-block: 12px 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.provenance div {
+  display: flex;
+  gap: 8px;
+}
+
+.provenance dt {
+  flex-shrink: 0;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.provenance dd {
+  min-width: 0;
+  margin: 0;
+}
+
+.entry-story {
+  line-height: 1.9;
+  white-space: pre-wrap;
+}
+
+/* Edit and Delete on the owner's own entry. The confirmation takes the full row. */
+.entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.entry-confirm {
+  flex-basis: 100%;
+  border: 1px solid var(--wine);
+  border-radius: 4px;
+  padding: 16px;
+  background: var(--surface);
+}
+
+.entry-confirm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.entry-confirm button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.entry-confirm-error {
+  margin-top: 12px;
+  color: var(--wine);
+}
+
+/* All entries or My entries, shown to a signed-in visitor on the Community tab. */
+.entry-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.entry-views button {
+  min-height: 48px;
+  border: 1px solid var(--control);
+  border-radius: 4px;
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+
+.entry-views button:hover {
+  background: var(--fabric);
+}
+
+.entry-views button[aria-pressed="true"] {
+  border-color: var(--wine);
+  background: var(--wine);
+  color: var(--surface);
+}
+
 .swatch {
   position: relative;
   display: flex;
@@ -569,6 +711,11 @@ details p {
   border: 1px solid var(--line);
   padding: 48px 24px;
   background: var(--surface);
+}
+
+.empty h2 {
+  font-size: 26px;
+  line-height: 1.3;
 }
 
 .empty p {
@@ -774,6 +921,11 @@ footer {
 @media (max-width: 639px) {
   :root {
     --gutter: 16px;
+  }
+
+  .home-tab {
+    flex: 1;
+    padding-inline: 8px;
   }
 
   .grid {
