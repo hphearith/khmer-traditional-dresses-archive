@@ -28,6 +28,7 @@ One student's Khmer Living Archive, built in ICT 340 at AUPP. Every student buil
 - For anything beyond a one-file change, state a short plan before writing code.
 - Explain changes plainly. The student must be able to defend every line in a code review; write code and explanations that make that possible.
 - The student reviews and approves every diff. Expect rejections and make them easy: small steps, clear boundaries.
+- A change is done only when `node --test tests/` passes. Run it after every change and paste the summary lines (pass/fail counts) into your report.
 
 ## Sprint 2 amendment (added week 5)
 
