@@ -15,6 +15,10 @@ export default function ContributorEntryCard({ entry }) {
 
   return (
     <article className="entry-card">
+      {/* A plain img, like GarmentCard. The photo is public, so a guest needs no cookie to see it. */}
+      {entry.photo_url && (
+        <img className="entry-photo" src={entry.photo_url} alt={`Photo for: ${entry.title}`} loading="lazy" />
+      )}
       {entry.credit && <p className="entry-credit">Shared by {entry.credit}</p>}
       <h3>{entry.title}</h3>
       {provenance.length > 0 && (
