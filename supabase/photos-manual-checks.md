@@ -11,7 +11,7 @@ Note: once `photos.sql` has run, every insert into `entries` needs a valid
 omit it now fail with a not-null error; that is expected.
 
 You need the two confirmed test accounts A and B from `entries-manual-checks.md`
-(`<ID_A>`, `<ID_B>`, `$TOKEN_A`; never commit a token), and any small `photo.jpg`
+(`<ID_A>`, `<ID_B>`, `$TOKEN_A`, `$TOKEN_B`; never commit a token), and any small `photo.jpg`
 (under 5 MB), `big.jpg` (over 5 MB) and `note.txt` on disk.
 
 ## 1. The table (SQL Editor)
@@ -63,6 +63,11 @@ curl -X POST "$BASE/photos/<ID_A>/note.jpg" -H "apikey: $KEY" -H "Authorization:
 curl -X POST "$BASE/photos/<ID_A>/big.jpg" -H "apikey: $KEY" -H "Authorization: Bearer $TOKEN_A" \
   -H "Content-Type: image/jpeg" --data-binary @big.jpg
 # expect: 413 The object exceeded the maximum allowed size
+
+# B cannot list A's folder (the select policy covers the owner only)
+curl -X POST "$NEXT_PUBLIC_SUPABASE_URL/storage/v1/object/list/photos" -H "apikey: $KEY" \
+  -H "Authorization: Bearer $TOKEN_B" -H "Content-Type: application/json" -d '{"prefix":"<ID_A>"}'
+# expect: 200 with [] ; the same call as A (with $TOKEN_A) lists check-1.jpg
 
 # B cannot delete A's photo (a refused delete is not an error: it removes nothing)
 curl -X DELETE "$BASE/photos/<ID_A>/check-1.jpg" -H "apikey: $KEY" -H "Authorization: Bearer $TOKEN_B"

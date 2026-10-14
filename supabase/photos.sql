@@ -19,7 +19,7 @@
 --      over 5 MB (5242880 bytes). lib/photo.js applies the same limits in the
 --      form. Change both together.
 --   4. Each file is stored at <user id>/<uuid>.<extension>. A signed-in account
---      can upload to, and delete from, its own folder only. A direct call to
+--      can upload to, see and delete from its own folder only. A direct call to
 --      another account's folder is refused.
 --   5. A new entry can now write photo_path. An edit still cannot (see
 --      supabase/entries-edit.sql): replacing a photo is issue #17.
@@ -53,14 +53,25 @@ on conflict (id) do update
 -- ---------------------------------------------------------------------------
 -- 3. Who may write: the owner, in their own folder only.
 -- storage.foldername(name)[1] is the first folder of the path, which is the
--- user id. There is no select policy: a public bucket serves its files by URL
--- without one, and nobody can list the bucket.
+-- user id. A public bucket serves its files by URL without any select policy.
+-- The select policy below is for the owner only: Storage's remove() needs
+-- select as well as delete, so without it a delete would silently remove nothing.
+-- It lets nobody list or read another account's folder through the API.
 -- ---------------------------------------------------------------------------
 drop policy if exists "Owners upload photos to their own folder" on storage.objects;
 create policy "Owners upload photos to their own folder"
   on storage.objects for insert
   to authenticated
   with check (
+    bucket_id = 'photos'
+    and (storage.foldername(name))[1] = (select auth.uid())::text
+  );
+
+drop policy if exists "Owners see photos in their own folder" on storage.objects;
+create policy "Owners see photos in their own folder"
+  on storage.objects for select
+  to authenticated
+  using (
     bucket_id = 'photos'
     and (storage.foldername(name))[1] = (select auth.uid())::text
   );
