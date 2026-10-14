@@ -1,7 +1,9 @@
 "use client";
 
 import { useEntryForm } from "../lib/useEntryForm.js";
+import ConsentField from "./ConsentField.js";
 import EntryField from "./EntryField.js";
+import PhotoField from "./PhotoField.js";
 import ProvenanceFields from "./ProvenanceFields.js";
 
 // noValidate: the browser's own required-field bubble shows only one field at
@@ -17,6 +19,9 @@ export default function EntryForm({ entryId = null, initial = {} }) {
       <EntryField name="title" label="Title" required error={errors.title} initialValue={initial.title} />
       <EntryField name="story" label="Story" required multiline error={errors.story} initialValue={initial.story}
         hint="Who it was made for, how it was ordered, what it means to you." />
+      {/* A new entry needs its one photo. Replacing it later is a separate step. */}
+      {!entryId && <PhotoField error={errors.photo} />}
+      {!entryId && <ConsentField error={errors.consent} />}
       <EntryField name="credited_as" label="Credited as" error={errors.credited_as} initialValue={initial.credited_as}
         hint="The name shown on this entry. Leave it blank to show your @Username." />
       <ProvenanceFields errors={errors} initial={initial} />
