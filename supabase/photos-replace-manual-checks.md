@@ -84,3 +84,15 @@ an entry as A.
 10. Follow `agent_docs/removing_account_photos.md` for a throwaway account that
     has one photo, and confirm the folder is gone afterwards and the final SQL
     check returns no rows.
+
+## Verified so far
+
+These were checked by hand by the student, not by an automated test.
+
+| Date | Section | What was checked | Result |
+| --- | --- | --- | --- |
+| 2026-10-16 | 3, steps 1-10 | Edit shows the current photo; saving without a new photo keeps it; a new photo needs the consent box; a wrong type or an oversized file is refused; a new photo replaces the old one and the old file is gone from Storage; the photo cannot be cleared without replacing it; another account gets "You can only change entries you wrote"; a refused save leaves the old photo and no stray new file; deleting an entry removes its file; the account-photo procedure in `agent_docs/removing_account_photos.md` works | Pass |
+| not yet | 1 | Direct calls: another account, a guest, a foreign folder or a null `photo_path` are refused | Not run |
+| not yet | 2 | A refused storage delete is logged with `console.error` and the file stays | Not run |
+
+Until sections 1 and 2 are run, the acceptance criteria "Only the owner can replace or delete photos, even by a direct call" and "Storage deletions check what came back" are covered by the code and its comments only, not by a manual check.
