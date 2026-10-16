@@ -79,6 +79,10 @@ separate, unimplemented pool with no approved schema or workflow.
 
 ## Tests and Supporting Assets
 
+`agent_docs/removing_account_photos.md` is the manual procedure for deleting an
+account's stored photos (the `photos` bucket, `<user id>/<uuid>.<ext>`): deleting
+an account removes its entries but not its photo files.
+
 `tests/auth-confirmation.test.mjs` covers confirmation URL handling, safe
 recovery behavior, and response helpers. `README.md` contains local-run and
 Vercel deployment instructions. `DESIGN.md` and

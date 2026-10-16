@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getPhotoFailureMessage, getPhotoMessage, photoPath, validatePhoto } from "../lib/photo.js";
+import {
+  getPhotoFailureMessage,
+  getPhotoMessage,
+  photoPath,
+  validatePhoto,
+  validatePhotoChange,
+} from "../lib/photo.js";
 
 const FIVE_MB = 5 * 1024 * 1024;
 const jpeg = (size = 1000) => ({ type: "image/jpeg", size });
@@ -81,4 +87,32 @@ test("a failed upload is explained from its status, never by the storage error's
   assert.match(shown[1], /5 MB/);
   assert.match(shown[2], /JPEG, PNG or WebP/);
   assert.match(shown[0], /log/i);
+});
+
+test("editing without choosing a new photo keeps the current one, whatever the consent box says", () => {
+  // An empty file input still hands over a File with no bytes.
+  for (const file of [null, undefined, jpeg(0)]) {
+    for (const consent of [true, false]) {
+      assert.deepEqual(validatePhotoChange({ file, consent }), { ok: true, replace: false });
+    }
+  }
+});
+
+test("a new photo replaces the current one only with a ticked consent box", () => {
+  assert.deepEqual(validatePhotoChange({ file: jpeg(), consent: true }), { ok: true, replace: true });
+  assert.deepEqual(validatePhotoChange({ file: jpeg(), consent: false }), {
+    ok: false,
+    errors: { consent: "required" },
+  });
+});
+
+test("a replacement photo meets the same type and size rules as a first photo", () => {
+  assert.deepEqual(validatePhotoChange({ file: { type: "image/gif", size: 1000 }, consent: true }), {
+    ok: false,
+    errors: { photo: "type" },
+  });
+  assert.deepEqual(validatePhotoChange({ file: jpeg(FIVE_MB + 1), consent: true }), {
+    ok: false,
+    errors: { photo: "size" },
+  });
 });

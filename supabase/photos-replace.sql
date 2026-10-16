@@ -1,0 +1,27 @@
+-- Contributor entries: replace your photo (issue #17).
+--
+-- FOR THE STUDENT TO REVIEW AND RUN in the Supabase dashboard (SQL Editor),
+-- after supabase/photos.sql. The agent never runs this against the live
+-- project. It adds one column grant and changes nothing else. It is safe to
+-- run again.
+--
+-- How it fits together:
+--   1. An edit may now write photo_path, and only that column is new. Until
+--      now an update could not touch it (supabase/entries-edit.sql).
+--   2. Nothing else needs to change for the owner-only rule:
+--        - the update policy from entries-edit.sql still matches only the
+--          owner's own rows, so another account's update matches no row;
+--        - entries_photo_path_owner (photos.sql) still requires the new path to
+--          sit in the owner's own folder, so an entry cannot be pointed at
+--          someone else's file;
+--        - photo_path is still not null, so an entry cannot lose its photo;
+--        - the storage policies (photos.sql) let an account upload to, see and
+--          delete from its own folder only.
+--   3. Deleting an entry needs no new grant: the delete policy from
+--      entries-delete.sql already returns the deleted row, photo_path included,
+--      and the app then removes that file through the storage delete policy.
+--   4. Deleting an account removes its entries (on delete cascade) but NOT its
+--      stored photos. Nothing in the database can remove files from Storage, so
+--      follow agent_docs/removing_account_photos.md by hand.
+
+grant update (photo_path) on public.entries to authenticated;
