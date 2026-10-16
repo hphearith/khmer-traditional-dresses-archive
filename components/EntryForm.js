@@ -9,9 +9,10 @@ import ProvenanceFields from "./ProvenanceFields.js";
 // noValidate: the browser's own required-field bubble shows only one field at
 // a time. The form checks every field itself and shows each message in place.
 // With an entryId the form edits that entry, starting from the stored values in
-// initial (formValuesFromEntry in lib/entry.js). Without one it writes a new entry.
-export default function EntryForm({ entryId = null, initial = {} }) {
-  const { pending, errors, formError, handleSubmit } = useEntryForm({ entryId });
+// initial (formValuesFromEntry in lib/entry.js) and the photo it holds now
+// (photo: { path, url }). Without an entryId it writes a new entry.
+export default function EntryForm({ entryId = null, initial = {}, photo = null }) {
+  const { pending, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path });
   const saveLabel = entryId ? "Save changes" : "Save entry";
 
   return (
@@ -19,9 +20,9 @@ export default function EntryForm({ entryId = null, initial = {} }) {
       <EntryField name="title" label="Title" required error={errors.title} initialValue={initial.title} />
       <EntryField name="story" label="Story" required multiline error={errors.story} initialValue={initial.story}
         hint="Who it was made for, how it was ordered, what it means to you." />
-      {/* A new entry needs its one photo. Replacing it later is a separate step. */}
-      {!entryId && <PhotoField error={errors.photo} />}
-      {!entryId && <ConsentField error={errors.consent} />}
+      {/* A new entry needs its one photo. An edit may replace it, or keep it by choosing nothing. */}
+      <PhotoField error={errors.photo} current={entryId && photo ? { url: photo.url, title: initial.title } : null} />
+      <ConsentField error={errors.consent} onlyWithNewPhoto={Boolean(entryId)} />
       <EntryField name="credited_as" label="Credited as" error={errors.credited_as} initialValue={initial.credited_as}
         hint="The name shown on this entry. Leave it blank to show your @Username." />
       <ProvenanceFields errors={errors} initial={initial} />

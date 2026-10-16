@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import EntryForm from "../../../../components/EntryForm.js";
 import { formValuesFromEntry, isOwnedBy } from "../../../../lib/entry.js";
+import { photoUrl } from "../../../../lib/photoStorage.js";
 import { ENTRY_COLUMNS } from "../../../../lib/readEntries.js";
 import { readUsername } from "../../../../lib/readUsername.js";
 import { createClient } from "../../../../lib/supabase/server.js";
@@ -49,7 +50,8 @@ export default async function EditEntryPage({ params }) {
             <p style={{ color: "var(--muted)", marginBottom: 32 }}>
               Changes go live only when you choose Save changes. The entry keeps its place on the Community tab.
             </p>
-            <EntryForm entryId={entry.id} initial={formValuesFromEntry(entry)} />
+            <EntryForm entryId={entry.id} initial={formValuesFromEntry(entry)}
+              photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />
           </>
         )}
       </section>
