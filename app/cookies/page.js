@@ -33,6 +33,11 @@ export default function CookieInformationPage() {
             this device, and you can also clear it in your browser&rsquo;s site data. If your browser blocks local
             storage, the forms still work and simply do not keep local drafts.
           </p>
+          <p style={{ marginBottom: 8 }}>
+            When you leave a form with a local draft kept, a short note with the time is placed in your browser&rsquo;s
+            session storage so the next page can say &ldquo;Draft saved&rdquo;. The page removes it as soon as it
+            reads it, and the browser removes it when you close the tab.
+          </p>
           <p>Browsing as a guest stores nothing: local drafts exist only once you are signed in and start writing.</p>
         </section>
 

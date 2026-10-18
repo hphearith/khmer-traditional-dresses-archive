@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { EMPTY_FORM, draftKey, hasUnsavedWork, openDraftStore } from "../lib/draft.js";
+import { EMPTY_FORM, draftKey, flagDraftKept, hasUnsavedWork, openDraftStore, takeDraftKeptFlag } from "../lib/draft.js";
 
 const ENTRY_A = "11111111-1111-4111-8111-111111111111";
 const ENTRY_B = "22222222-2222-4222-8222-222222222222";
@@ -113,4 +113,37 @@ test("an edit has unsaved work only where it differs from the stored entry", () 
   assert.equal(hasUnsavedWork({ ...stored }, stored), false);
   assert.equal(hasUnsavedWork({ ...stored, story: "រឿង " }, stored), true);
   assert.equal(hasUnsavedWork({ ...stored, year: "" }, stored), true);
+});
+
+test("a draft kept on one page is announced once, on the next page", () => {
+  const storage = fakeStorage();
+  flagDraftKept(() => storage, 1_000);
+  assert.equal(takeDraftKeptFlag(() => storage, 2_000), true);
+  assert.equal(takeDraftKeptFlag(() => storage, 2_001), false);
+});
+
+test("nothing is announced when no draft was kept", () => {
+  assert.equal(takeDraftKeptFlag(() => fakeStorage(), 2_000), false);
+});
+
+test("an old flag is not announced: the Contributor went somewhere else first", () => {
+  const storage = fakeStorage();
+  flagDraftKept(() => storage, 1_000);
+  assert.equal(takeDraftKeptFlag(() => storage, 1_000 + 10_000), true);
+  flagDraftKept(() => storage, 1_000);
+  assert.equal(takeDraftKeptFlag(() => storage, 1_000 + 10_001), false);
+});
+
+test("a flag that is not a time is not announced", () => {
+  const storage = fakeStorage();
+  for (const raw of ["", "soon", "-5", "99999999999999"]) {
+    storage.setItem("draft-kept-at", raw);
+    assert.equal(takeDraftKeptFlag(() => storage, 2_000), false, raw);
+  }
+});
+
+test("blocked session storage never throws", () => {
+  const blocked = () => { throw new DOMException("The operation is insecure.", "SecurityError"); };
+  assert.doesNotThrow(() => flagDraftKept(blocked));
+  assert.equal(takeDraftKeptFlag(blocked), false);
 });

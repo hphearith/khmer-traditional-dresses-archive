@@ -1,30 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { DRAFT_KEPT_EVENT } from "../lib/draft.js";
+import { useEffect, useRef, useState } from "react";
+import { DRAFT_KEPT_EVENT, takeDraftKeptFlag } from "../lib/draft.js";
 
 const SHOWN_MS = 2500;
 const FADE_MS = 600;
 
-// A small "Draft saved" popup that fades away. It lives in the root layout, which
-// stays on the page when the Contributor leaves an entry form for another page of
-// the site, so it can appear after the form is gone. The form announces itself
-// with DRAFT_KEPT_EVENT (lib/useEntryDraft.js).
+// A small "Draft saved" popup that fades away. It lives in the root layout, so it
+// can appear after the entry form is gone. The form tells it in one of two ways
+// (lib/useEntryDraft.js): DRAFT_KEPT_EVENT when the Contributor leaves by a link
+// inside Next.js, or a note in session storage for the next page, which is read
+// when this page loads or comes back from the browser's back/forward cache.
 export default function DraftToast() {
   // "off" (nothing on the page), "in" (visible), "out" (fading; the text stays until it is gone).
   const [phase, setPhase] = useState("off");
 
+  // The timers are not cleared when the effect is cleaned up: in development
+  // React runs every effect twice, and the second run finds the note already taken.
+  const timers = useRef([]);
+
   useEffect(() => {
-    let timers = [];
     function show() {
-      timers.forEach(clearTimeout);
+      timers.current.forEach(clearTimeout);
       setPhase("in");
-      timers = [setTimeout(() => setPhase("out"), SHOWN_MS), setTimeout(() => setPhase("off"), SHOWN_MS + FADE_MS)];
+      timers.current = [setTimeout(() => setPhase("out"), SHOWN_MS), setTimeout(() => setPhase("off"), SHOWN_MS + FADE_MS)];
     }
+    const showIfNoted = () => takeDraftKeptFlag(() => window.sessionStorage) && show();
+    const showIfRestored = (event) => event.persisted && showIfNoted();
+    showIfNoted();
     window.addEventListener(DRAFT_KEPT_EVENT, show);
+    window.addEventListener("pageshow", showIfRestored);
     return () => {
       window.removeEventListener(DRAFT_KEPT_EVENT, show);
-      timers.forEach(clearTimeout);
+      window.removeEventListener("pageshow", showIfRestored);
     };
   }, []);
 

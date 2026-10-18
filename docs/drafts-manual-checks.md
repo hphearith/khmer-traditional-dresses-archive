@@ -19,8 +19,12 @@ looks like `draft:<user id>:new` or `draft:<user id>:edit:<entry id>`.
    field says the draft was restored and the photo and consent box must be given again.
 3. Click "Back to the Community": on the Community tab a "Draft saved" popup
    shows near the bottom of the screen, then fades away after a few seconds. Go
-   back to `/contribute`: the text is back. Also try the browser's Back button.
-   Leaving with nothing typed shows no popup.
+   back to `/contribute`: the text is back. Do the same with the browser's Back
+   button, and again after reloading the form first (these are full page loads,
+   unlike the link). Then leave by typing another address in the same tab: the
+   popup must not appear later on `/`. In DevTools → Session storage the note
+   `draft-kept-at` is gone as soon as the popup shows. Leaving with nothing typed
+   shows no popup.
 4. Close the tab, open `/contribute` in a new one: the text is back.
 5. Compare the Khmer in the fields with what was typed, including a space at the
    end and a line break: unchanged.
@@ -65,7 +69,8 @@ set to block site data), open `/contribute` and `/contribute/<ENTRY>/edit`:
 Open `/cookies`: the section "Local drafts on this device" says what is kept (the text
 fields and the year), where (this browser, under a name that includes the account), that
 nothing is sent anywhere until saving, that saving removes it, and that blocked
-storage only means no drafts. Open `/` as a guest: Local storage and Cookies in
+storage only means no drafts. It also mentions the short note in session storage
+that lets the next page say "Draft saved". Open `/` as a guest: Local storage and Cookies in
 DevTools stay empty.
 
 ## Verified so far
