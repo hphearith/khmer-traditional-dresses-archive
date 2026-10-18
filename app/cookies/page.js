@@ -21,19 +21,19 @@ export default function CookieInformationPage() {
         </section>
 
         <section aria-labelledby="drafts-heading" style={{ marginBottom: 24 }}>
-          <h2 id="drafts-heading" style={{ fontSize: 28, marginBottom: 8 }}>Drafts on this device</h2>
+          <h2 id="drafts-heading" style={{ fontSize: 28, marginBottom: 8 }}>Local drafts on this device</h2>
           <p style={{ marginBottom: 8 }}>
             While you write or edit an entry, the text you have typed is saved in your browser&rsquo;s local
-            storage on this device, so you can come back to it after leaving the page, reloading or closing the tab.
-            It is stored under a name that includes your account, so someone else signing in on the same browser does
-            not see it. Only the text fields are kept, never the photo or the consent box.
+            storage on this device as a local draft, so you can come back to it after leaving the page, reloading or
+            closing the tab. It is stored under a name that includes your account, so someone else signing in on the
+            same browser does not see it. Only the text fields and the year are kept, never the photo or the consent box.
           </p>
           <p style={{ marginBottom: 8 }}>
-            Nothing in a draft is sent anywhere until you choose to save the entry. Saving removes the draft from
+            Nothing in a local draft is sent anywhere until you choose to save the entry. Saving removes the draft from
             this device, and you can also clear it in your browser&rsquo;s site data. If your browser blocks local
-            storage, the forms still work and simply do not keep drafts.
+            storage, the forms still work and simply do not keep local drafts.
           </p>
-          <p>Browsing as a guest stores nothing: drafts exist only once you are signed in and start writing.</p>
+          <p>Browsing as a guest stores nothing: local drafts exist only once you are signed in and start writing.</p>
         </section>
 
         <section aria-labelledby="optional-heading" style={{ marginBottom: 32 }}>

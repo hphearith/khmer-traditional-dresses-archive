@@ -13,8 +13,8 @@ looks like `draft:<user id>:new` or `draft:<user id>:edit:<entry id>`.
 
 ## 1. A new entry (as A, `/contribute`)
 
-1. Type a title and part of a story in Khmer and English. "Draft saved on this
-   device." appears under the form, and the key `draft:<ID_A>:new` appears in
+1. Type a title and part of a story in Khmer and English. "Local draft saved on
+   this device." appears under the form, and the key `draft:<ID_A>:new` appears in
    Local storage.
 2. Reload the page: the text is back, the notice says the draft was restored and
    that the photo and consent box must be chosen again.
@@ -24,8 +24,11 @@ looks like `draft:<user id>:new` or `draft:<user id>:edit:<entry id>`.
    end and a line break: unchanged.
 6. Paste text that takes the story over 5,000 characters: the paste is refused,
    and after a reload the draft holds the text from before the paste.
-7. Clear every field by hand: the notice goes and the key is removed.
-8. Type again, choose a photo, tick the box and Save entry: you reach the
+7. With a Khmer keyboard, fill the Credited as field to its 50-character limit,
+   then type one more syllable. The extra text is taken back when the syllable
+   ends. Reload: the field holds the text at the limit, not the longer text.
+8. Clear every field by hand: the notice goes and the key is removed.
+9. Type again, choose a photo, tick the box and Save entry: you reach the
    Community tab, the key `draft:<ID_A>:new` is gone, and `/contribute` opens empty.
 
 ## 2. An edit, kept apart from the new entry (as A)
@@ -57,8 +60,8 @@ set to block site data), open `/contribute` and `/contribute/<ENTRY>/edit`:
 
 ## 5. The cookie and storage page
 
-Open `/cookies`: the section "Drafts on this device" says what is kept (the text
-fields only), where (this browser, under a name that includes the account), that
+Open `/cookies`: the section "Local drafts on this device" says what is kept (the text
+fields and the year), where (this browser, under a name that includes the account), that
 nothing is sent anywhere until saving, that saving removes it, and that blocked
 storage only means no drafts. Open `/` as a guest: Local storage and Cookies in
 DevTools stay empty.
@@ -67,7 +70,7 @@ DevTools stay empty.
 
 | Date | Section | What was checked | Result |
 | --- | --- | --- | --- |
-| not yet | 1 | New entry: saves as typed, restores after reload / back / closed tab, Khmer unchanged, refused paste not saved, cleared on save | Not run |
+| not yet | 1 | New entry: saves as typed, restores after reload / back / closed tab, Khmer unchanged, refused paste and over-limit Khmer syllable not saved, cleared on save | Not run |
 | not yet | 2 | Edit drafts kept apart from the new-entry draft and from each other, dropped when unchanged, cleared on save, kept on a failed save | Not run |
 | not yet | 3 | A second account does not see the first account's draft | Not run |
 | not yet | 4 | Blocked storage: forms work, no notice | Not run |

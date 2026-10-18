@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { draftKey, hasUnsavedWork, openDraftStore } from "../lib/draft.js";
+import { EMPTY_FORM, draftKey, hasUnsavedWork, openDraftStore } from "../lib/draft.js";
 
 const ENTRY_A = "11111111-1111-4111-8111-111111111111";
 const ENTRY_B = "22222222-2222-4222-8222-222222222222";
@@ -101,8 +101,6 @@ test("a full or read-only storage never throws either", () => {
   assert.equal(store.load(), null);
   assert.doesNotThrow(() => store.clear());
 });
-
-const EMPTY_FORM = { title: "", story: "", credited_as: "", occasion: "", year: "", maker: "", place: "", materials: "" };
 
 test("a new entry form has unsaved work once any field has text", () => {
   assert.equal(hasUnsavedWork(EMPTY_FORM, EMPTY_FORM), false);

@@ -13,17 +13,17 @@ import ProvenanceFields from "./ProvenanceFields.js";
 // With an entryId the form edits that entry, starting from the stored values in
 // initial (formValuesFromEntry in lib/entry.js) and the photo it holds now
 // (photo: { path, url }). Without an entryId it writes a new entry.
-// The text typed so far is kept in this browser as a draft (lib/draft.js) and
+// The text typed so far is kept in this browser as a Local draft (lib/draft.js) and
 // comes back when the form is reopened; it is cleared once the entry is saved.
-// userId is the signed-in account, so a draft is never shown to anyone else.
+// userId is the signed-in account, so a Local draft is never shown to anyone else.
 export default function EntryForm({ userId, entryId = null, initial = {}, photo = null }) {
   const draft = useEntryDraft({ userId, entryId, initial });
-  const { pending, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path, onSaved: draft.clear });
+  const { pending, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path, onSaved: draft.onSaved });
   const { values, restoreKey } = draft;
   const saveLabel = entryId ? "Save changes" : "Save entry";
 
   return (
-    <form onSubmit={handleSubmit} onChange={draft.handleChange} noValidate aria-busy={pending} style={{ display: "grid", gap: 24 }}>
+    <form onSubmit={handleSubmit} onChange={draft.handleChange} onCompositionEnd={draft.handleChange} noValidate aria-busy={pending} style={{ display: "grid", gap: 24 }}>
       <EntryField key={`title-${restoreKey}`} name="title" label="Title" required error={errors.title} initialValue={values.title} />
       <EntryField key={`story-${restoreKey}`} name="story" label="Story" required multiline error={errors.story} initialValue={values.story}
         hint="Who it was made for, how it was ordered, what it means to you." />
