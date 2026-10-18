@@ -22,7 +22,7 @@ export default function Bilingual({ text, inline = false, note = null, noteHidde
       <span>
         {text.en}
         {marker("en")}
-        <span aria-hidden="true"> · </span>
+        <span className="bi-sep" aria-hidden="true"> · </span>
         <span lang="km">{text.km}{marker("km")}</span>
       </span>
     );

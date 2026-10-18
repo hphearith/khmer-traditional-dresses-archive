@@ -1,13 +1,16 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { combined } from "../lib/bilingual.js";
 import { getHomeTabHref, moveHomeTab, parseHomeTab } from "../lib/homeTabs.js";
+import { TEXT } from "../lib/uiText.js";
+import Bilingual from "./Bilingual.js";
 import CommunityTab from "./CommunityTab.js";
 import GarmentsArchive from "./GarmentsArchive.js";
 
 const TABS = [
-  { id: "official", label: "Official collection" },
-  { id: "community", label: "Community" },
+  { id: "official", label: TEXT.tabs.official },
+  { id: "community", label: TEXT.tabs.community },
 ];
 
 export default function HomeTabs({ communityEntries, communityFailed, signedIn }) {
@@ -30,7 +33,7 @@ export default function HomeTabs({ communityEntries, communityFailed, signedIn }
   return (
     <div id="collection" className="home-tabs-wrap">
       <div className="container">
-        <div className="home-tabs" role="tablist" aria-label="Archive sections" onKeyDown={onKeyDown}>
+        <div className="home-tabs" role="tablist" aria-label={combined(TEXT.tabs.label)} onKeyDown={onKeyDown}>
           {TABS.map((tab) => (
             <button
               className="home-tab"
@@ -43,7 +46,7 @@ export default function HomeTabs({ communityEntries, communityFailed, signedIn }
               tabIndex={homeTab === tab.id ? 0 : -1}
               onClick={() => selectTab(tab.id)}
             >
-              {tab.label}
+              <Bilingual text={tab.label} inline />
             </button>
           ))}
         </div>

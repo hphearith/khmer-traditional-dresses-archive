@@ -1,7 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { combined } from "../lib/bilingual.js";
 import { filterEntries } from "../lib/entrySearch.js";
+import { TEXT, countText, emptyEntriesText } from "../lib/uiText.js";
+import Bilingual from "./Bilingual.js";
 import ContributorEntryCard from "./ContributorEntryCard.js";
 import CommunitySearch from "./CommunitySearch.js";
 
@@ -22,38 +25,38 @@ export default function CommunityTab({ entries = [], failed = false, signedIn = 
   return (
     <section className="container community" aria-labelledby="community-heading">
       <div className="section-head">
-        <div><p className="label">Community</p><h2 id="community-heading">Dresses and their stories</h2></div>
-        <a className="button" href="/contribute">Write an entry</a>
+        <div><p className="label"><Bilingual text={TEXT.tabs.community} inline /></p><h2 id="community-heading"><Bilingual text={TEXT.community.heading} /></h2></div>
+        <a className="button" href="/contribute"><Bilingual text={TEXT.page.writeTitle} inline /></a>
       </div>
       {!failed && entries.length > 0 && (
         <>
           <div className="search-row">
             <CommunitySearch query={query} onQueryChange={setQuery} inputRef={inputRef} />
-            <button className="button secondary" type="button" onClick={resetSearch}>Reset</button>
+            <button className="button secondary" type="button" onClick={resetSearch}><Bilingual text={TEXT.catalogue.reset} inline /></button>
           </div>
-          <p className="count" role="status" aria-live="polite" aria-atomic="true">showing {shown.length} of {view.length} entries</p>
+          <p className="count" role="status" aria-live="polite" aria-atomic="true"><Bilingual text={countText(shown.length, view.length)} /></p>
         </>
       )}
       {signedIn && (
-        <div className="entry-views" role="group" aria-label="Which entries to show">
-          <button type="button" aria-pressed={!mineOnly} onClick={() => setMineOnly(false)}>All entries</button>
-          <button type="button" aria-pressed={mineOnly} onClick={() => setMineOnly(true)}>My entries</button>
+        <div className="entry-views" role="group" aria-label={combined(TEXT.community.viewsLabel)}>
+          <button type="button" aria-pressed={!mineOnly} onClick={() => setMineOnly(false)}><Bilingual text={TEXT.community.allEntries} inline /></button>
+          <button type="button" aria-pressed={mineOnly} onClick={() => setMineOnly(true)}><Bilingual text={TEXT.community.myEntries} inline /></button>
         </div>
       )}
       {failed ? (
         <div className="empty" role="alert">
-          <h3>Entries could not be loaded</h3>
-          <p>Please refresh the page to try again.</p>
+          <h3><Bilingual text={TEXT.community.loadFailed} /></h3>
+          <p><Bilingual text={TEXT.community.loadFailedHelp} /></p>
         </div>
       ) : shown.length === 0 ? (
         <div className="empty">
           {view.length === 0 ? (
-            <h3>{mineOnly ? "You have not written an entry yet" : "No entries yet"}</h3>
+            <h3><Bilingual text={mineOnly ? TEXT.community.noneMine : TEXT.community.none} /></h3>
           ) : (
             <>
-              <h3>No entries found</h3>
-              <p>No entries match “{query.trim()}”. Try a different word, or search in English or Khmer.</p>
-              <button className="button secondary" type="button" onClick={resetSearch}>Reset search</button>
+              <h3><Bilingual text={TEXT.community.noneFound} /></h3>
+              <p><Bilingual text={emptyEntriesText(query)} /></p>
+              <button className="button secondary" type="button" onClick={resetSearch}><Bilingual text={TEXT.community.resetSearch} inline /></button>
             </>
           )}
         </div>

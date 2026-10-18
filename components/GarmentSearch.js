@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { combined } from "../lib/bilingual.js";
 import { matchGarment, parseQuery } from "../lib/garmentSearch.js";
+import { TEXT } from "../lib/uiText.js";
+import Bilingual from "./Bilingual.js";
 import GarmentSuggestions from "./GarmentSuggestions.js";
 
 const LIST_ID = "garment-search-suggestions";
@@ -49,14 +52,14 @@ export default function GarmentSearch({ query, onQueryChange, garments, inputRef
 
   return (
     <div className="search-field">
-      <label className="search-label" htmlFor="garment-search">Search the archive</label>
+      <label className="search-label" htmlFor="garment-search"><Bilingual text={TEXT.catalogue.searchLabel} inline /></label>
       <div className="search-control">
         <input
           id="garment-search"
           ref={inputRef}
           type="search"
           role="combobox"
-          placeholder="Try sampot, silk, or a Khmer name…"
+          placeholder={combined(TEXT.catalogue.placeholder)}
           value={query}
           aria-autocomplete="list"
           aria-haspopup="listbox"
@@ -71,13 +74,13 @@ export default function GarmentSearch({ query, onQueryChange, garments, inputRef
           onBlur={() => { setOpen(false); setCursor(-1); }}
         />
         {query && (
-          <button className="search-clear" type="button" aria-label="Clear search" onClick={() => { onQueryChange(""); setOpen(false); setCursor(-1); }}>
+          <button className="search-clear" type="button" aria-label={combined(TEXT.catalogue.clearSearch)} onClick={() => { onQueryChange(""); setOpen(false); setCursor(-1); }}>
             ✕
           </button>
         )}
         {expanded && <GarmentSuggestions suggestions={suggestions} cursor={cursor} onHover={setCursor} onSelect={selectItem} />}
       </div>
-      <p className="search-hint" id="garment-search-hint">Search English or Khmer names, materials, and descriptions. Use quotes for an exact phrase.</p>
+      <p className="search-hint" id="garment-search-hint"><Bilingual text={TEXT.catalogue.searchHint} /></p>
     </div>
   );
 }

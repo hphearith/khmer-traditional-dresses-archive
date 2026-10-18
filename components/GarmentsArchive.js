@@ -3,16 +3,11 @@
 import { useRef, useState } from "react";
 import garments from "../data/garments.js";
 import { filterGarments } from "../lib/garmentSearch.js";
+import { TEXT, countText, emptyGarmentsText } from "../lib/uiText.js";
+import Bilingual from "./Bilingual.js";
 import GarmentFilter from "./GarmentFilter.js";
 import GarmentCard from "./GarmentCard.js";
 import GarmentSearch from "./GarmentSearch.js";
-
-const EMPTY_LABELS = {
-  all: "garments",
-  lower: "lower body garments",
-  upper: "upper body garments",
-  ensemble: "ensembles",
-};
 
 export default function GarmentsArchive() {
   const [activeTab, setActiveTab] = useState("all");
@@ -28,19 +23,19 @@ export default function GarmentsArchive() {
   return (
     <section className="container catalogue" aria-labelledby="collection-heading">
       <div className="section-head">
-        <div><p className="label">01 / The catalogue</p><h2 id="collection-heading">Explore the garments</h2></div>
-        <p className="count" role="status" aria-live="polite" aria-atomic="true">showing {filtered.length} of {garments.length} entries</p>
+        <div><p className="label"><Bilingual text={TEXT.catalogue.label} inline /></p><h2 id="collection-heading"><Bilingual text={TEXT.catalogue.heading} /></h2></div>
+        <p className="count" role="status" aria-live="polite" aria-atomic="true"><Bilingual text={countText(filtered.length, garments.length)} /></p>
       </div>
       <div className="search-row">
         <GarmentSearch query={query} onQueryChange={setQuery} garments={garments} inputRef={inputRef} />
-        <button className="button secondary" type="button" onClick={reset}>Reset</button>
+        <button className="button secondary" type="button" onClick={reset}><Bilingual text={TEXT.catalogue.reset} inline /></button>
       </div>
       <GarmentFilter activeTab={activeTab} onSelectTab={setActiveTab} />
       {filtered.length === 0 ? (
         <div className="empty">
-          <h3>No garments found</h3>
-          <p>No {EMPTY_LABELS[activeTab]} match “{query.trim()}”. Try a different name or material.</p>
-          <button className="button secondary" type="button" onClick={reset}>Reset search and filters</button>
+          <h3><Bilingual text={TEXT.catalogue.noneFound} /></h3>
+          <p><Bilingual text={emptyGarmentsText(activeTab, query)} /></p>
+          <button className="button secondary" type="button" onClick={reset}><Bilingual text={TEXT.catalogue.resetAll} inline /></button>
         </div>
       ) : (
         <div className="grid">{filtered.map((garment) => <GarmentCard key={garment.id} garment={garment} />)}</div>
