@@ -13,12 +13,14 @@ looks like `draft:<user id>:new` or `draft:<user id>:edit:<entry id>`.
 
 ## 1. A new entry (as A, `/contribute`)
 
-1. Type a title and part of a story in Khmer and English. "Local draft saved on
-   this device." appears under the form, and the key `draft:<ID_A>:new` appears in
-   Local storage.
-2. Reload the page: the text is back, the notice says the draft was restored and
-   that the photo and consent box must be chosen again.
-3. Click "Back to the Community", then return to `/contribute`: the text is back.
+1. Type a title and part of a story in Khmer and English. Nothing is shown while
+   typing, and the key `draft:<ID_A>:new` appears in Local storage.
+2. Reload the page: the text is back, and a red bold message just above the Photo
+   field says the draft was restored and the photo and consent box must be given again.
+3. Click "Back to the Community": on the Community tab a "Draft saved" popup
+   shows near the bottom of the screen, then fades away after a few seconds. Go
+   back to `/contribute`: the text is back. Also try the browser's Back button.
+   Leaving with nothing typed shows no popup.
 4. Close the tab, open `/contribute` in a new one: the text is back.
 5. Compare the Khmer in the fields with what was typed, including a space at the
    end and a line break: unchanged.
@@ -27,7 +29,7 @@ looks like `draft:<user id>:new` or `draft:<user id>:edit:<entry id>`.
 7. With a Khmer keyboard, fill the Credited as field to its 50-character limit,
    then type one more syllable. The extra text is taken back when the syllable
    ends. Reload: the field holds the text at the limit, not the longer text.
-8. Clear every field by hand: the notice goes and the key is removed.
+8. Clear every field by hand: the key is removed, and leaving shows no popup.
 9. Type again, choose a photo, tick the box and Save entry: you reach the
    Community tab, the key `draft:<ID_A>:new` is gone, and `/contribute` opens empty.
 
@@ -48,14 +50,14 @@ looks like `draft:<user id>:new` or `draft:<user id>:edit:<entry id>`.
 ## 3. Another account on the same browser
 
 Sign out of A while a draft exists, sign in as B, open `/contribute`: the form is
-empty and shows no notice. Sign back in as A: A's draft is back.
+empty and shows no red message. Sign back in as A: A's draft is back.
 
 ## 4. Storage blocked
 
 In a private window with "Block all cookies" (or the browser's site settings
 set to block site data), open `/contribute` and `/contribute/<ENTRY>/edit`:
 
-- the form is shown and no notice appears while typing;
+- the form is shown and no "Draft saved" popup appears when leaving;
 - a complete entry still saves.
 
 ## 5. The cookie and storage page
@@ -70,8 +72,8 @@ DevTools stay empty.
 
 | Date | Section | What was checked | Result |
 | --- | --- | --- | --- |
-| not yet | 1 | New entry: saves as typed, restores after reload / back / closed tab, Khmer unchanged, refused paste and over-limit Khmer syllable not saved, cleared on save | Not run |
+| not yet | 1 | New entry: saves as typed, restores after reload / back / closed tab, "Draft saved" popup on leaving, red restore message by the photo, Khmer unchanged, refused paste and over-limit Khmer syllable not saved, cleared on save | Not run |
 | not yet | 2 | Edit drafts kept apart from the new-entry draft and from each other, dropped when unchanged, cleared on save, kept on a failed save | Not run |
 | not yet | 3 | A second account does not see the first account's draft | Not run |
-| not yet | 4 | Blocked storage: forms work, no notice | Not run |
+| not yet | 4 | Blocked storage: forms work, no popup | Not run |
 | not yet | 5 | `/cookies` section is accurate; guest home page stores nothing | Not run |
