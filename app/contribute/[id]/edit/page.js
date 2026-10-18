@@ -50,7 +50,7 @@ export default async function EditEntryPage({ params }) {
             <p style={{ color: "var(--muted)", marginBottom: 32 }}>
               Changes go live only when you choose Save changes. The entry keeps its place on the Community tab.
             </p>
-            <EntryForm entryId={entry.id} initial={formValuesFromEntry(entry)}
+            <EntryForm userId={user.id} entryId={entry.id} initial={formValuesFromEntry(entry)}
               photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />
           </>
         )}

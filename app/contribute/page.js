@@ -28,7 +28,7 @@ export default async function ContributePage() {
           Tell the story of one dress you ordered or had made, in Khmer, English or both.
           Your entry is public as soon as you save it.
         </p>
-        <EntryForm />
+        <EntryForm userId={user.id} />
       </section>
     </main>
   );
