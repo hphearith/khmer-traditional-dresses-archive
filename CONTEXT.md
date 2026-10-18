@@ -40,6 +40,10 @@ _Avoid_: Byline, author name
 The origin of a specific dress: who made it, where, when, and for what occasion. Optional on a Contributor entry.
 _Avoid_: History, background
 
+**Local draft**:
+The text a Contributor has typed into an entry form and not yet saved, kept in that browser on that device only until the entry is saved. It is not an Entry and it is never sent anywhere. A Draft (see Entry lifecycle) is a different thing: a saved Contributor entry that is not yet public.
+_Avoid_: Draft (in code and docs; the screen text says "Draft saved"), autosave, backup
+
 **Source**:
 The archive-level origin of the Curator's knowledge: the tailor the archive documents, configured as `source` in `collection.config.js`. Not the same as Provenance, which belongs to one dress.
 _Avoid_: Provenance (for the archive as a whole)
