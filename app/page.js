@@ -1,10 +1,13 @@
 import collection from "../collection.config.js";
+import Bilingual from "../components/Bilingual.js";
 import HomeTabs from "../components/HomeTabs.js";
 import ProcessMap from "../components/ProcessMap.js";
+import { combined } from "../lib/bilingual.js";
 import { logout } from "../lib/logoutAction.js";
 import { readCommunityEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
 import { createClient } from "../lib/supabase/server.js";
+import { TEXT, bylineText, identityText } from "../lib/uiText.js";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -21,37 +24,38 @@ export default async function Home() {
   // Read with the visitor's own access: guests read as anonymous, and no
   // cookie is set for them. A signed-in visitor's own entries are marked, so
   // the Community tab can offer My entries.
+  const identity = identityText(collection);
   const community = await readCommunityEntries(supabase, user?.id);
   if (community.error) console.error("Reading Community entries failed:", community.error);
 
   return (
     <>
-      <a className="skip" href="#collection">Skip to collection</a>
-      <p className="archive-note">Illustrative textile studies are shown while archive photographs are pending.</p>
+      <a className="skip" href="#collection"><Bilingual text={TEXT.home.skip} inline /></a>
+      <p className="archive-note"><Bilingual text={TEXT.home.archiveNote} /></p>
       <header className="container masthead">
         <a className="brand" href="#top">
           <span className="mark" aria-hidden="true">✳</span>
-          <span className="label">Khmer Living Archive</span>
+          <span className="label"><Bilingual text={TEXT.home.brand} inline /></span>
         </a>
-        <nav aria-label="Main navigation">
-          <a href="#collection">Collection</a>
-          <a href="#about">About the archive</a>
+        <nav aria-label={combined(TEXT.home.navLabel)}>
+          <a href="#collection"><Bilingual text={TEXT.home.navCollection} inline /></a>
+          <a href="#about"><Bilingual text={TEXT.home.navAbout} inline /></a>
           {user ? (
             <>
               <span style={{ display: "flex", minHeight: 44, alignItems: "center", color: "var(--muted)", fontSize: 14 }}>
                 {user.email}
               </span>
-              <a href="/change-username">Change Username</a>
+              <a href="/change-username"><Bilingual text={TEXT.username.change} inline /></a>
               <form action={logout} style={{ display: "flex" }}>
                 <button type="submit" style={{ border: 0, padding: 0, background: "transparent", color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 5 }}>
-                  Log out
+                  <Bilingual text={TEXT.home.logOut} inline />
                 </button>
               </form>
             </>
           ) : (
             <>
-              <a href="/login">Log in</a>
-              <a href="/signup">Sign up</a>
+              <a href="/login"><Bilingual text={TEXT.auth.logIn} inline /></a>
+              <a href="/signup"><Bilingual text={TEXT.auth.signUp} inline /></a>
             </>
           )}
         </nav>
@@ -59,19 +63,19 @@ export default async function Home() {
       <main id="top">
         <section className="container hero" aria-labelledby="archive-name">
           <div className="hero-copy">
-            <p className="label">A personal collection · Dress &amp; craft</p>
-            <h1 id="archive-name">{collection.name}</h1>
-            <p className="lead">{collection.description}</p>
-            <a className="button" href="#collection">Browse the collection <span aria-hidden="true">↗</span></a>
-            <p className="hero-note">An archive of garments, materials, and the knowledge behind them.</p>
+            <p className="label"><Bilingual text={TEXT.home.heroLabel} /></p>
+            <h1 id="archive-name"><Bilingual text={identity.name} /></h1>
+            <p className="lead"><Bilingual text={identity.description} /></p>
+            <a className="button" href="#collection"><Bilingual text={TEXT.home.browse} inline /> <span aria-hidden="true">↗</span></a>
+            <p className="hero-note"><Bilingual text={TEXT.home.heroNote} /></p>
           </div>
           <figure>
             <div className="hero-art">
               <div className="cloth" aria-hidden="true" />
               <div className="cloth second" aria-hidden="true" />
-              <span className="art-label"><span className="label">Colour &amp; cloth</span><br />Illustrative textile study</span>
+              <span className="art-label"><span className="label"><Bilingual text={TEXT.home.artLabel} inline /></span><br /><Bilingual text={TEXT.home.artCaption} inline /></span>
             </div>
-            <figcaption>A visual study for the archive, not a documentary photograph.</figcaption>
+            <figcaption><Bilingual text={TEXT.home.figcaption} /></figcaption>
           </figure>
         </section>
 
@@ -80,12 +84,12 @@ export default async function Home() {
         <section className="source" id="about" aria-labelledby="source-heading">
           <div className="container source-inner">
             <div>
-              <p className="label">02 / Behind the archive</p>
-              <h2 id="source-heading">Knowledge from<br />a tailor’s practice.</h2>
+              <p className="label"><Bilingual text={TEXT.home.aboutLabel} inline /></p>
+              <h2 id="source-heading"><Bilingual text={TEXT.home.aboutHeading} /></h2>
             </div>
             <div>
-              <p className="source-copy">{collection.source}</p>
-              <p className="byline">Source recorded by {collection.curator}</p>
+              <p className="source-copy"><Bilingual text={identity.source} /></p>
+              <p className="byline"><Bilingual text={bylineText(collection.curator)} /></p>
             </div>
           </div>
         </section>
@@ -93,8 +97,8 @@ export default async function Home() {
         <ProcessMap />
       </main>
       <footer className="container">
-        <p>{collection.name}</p>
-        <p>Built in ICT 340 — Vibe Coding, American University of Phnom Penh, Fall 2026. This archive is under construction all semester. Come back in December.</p>
+        <p><Bilingual text={identity.name} /></p>
+        <p><Bilingual text={TEXT.home.footer} /></p>
       </footer>
     </>
   );

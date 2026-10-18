@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import Bilingual from "../../../../components/Bilingual.js";
 import EntryForm from "../../../../components/EntryForm.js";
 import { formValuesFromEntry, isOwnedBy } from "../../../../lib/entry.js";
 import { photoUrl } from "../../../../lib/photoStorage.js";
 import { ENTRY_COLUMNS } from "../../../../lib/readEntries.js";
 import { readUsername } from "../../../../lib/readUsername.js";
 import { createClient } from "../../../../lib/supabase/server.js";
+import { TEXT } from "../../../../lib/uiText.js";
 
 export const dynamic = "force-dynamic";
 
@@ -38,17 +40,17 @@ export default async function EditEntryPage({ params }) {
     <main style={{ minHeight: "100vh", background: "var(--paper)", color: "var(--ink)", padding: "48px 16px" }}>
       <section aria-labelledby="edit-title" style={{ width: "100%", maxWidth: 640, margin: "0 auto" }}>
         <p style={{ marginBottom: 24 }}>
-          <Link href="/?tab=community" style={{ color: "var(--wine)" }}>Back to the Community</Link>
+          <Link href="/?tab=community" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
         </p>
-        <h1 id="edit-title" style={{ fontSize: 40, marginBottom: 16 }}>Edit your entry</h1>
+        <h1 id="edit-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.page.editTitle} /></h1>
         {error ? (
-          <p role="alert" style={{ color: "red" }}>This entry could not be loaded. Go back to the Community and try again.</p>
+          <p role="alert" style={{ color: "red" }}><Bilingual text={TEXT.page.editLoadFailed} /></p>
         ) : !isOwnedBy(entry.owner, user.id) ? (
-          <p role="alert" style={{ color: "red" }}>You can only change entries you wrote.</p>
+          <p role="alert" style={{ color: "red" }}><Bilingual text={TEXT.page.editNotOwner} /></p>
         ) : (
           <>
             <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-              Changes go live only when you choose Save changes. The entry keeps its place on the Community tab.
+              <Bilingual text={TEXT.page.editIntro} />
             </p>
             <EntryForm userId={user.id} entryId={entry.id} initial={formValuesFromEntry(entry)}
               photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />

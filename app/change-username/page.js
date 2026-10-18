@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Bilingual from "../../components/Bilingual.js";
 import ChangeUsernameForm from "../../components/ChangeUsernameForm.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { createClient } from "../../lib/supabase/server.js";
-import { formatUsername } from "../../lib/username.js";
-import { checkUsernameChange, formatAllowedAt, USERNAME_CHANGE_WAIT_DAYS } from "../../lib/usernameChange.js";
+import { TEXT, changeMessageText, yourUsernameText } from "../../lib/uiText.js";
+import { checkUsernameChange } from "../../lib/usernameChange.js";
 
 export const dynamic = "force-dynamic";
 
@@ -27,26 +28,25 @@ export default async function ChangeUsernamePage() {
     }}>
       <section aria-labelledby="change-username-title" style={{ width: "100%", maxWidth: 440 }}>
         <p style={{ marginBottom: 24 }}>
-          <Link href="/" style={{ color: "var(--wine)" }}>Back to the archive</Link>
+          <Link href="/" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.username.backToArchive} inline /></Link>
         </p>
-        <h1 id="change-username-title" style={{ fontSize: 40, marginBottom: 16 }}>Change your Username</h1>
+        <h1 id="change-username-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.username.changeTitle} /></h1>
         {username && (
-          <p style={{ marginBottom: 16 }}>Your Username is <strong>{formatUsername(username)}</strong>.</p>
+          <p style={{ marginBottom: 16 }}><Bilingual text={yourUsernameText(username)} /></p>
         )}
         <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-          Entries that show your Username will show the new one. After a change you must wait
-          {" "}{USERNAME_CHANGE_WAIT_DAYS} days before changing it again.
+          <Bilingual text={TEXT.username.changeIntro} />
         </p>
         {error && (
           <p role="alert" style={{ marginBottom: 32 }}>
-            We could not check when you last changed your Username. You can still try; we will tell you if it is too soon.
+            <Bilingual text={TEXT.username.checkFailed} />
           </p>
         )}
         {change.allowed ? (
           <ChangeUsernameForm />
         ) : (
           <p role="status">
-            You changed your Username recently. You can change it again from {formatAllowedAt(change.allowedAt)}.
+            <Bilingual text={changeMessageText({ reason: "too-soon", allowedAt: change.allowedAt })} />
           </p>
         )}
       </section>

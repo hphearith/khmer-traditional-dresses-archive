@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import ConfirmationNotice from "./ConfirmationNotice.js";
+import { TEXT } from "../lib/uiText.js";
 import { useConfirmationCallback } from "../lib/useConfirmationCallback.js";
+import Bilingual from "./Bilingual.js";
+import ConfirmationNotice from "./ConfirmationNotice.js";
 
 export default function ConfirmationCallback() {
   const { message, canResend } = useConfirmationCallback();
@@ -13,10 +15,10 @@ export default function ConfirmationCallback() {
       padding: "48px 24px", display: "grid", placeItems: "center",
     }}>
       <section aria-labelledby="confirmation-title" style={{ width: "100%", maxWidth: 440 }}>
-        <h1 id="confirmation-title" style={{ fontSize: 32, marginBottom: 16 }}>Email confirmation</h1>
-        <p role="status" style={{ marginBottom: 24 }}>{message}</p>
+        <h1 id="confirmation-title" style={{ fontSize: 32, marginBottom: 16 }}><Bilingual text={TEXT.auth.emailConfirmation} /></h1>
+        <p role="status" style={{ marginBottom: 24 }}><Bilingual text={message} /></p>
         {canResend && <ConfirmationNotice />}
-        <p><Link href="/login" style={{ color: "var(--wine)" }}>Go to login</Link></p>
+        <p><Link href="/login" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.callback.goToLogin} inline /></Link></p>
       </section>
     </main>
   );

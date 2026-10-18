@@ -1,6 +1,9 @@
+import { combined } from "../lib/bilingual.js";
+import { TEXT } from "../lib/uiText.js";
+
 export default function GarmentSuggestions({ suggestions, cursor, onHover, onSelect }) {
   return (
-    <ul className="suggestions" id="garment-search-suggestions" role="listbox" aria-label="Search suggestions">
+    <ul className="suggestions" id="garment-search-suggestions" role="listbox" aria-label={combined(TEXT.catalogue.suggestions)}>
       {suggestions.map((garment, index) => (
         <li
           className="suggestion"

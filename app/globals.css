@@ -149,6 +149,20 @@ nav a {
   font-size: 14px;
 }
 
+/* In the header the English and Khmer would sit side by side and push the other
+   links outward, so the Khmer goes on its own line beneath the English. */
+nav .bi-sep,
+.brand .bi-sep {
+  display: none;
+}
+
+nav [lang="km"],
+.brand [lang="km"] {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .hero {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -171,6 +185,13 @@ nav a {
 h1 {
   font: 400 clamp(40px, 5.5vw, 72px) / 1.08 var(--serif);
   letter-spacing: -0.035em;
+}
+
+/* Khmer glyphs look larger than Latin ones at the same size, so the Khmer line of a
+   heading is set smaller and tighter than the English above it. */
+h1 [lang="km"] {
+  font-size: 0.6em;
+  line-height: 1.5;
 }
 
 .lead {
@@ -325,6 +346,11 @@ h2 {
   font: 400 clamp(32px, 3.5vw, 40px) / 1.2 var(--serif);
 }
 
+h2 [lang="km"] {
+  font-size: 0.7em;
+  line-height: 1.5;
+}
+
 .section-head .label {
   margin-bottom: 12px;
   color: var(--wine);
@@ -335,18 +361,29 @@ h2 {
   font-size: 14px;
 }
 
+/* The label, the input and the hint are cells of this grid (.search-field has no box of
+   its own), so the Reset button lines up with the input. A taller hint, now that it
+   shows both languages, can no longer push the button down. */
 .search-row {
-  display: flex;
-  align-items: end;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 12px;
+  align-items: start;
 }
 
 .search-field {
-  min-width: 0;
-  flex: 1;
+  display: contents;
+}
+
+.search-row > .button {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: stretch;
 }
 
 .search-label {
+  grid-column: 1;
+  grid-row: 1;
   display: block;
   margin-bottom: 8px;
   font-size: 14px;
@@ -354,6 +391,8 @@ h2 {
 }
 
 .search-control {
+  grid-column: 1;
+  grid-row: 2;
   position: relative;
 }
 
@@ -388,6 +427,8 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .search-hint {
+  grid-column: 1 / -1;
+  grid-row: 3;
   margin-top: 8px;
   color: var(--muted);
   font-size: 14px;
@@ -959,12 +1000,15 @@ footer {
   }
 
   .search-row {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .search-row .button {
+  /* One column: the button goes below the hint, as the field stacks above it. */
+  .search-row > .button {
+    grid-column: 1;
+    grid-row: 4;
     width: 100%;
+    margin-top: 12px;
   }
 
   .source {

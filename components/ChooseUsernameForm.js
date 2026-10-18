@@ -1,6 +1,8 @@
 "use client";
 
+import { TEXT } from "../lib/uiText.js";
 import { useChooseUsername } from "../lib/useChooseUsername.js";
+import Bilingual from "./Bilingual.js";
 import UsernameField from "./UsernameField.js";
 
 export default function ChooseUsernameForm() {
@@ -14,7 +16,7 @@ export default function ChooseUsernameForm() {
         background: "var(--wine)", color: "var(--surface)", opacity: pending ? 0.7 : 1,
         cursor: pending ? "wait" : "pointer",
       }}>
-        {pending ? "Please wait…" : "Save Username"}
+        <Bilingual text={pending ? TEXT.auth.pleaseWait : TEXT.username.save} inline />
       </button>
     </form>
   );

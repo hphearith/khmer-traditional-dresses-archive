@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { DRAFT_KEPT_EVENT, takeDraftKeptFlag } from "../lib/draft.js";
+import { TEXT } from "../lib/uiText.js";
+import Bilingual from "./Bilingual.js";
 
 const SHOWN_MS = 2500;
 const FADE_MS = 600;
@@ -42,7 +44,7 @@ export default function DraftToast() {
       padding: "12px 24px", borderRadius: 4, background: "var(--ink)", color: "var(--paper)",
       opacity: phase === "in" ? 1 : 0, transition: `opacity ${FADE_MS}ms ease`, pointerEvents: "none",
     }}>
-      {phase !== "off" && "Draft saved"}
+      {phase !== "off" && <Bilingual text={TEXT.home.draftSaved} inline />}
     </p>
   );
 }
