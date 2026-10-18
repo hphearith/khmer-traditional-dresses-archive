@@ -1,7 +1,9 @@
 "use client";
 
+import { TEXT } from "../lib/uiText.js";
 import { useEntryDraft } from "../lib/useEntryDraft.js";
 import { useEntryForm } from "../lib/useEntryForm.js";
+import Bilingual from "./Bilingual.js";
 import ConsentField from "./ConsentField.js";
 import EntryField from "./EntryField.js";
 import PhotoField from "./PhotoField.js";
@@ -20,24 +22,24 @@ export default function EntryForm({ userId, entryId = null, initial = {}, photo 
   const draft = useEntryDraft({ userId, entryId, initial });
   const { pending, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path, onSaved: draft.onSaved });
   const { values, restoreKey } = draft;
-  const saveLabel = entryId ? "Save changes" : "Save entry";
+  const saveLabel = entryId ? TEXT.form.saveChanges : TEXT.form.saveEntry;
 
   return (
     <form onSubmit={handleSubmit} onChange={draft.handleChange} onCompositionEnd={draft.handleChange} noValidate aria-busy={pending} style={{ display: "grid", gap: 24 }}>
-      <EntryField key={`title-${restoreKey}`} name="title" label="Title" required error={errors.title} initialValue={values.title} />
-      <EntryField key={`story-${restoreKey}`} name="story" label="Story" required multiline error={errors.story} initialValue={values.story}
-        hint="Who it was made for, how it was ordered, what it means to you." />
+      <EntryField key={`title-${restoreKey}`} name="title" label={TEXT.form.title} required error={errors.title} initialValue={values.title} />
+      <EntryField key={`story-${restoreKey}`} name="story" label={TEXT.form.story} required multiline error={errors.story} initialValue={values.story}
+        hint={TEXT.form.storyHint} />
       <RestoredNotice restored={draft.restored} />
       {/* A new entry needs its one photo. An edit may replace it, or keep it by choosing nothing. */}
       <PhotoField error={errors.photo} current={entryId && photo ? { url: photo.url, title: initial.title } : null} />
       <ConsentField error={errors.consent} onlyWithNewPhoto={Boolean(entryId)} />
-      <EntryField key={`credited_as-${restoreKey}`} name="credited_as" label="Credited as" error={errors.credited_as} initialValue={values.credited_as}
-        hint="The name shown on this entry. Leave it blank to show your @Username." />
+      <EntryField key={`credited_as-${restoreKey}`} name="credited_as" label={TEXT.form.creditedAs} error={errors.credited_as} initialValue={values.credited_as}
+        hint={TEXT.form.creditedAsHint} />
       <ProvenanceFields key={`provenance-${restoreKey}`} errors={errors} initial={values} />
-      {formError && <p role="alert" style={{ color: "red" }}>{formError}</p>}
+      {formError && <p role="alert" style={{ color: "red" }}><Bilingual text={formError} /></p>}
       <button className="button" type="submit" disabled={pending}
         style={{ opacity: pending ? 0.7 : 1, cursor: pending ? "wait" : "pointer" }}>
-        {pending ? "Saving…" : saveLabel}
+        <Bilingual text={pending ? TEXT.form.saving : saveLabel} inline />
       </button>
     </form>
   );

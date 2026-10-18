@@ -1,7 +1,9 @@
 "use client";
 
 import { ENTRY_LIMITS } from "../lib/entry.js";
+import { TEXT, characterCountText } from "../lib/uiText.js";
 import { useLimitedText } from "../lib/useLimitedText.js";
+import Bilingual from "./Bilingual.js";
 
 const CONTROL = {
   width: "100%", minWidth: 0, border: "1px solid var(--control)", borderRadius: 4,
@@ -9,6 +11,7 @@ const CONTROL = {
   font: "inherit", fontSize: 16, lineHeight: 1.9, resize: "vertical",
 };
 
+// label and hint are { en, km } pairs; error is the pair for this field's message.
 // One labelled text field that stops at its limit (lib/useLimitedText.js). There
 // is deliberately no maxLength: the browser counts UTF-16 units, not characters,
 // and cuts pasted text mid-way, which can split a Khmer cluster.
@@ -29,22 +32,19 @@ export default function EntryField({ name, label, hint, error, required = false,
   return (
     <div>
       <label htmlFor={name} style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
-        {label}
-        {/* Shown before submit. Hidden from screen readers, which already
-            announce "required" from aria-required on the control. */}
-        {required
-          ? <span aria-hidden="true" style={{ fontWeight: 400, color: "var(--muted)" }}> (required)</span>
-          : <span style={{ fontWeight: 400, color: "var(--muted)" }}> (optional)</span>}
+        {/* The marker is shown before submit. Required is hidden from screen readers, which
+            already announce "required" from aria-required on the control. */}
+        <Bilingual text={label} note={required ? TEXT.form.required : TEXT.form.optional} noteHidden={required} />
       </label>
       {multiline
         ? <textarea {...control} rows={10} style={CONTROL} />
         : <input {...control} type="text" />}
-      {hint && <p id={`${name}-hint`} style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>{hint}</p>}
+      {hint && <p id={`${name}-hint`} style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}><Bilingual text={hint} /></p>}
       <p id={`${name}-count`} style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>
-        {count.toLocaleString("en")} of {limit.toLocaleString("en")} characters
-        {full && <span role="status"> · Limit reached.</span>}
+        <Bilingual text={characterCountText(count, limit)} />
+        {full && <span role="status"><Bilingual text={TEXT.form.limitReached} /></span>}
       </p>
-      {error && <p id={`${name}-error`} style={{ marginTop: 8, color: "red" }}>{error}</p>}
+      {error && <p id={`${name}-error`} style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

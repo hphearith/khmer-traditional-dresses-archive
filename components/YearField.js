@@ -1,4 +1,7 @@
+import { combined } from "../lib/bilingual.js";
 import { yearOptions } from "../lib/entry.js";
+import { TEXT } from "../lib/uiText.js";
+import Bilingual from "./Bilingual.js";
 
 const CONTROL = {
   width: "100%", minWidth: 0, height: 56, border: "1px solid var(--control)", borderRadius: 4,
@@ -16,14 +19,14 @@ export default function YearField({ error, initialYear = "" }) {
   return (
     <div>
       <label htmlFor="year" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
-        Year <span style={{ fontWeight: 400, color: "var(--muted)" }}>(optional)</span>
+        <Bilingual text={TEXT.provenance.year} note={TEXT.form.optional} />
       </label>
       <select id="year" name="year" defaultValue={initialYear} style={CONTROL}
         aria-invalid={error ? true : undefined} aria-describedby={error ? "year-error" : undefined}>
-        <option value="">Not sure</option>
+        <option value="">{combined(TEXT.provenance.notSure)}</option>
         {years.map((year) => <option key={year} value={year}>{year}</option>)}
       </select>
-      {error && <p id="year-error" style={{ marginTop: 8, color: "red" }}>{error}</p>}
+      {error && <p id="year-error" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

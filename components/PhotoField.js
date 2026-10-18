@@ -1,5 +1,8 @@
-import { MAX_PHOTO_BYTES, PHOTO_EXTENSIONS } from "../lib/photo.js";
+import { combined } from "../lib/bilingual.js";
+import { PHOTO_EXTENSIONS } from "../lib/photo.js";
+import { TEXT, photoHintText } from "../lib/uiText.js";
 import { usePhotoPreview } from "../lib/usePhotoPreview.js";
+import Bilingual from "./Bilingual.js";
 
 const CONTROL = {
   width: "100%", minWidth: 0, border: "1px solid var(--control)", borderRadius: 4,
@@ -15,28 +18,25 @@ const CONTROL = {
 export default function PhotoField({ error, current = null }) {
   const { preview, handleChange } = usePhotoPreview();
   const describedBy = ["photo-hint", error && "photo-error"].filter(Boolean).join(" ");
-  const limits = `One JPEG, PNG or WebP photo of the dress, up to ${MAX_PHOTO_BYTES / 1024 / 1024} MB.`;
 
   return (
     <div>
       <label htmlFor="photo" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
-        {current ? "Replace the photo" : "Photo"}{" "}
-        <span aria-hidden="true" style={{ fontWeight: 400, color: "var(--muted)" }}>
-          {current ? "(optional)" : "(required)"}
-        </span>
+        <Bilingual text={current ? TEXT.photo.replaceLabel : TEXT.photo.label}
+          note={current ? TEXT.form.optional : TEXT.form.required} noteHidden />
       </label>
       {(preview || current) && (
         <img src={preview ?? current.url}
-          alt={preview ? "The photo you chose" : `Current photo for: ${current.title}`}
+          alt={preview ? combined(TEXT.photo.chosenAlt) : `${combined(TEXT.photo.currentAlt)}: ${current.title}`}
           style={{ display: "block", maxWidth: "100%", maxHeight: 240, marginBottom: 12, borderRadius: 4 }} />
       )}
       <input id="photo" name="photo" type="file" accept={Object.keys(PHOTO_EXTENSIONS).join(",")}
         style={CONTROL} aria-required={current ? undefined : "true"} aria-invalid={error ? true : undefined}
         aria-describedby={describedBy} onChange={handleChange} />
       <p id="photo-hint" style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>
-        {current ? `Leave this empty to keep the current photo. ${limits}` : limits}
+        <Bilingual text={photoHintText(Boolean(current))} />
       </p>
-      {error && <p id="photo-error" style={{ marginTop: 8, color: "red" }}>{error}</p>}
+      {error && <p id="photo-error" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Bilingual from "../../components/Bilingual.js";
 import EntryForm from "../../components/EntryForm.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { createClient } from "../../lib/supabase/server.js";
+import { TEXT } from "../../lib/uiText.js";
 
 export const dynamic = "force-dynamic";
 
@@ -21,12 +23,11 @@ export default async function ContributePage() {
     <main style={{ minHeight: "100vh", background: "var(--paper)", color: "var(--ink)", padding: "48px 16px" }}>
       <section aria-labelledby="contribute-title" style={{ width: "100%", maxWidth: 640, margin: "0 auto" }}>
         <p style={{ marginBottom: 24 }}>
-          <Link href="/?tab=community" style={{ color: "var(--wine)" }}>Back to the Community</Link>
+          <Link href="/?tab=community" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
         </p>
-        <h1 id="contribute-title" style={{ fontSize: 40, marginBottom: 16 }}>Write an entry</h1>
+        <h1 id="contribute-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.page.writeTitle} /></h1>
         <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-          Tell the story of one dress you ordered or had made, in Khmer, English or both.
-          Your entry is public as soon as you save it.
+          <Bilingual text={TEXT.page.writeIntro} />
         </p>
         <EntryForm userId={user.id} />
       </section>
