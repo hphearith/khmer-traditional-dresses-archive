@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { TEXT } from "../lib/uiText.js";
 import { useChangeUsername } from "../lib/useChangeUsername.js";
+import Bilingual from "./Bilingual.js";
 import ChangeUsernameConfirm from "./ChangeUsernameConfirm.js";
 import UsernameField from "./UsernameField.js";
 
@@ -25,7 +27,7 @@ export default function ChangeUsernameForm() {
           minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
           background: "var(--wine)", color: "var(--surface)", cursor: "pointer",
         }}>
-          Change Username
+          <Bilingual text={TEXT.username.change} inline />
         </button>
       )}
     </form>

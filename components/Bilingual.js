@@ -18,12 +18,13 @@ export default function Bilingual({ text, inline = false, note = null, noteHidde
 
   if (inline) {
     return (
-      <>
+      // One element, so a flex parent (a button) does not pull the parts apart.
+      <span>
         {text.en}
         {marker("en")}
         <span aria-hidden="true"> · </span>
         <span lang="km">{text.km}{marker("km")}</span>
-      </>
+      </span>
     );
   }
   return (
