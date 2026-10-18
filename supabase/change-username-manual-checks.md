@@ -17,10 +17,11 @@ You need two test accounts that each have a Username, for example `test_a`
 
 ## 2. A change succeeds and starts the wait
 
-1. As account A, submit `Fresh_Name1`. Expect to land on `/?tab=community`.
-2. `public.usernames` now has `fresh_name1` for A and `changed_at` set to about now.
-3. Every Community entry A wrote **without** "credited as" now says "Shared by @fresh_name1". An entry with "credited as" text still shows that text.
-4. Open `/change-username` again. Expect no form, and: "You changed your Username recently. You can change it again from <date> at <time> UTC." The date is 30 days after `changed_at`.
+1. As account A, type `Fresh_Name1` and press "Change Username". Expect a box, not a save yet: "Are you sure you want to change your Username to @fresh_name1?" and "You cannot change it again for 30 days, until about <date 30 days from today>." The Username box is locked. "Go back" returns to the form with what you typed, and `public.usernames` is unchanged.
+2. Press "Change Username" again, then "Yes, change it". Expect to land on `/?tab=community`.
+3. `public.usernames` now has `fresh_name1` for A and `changed_at` set to about now.
+4. Every Community entry A wrote **without** "credited as" now says "Shared by @fresh_name1". An entry with "credited as" text still shows that text.
+5. Open `/change-username` again. Expect no form, and: "You changed your Username recently. You can change it again from <date> at <time> UTC." The date is 30 days after `changed_at`.
 
 ## 3. Refused inside the wait, even by a direct call
 

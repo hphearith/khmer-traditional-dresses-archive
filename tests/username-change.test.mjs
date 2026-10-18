@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { checkUsernameChange, formatAllowedAt, getChangeMessage, readChangeResult } from "../lib/usernameChange.js";
+import { checkUsernameChange, formatAllowedAt, getChangeMessage, getConfirmMessage, readChangeResult } from "../lib/usernameChange.js";
 
 test("a first choice has never been changed, so it starts no wait", () => {
   const now = new Date("2026-10-18T12:00:00Z");
@@ -69,4 +69,16 @@ test("the other refusals use the Username messages, and already-yours has its ow
   assert.match(getChangeMessage({ ok: false, reason: "invalid-characters" }), /English letters, digits/);
   assert.match(getChangeMessage({ ok: false, reason: "unchanged" }), /already your Username/);
   assert.match(getChangeMessage({ ok: false, reason: "unknown" }), /try again/);
+});
+
+test("before a change, the visitor is asked to confirm the new Username and told when they could change it again", () => {
+  const message = getConfirmMessage("new_name1", new Date("2026-10-18T12:00:00Z"));
+  assert.match(message.question, /change your Username to @new_name1\?/);
+  assert.match(message.warning, /cannot change it again/);
+  assert.match(message.warning, /17 November 2026/);
+});
+
+test("the date in the confirmation is 30 days from now, even across a month and year end", () => {
+  const message = getConfirmMessage("sokha_88", new Date("2026-12-15T23:30:00Z"));
+  assert.match(message.warning, /14 January 2027/);
 });
