@@ -16,8 +16,7 @@ generated inventories and details better owned by module documents.
   browser/server/middleware helpers.
 - `middleware.js`: root session refresher delegating cookie handling and
   authenticated auth-path redirects to `lib/supabase/middleware.js`.
-- `public/images/garments/`: image assets; the current records use
-  `placeholder.svg`.
+- `public/images/garments/`: the Official records' photographs, one per record.
 - `agent_docs/`: durable project context for coding-agent handoffs.
 - `collection.config.js`: archive identity and provenance configuration.
 
@@ -45,10 +44,8 @@ generated inventories and details better owned by module documents.
 - `components/GarmentSearch.js` provides query input and keyboard selection;
   `components/GarmentSuggestions.js` renders the accessible suggestion list;
   `components/GarmentFilter.js` provides category tabs; and
-  `components/GarmentCard.js` renders one record with pending-media handling
+  `components/GarmentCard.js` renders one record with its photo, Provenance,
   and a native description disclosure.
-- `components/ProcessMap.js` renders the five explicitly provisional making
-  stages as an ordered archive outline; it has no record or search dependency.
 - `lib/supabase/client.js` and `server.js` create browser and server clients;
   `lib/supabase/middleware.js` validates JWT claims, persists refreshed
   cookies and headers, permits guests at `/`, and redirects signed-in
@@ -69,11 +66,9 @@ passes query/category callbacks to its control components. Supabase auth uses
 the configured environment variables and shares cookies between browser,
 server, and middleware clients; the archive root remains public. No
 contributor-only routes currently exist, so future protection should target
-those explicit routes rather than `/`. `ProcessMap` is a static presentation
-section until documentary process material exists. Public image paths are
-resolved under `/images/garments/`; the current placeholder sentinel produces
-an explicit pending illustrative state. The eight official entries remain
-static in `data/garments.js` and are published through website code deployments.
+those explicit routes rather than `/`. Public image paths are
+resolved under `/images/garments/`. The seven official entries, each with its
+photo and Provenance (maker and place), remain static in `data/garments.js` and are published through website code deployments.
 Future contributor posts about ordered or custom-made dresses belong to a
 separate, unimplemented pool with no approved schema or workflow.
 
@@ -87,5 +82,5 @@ an account removes its entries but not its photo files.
 recovery behavior, and response helpers. `README.md` contains local-run and
 Vercel deployment instructions. `DESIGN.md` and
 `public/design-preview.html` document the visual direction and standalone
-reference preview; `public/images/garments/placeholder.svg` remains the
-available record image sentinel.
+reference preview. `tests/official-records.test.mjs` checks that every
+official entry's photo file exists and that each names its maker and place.

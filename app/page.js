@@ -1,14 +1,17 @@
 import collection from "../collection.config.js";
 import Bilingual from "../components/Bilingual.js";
 import HomeTabs from "../components/HomeTabs.js";
-import ProcessMap from "../components/ProcessMap.js";
+import garments from "../data/garments.js";
 import { combined } from "../lib/bilingual.js";
 import { logout } from "../lib/logoutAction.js";
 import { readCommunityEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
 import { createClient } from "../lib/supabase/server.js";
-import { TEXT, bylineText, identityText } from "../lib/uiText.js";
+import { TEXT, bylineText, heroCaptionText, identityText } from "../lib/uiText.js";
 import { redirect } from "next/navigation";
+
+// The hero shows this Official record's photo: Apsara Mode Tailor's sign is behind it.
+const heroGarment = garments.find((garment) => garment.id === "av-chang-pong");
 
 export default async function Home() {
   const supabase = await createClient();
@@ -31,7 +34,6 @@ export default async function Home() {
   return (
     <>
       <a className="skip" href="#collection"><Bilingual text={TEXT.home.skip} inline /></a>
-      <p className="archive-note"><Bilingual text={TEXT.home.archiveNote} /></p>
       <header className="container masthead">
         <a className="brand" href="#top">
           <span className="mark" aria-hidden="true">✳</span>
@@ -71,11 +73,9 @@ export default async function Home() {
           </div>
           <figure>
             <div className="hero-art">
-              <div className="cloth" aria-hidden="true" />
-              <div className="cloth second" aria-hidden="true" />
-              <span className="art-label"><span className="label"><Bilingual text={TEXT.home.artLabel} inline /></span><br /><Bilingual text={TEXT.home.artCaption} inline /></span>
+              <img className="hero-image" src={heroGarment.imageUrl} alt={`${heroGarment.nameEn} (${heroGarment.nameKh})`} width="3" height="4" />
             </div>
-            <figcaption><Bilingual text={TEXT.home.figcaption} /></figcaption>
+            <figcaption><Bilingual text={heroCaptionText(heroGarment)} /></figcaption>
           </figure>
         </section>
 
@@ -93,8 +93,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-
-        <ProcessMap />
       </main>
       <footer className="container">
         <p><Bilingual text={identity.name} /></p>

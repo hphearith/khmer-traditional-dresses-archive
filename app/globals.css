@@ -90,13 +90,6 @@ summary {
   transform: translateY(0);
 }
 
-.archive-note {
-  border-bottom: 1px solid var(--line);
-  padding-block: 8px;
-  color: var(--muted);
-  font-size: 12px;
-  text-align: center;
-}
 
 .masthead {
   display: flex;
@@ -172,8 +165,7 @@ nav [lang="km"],
 }
 
 .hero > *,
-.source-inner > *,
-.process-step > * {
+.source-inner > * {
   min-width: 0;
 }
 
@@ -250,47 +242,13 @@ h1 [lang="km"] {
   content: "";
 }
 
-.cloth {
+/* The whole photo is shown inside the frame, never cropped, like the catalogue's .swatch-image. */
+.hero-image {
   position: absolute;
-  inset: 6% 20% 12% 16%;
-  transform: rotate(-12deg);
-  background: repeating-linear-gradient(
-      90deg,
-      transparent 0 22px,
-      #96744533 23px 24px
-    ),
-    repeating-linear-gradient(0deg, transparent 0 3px, #ffffff0a 3px 4px),
-    linear-gradient(100deg, #542229, #702f36 38%, #9c5b60 49%, #702f36 62%, #542229);
-}
-
-.cloth::after {
-  position: absolute;
-  inset: 0 12%;
-  border-inline: 8px double var(--gold);
-  content: "";
-}
-
-.cloth.second {
-  inset: 34% 5% -8% 48%;
-  transform: rotate(15deg);
-  background: repeating-linear-gradient(
-      90deg,
-      #ffffff00 0 18px,
-      #ffffff15 19px 20px
-    ),
-    linear-gradient(100deg, #967445, #ceaf78 40%, #967445 75%, #725332);
-}
-
-.art-label {
-  position: absolute;
-  right: auto;
-  bottom: 24px;
-  left: 24px;
-  max-width: calc(100% - 48px);
-  border: 1px solid var(--line);
-  padding: 12px 16px;
-  background: var(--surface);
-  font-size: 12px;
+  inset: 32px;
+  width: calc(100% - 64px);
+  height: calc(100% - 64px);
+  object-fit: contain;
 }
 
 figcaption {
@@ -703,14 +661,6 @@ input[type="search"]::-webkit-search-cancel-button {
   object-fit: contain;
 }
 
-.photo-note {
-  position: relative;
-  z-index: 2;
-  border: 1px solid var(--line);
-  padding: 8px 12px;
-  background: var(--surface);
-  font-size: 12px;
-}
 
 .card-top {
   display: flex;
@@ -814,121 +764,6 @@ details p {
   outline-color: var(--surface);
 }
 
-.process {
-  margin-bottom: 80px;
-  scroll-margin-top: 24px;
-}
-
-.process-intro {
-  max-width: 640px;
-  margin-bottom: 48px;
-}
-
-.process-intro h2 {
-  margin-block: 16px;
-}
-
-.process-intro p + p {
-  margin-top: 16px;
-}
-
-.process-intro p:last-child {
-  color: var(--muted);
-}
-
-.process-map {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.process-step {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  gap: 48px;
-  padding-bottom: 80px;
-}
-
-.process-step:last-child {
-  padding-bottom: 0;
-}
-
-.process-media {
-  display: flex;
-  min-height: 240px;
-  grid-column: 1;
-  grid-row: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 24px;
-  border: 1px solid var(--line);
-  padding: 24px;
-  background: var(--fabric);
-}
-
-.step-number {
-  color: var(--wine);
-  font: 400 72px / 1.08 var(--serif);
-}
-
-.process-media .label {
-  color: var(--muted);
-}
-
-.process-copy {
-  min-width: 0;
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.process-copy h3 {
-  margin-block: 8px 16px;
-}
-
-.process-copy p:last-child {
-  max-width: 42ch;
-  color: var(--muted);
-}
-
-.process-step:nth-child(even) .process-media {
-  grid-column: 2;
-}
-
-.process-step:nth-child(even) .process-copy {
-  grid-column: 1;
-}
-
-.process-connector {
-  position: absolute;
-  bottom: 0;
-  left: calc(25% - 12px);
-  width: calc(50% + 24px);
-  height: 80px;
-  overflow: visible;
-  color: var(--gold);
-  pointer-events: none;
-}
-
-.process-step:nth-child(even) .process-connector {
-  transform: scaleX(-1);
-}
-
-.process-connector path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-.text-link {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  margin-top: 32px;
-}
-
 footer {
   display: flex;
   justify-content: space-between;
@@ -1014,52 +849,6 @@ footer {
   .source {
     margin-block: 56px;
     padding-block: 32px;
-  }
-
-  .process {
-    margin-bottom: 56px;
-  }
-
-  .process-intro {
-    margin-bottom: 32px;
-  }
-
-  .process-step {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    border-left: 1px solid var(--gold);
-    padding: 0 0 48px 24px;
-  }
-
-  .process-step:last-child {
-    border-left-color: transparent;
-  }
-
-  .process-step::before {
-    position: absolute;
-    top: 0;
-    left: -5px;
-    width: 9px;
-    height: 9px;
-    background: var(--wine);
-    content: "";
-  }
-
-  .process-step .process-media,
-  .process-step:nth-child(even) .process-media {
-    min-height: 200px;
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .process-step .process-copy,
-  .process-step:nth-child(even) .process-copy {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .process-connector {
-    display: none;
   }
 
   footer {

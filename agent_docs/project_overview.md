@@ -11,11 +11,10 @@ curator's mother, a tailor with more than 20 years of experience.
 
 ## Scope
 
-The current page presents an editorial, browseable archive of eight static
+The current page presents an editorial, browseable archive of seven static
 garment entries, with English and Khmer names, materials, descriptions,
-categories, and explicitly pending illustrative media. It also includes
-provenance information and a five-stage making-process outline whose headings,
-notes, and media await the tailor's documentation. Contributor sign-up, login,
+categories, photographs, and each entry's maker and place. It also includes
+the archive's source information. Contributor sign-up, login,
 and logout are implemented while guest browsing remains public and cookie-free.
 The official records stay in `data/garments.js` and are published through
 website code deployments. A separate pool for contributors' own ordered or
@@ -26,8 +25,7 @@ requirements are decided.
 
 Next.js App Router renders `app/layout.js`, `app/page.js`, and the auth routes;
 the page reads archive identity from `collection.config.js` and composes the
-editorial shell, provenance section, and provisional process map around the
-interactive archive. `app/globals.css` owns the responsive visual system. The
+editorial shell and source section around the interactive archive. `app/globals.css` owns the responsive visual system. The
 archive controller is the client component `components/GarmentsArchive.js`;
 static data lives in `data/garments.js`; shared search and category-filter
 rules live in `lib/garmentSearch.js`. Supabase SSR clients provide contributor
@@ -50,8 +48,7 @@ storage and the absence of optional analytics/advertising cookies. See
 - Search English/Khmer names, material, and description with AND matching;
   quoted phrases remain a single search term and autocomplete supports
   keyboard navigation.
-- Read entry descriptions in place, review the configured provenance, and
-  follow the explicitly provisional five-stage making-process outline.
+- Read entry descriptions in place and review the configured source.
 - Browse the public archive without an auth cookie; create an account, log in,
   confirm signup by email, resend a confirmation link when needed, or log out
   when contributor session storage is available. The deployed callback still
