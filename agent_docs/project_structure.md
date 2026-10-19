@@ -44,10 +44,8 @@ generated inventories and details better owned by module documents.
 - `components/GarmentSearch.js` provides query input and keyboard selection;
   `components/GarmentSuggestions.js` renders the accessible suggestion list;
   `components/GarmentFilter.js` provides category tabs; and
-  `components/GarmentCard.js` renders one record with pending-media handling
+  `components/GarmentCard.js` renders one record with its photo, Provenance,
   and a native description disclosure.
-- `components/ProcessMap.js` renders the five explicitly provisional making
-  stages as an ordered archive outline; it has no record or search dependency.
 - `lib/supabase/client.js` and `server.js` create browser and server clients;
   `lib/supabase/middleware.js` validates JWT claims, persists refreshed
   cookies and headers, permits guests at `/`, and redirects signed-in
@@ -68,8 +66,7 @@ passes query/category callbacks to its control components. Supabase auth uses
 the configured environment variables and shares cookies between browser,
 server, and middleware clients; the archive root remains public. No
 contributor-only routes currently exist, so future protection should target
-those explicit routes rather than `/`. `ProcessMap` is a static presentation
-section until documentary process material exists. Public image paths are
+those explicit routes rather than `/`. Public image paths are
 resolved under `/images/garments/`. The seven official entries, each with its
 photo and Provenance (maker and place), remain static in `data/garments.js` and are published through website code deployments.
 Future contributor posts about ordered or custom-made dresses belong to a

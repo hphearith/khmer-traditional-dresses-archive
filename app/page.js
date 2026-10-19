@@ -1,7 +1,6 @@
 import collection from "../collection.config.js";
 import Bilingual from "../components/Bilingual.js";
 import HomeTabs from "../components/HomeTabs.js";
-import ProcessMap from "../components/ProcessMap.js";
 import garments from "../data/garments.js";
 import { combined } from "../lib/bilingual.js";
 import { logout } from "../lib/logoutAction.js";
@@ -94,8 +93,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-
-        <ProcessMap />
       </main>
       <footer className="container">
         <p><Bilingual text={identity.name} /></p>
