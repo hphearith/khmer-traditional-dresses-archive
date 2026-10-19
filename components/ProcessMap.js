@@ -36,7 +36,6 @@ export default function ProcessMap() {
             <div className="process-media">
               <span className="label">Step {index + 1}</span>
               <span className="step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <span className="label">Photo or video pending</span>
             </div>
             <div className="process-copy">
               <p className="label subtle">Proposed stage · Not yet documented</p>

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
 import collection from "../collection.config.js";
-import { bylineText, countText, emptyEntriesText, emptyGarmentsText, identityText } from "../lib/uiText.js";
+import { bylineText, countText, emptyEntriesText, emptyGarmentsText, heroCaptionText, identityText } from "../lib/uiText.js";
 
 const KHMER = /[ក-៿]/;
 
@@ -54,4 +54,10 @@ test("the source line names the curator in both languages", () => {
   assert.equal(text.en, "Source recorded by Heng Phearith");
   assert.match(text.km, /Heng Phearith/);
   assert.match(text.km, KHMER);
+});
+
+test("the hero caption names the garment in both languages and keeps maker and place as stored", () => {
+  const text = heroCaptionText({ nameEn: "Av Chang Pong", nameKh: "អាវចងពង់", maker: "Apsara Mode Tailor", place: "Phnom Penh" });
+  assert.equal(text.en, "Av Chang Pong, made by Apsara Mode Tailor in Phnom Penh.");
+  assert.equal(text.km, "អាវចងពង់ ផលិតដោយ Apsara Mode Tailor នៅ Phnom Penh។");
 });
