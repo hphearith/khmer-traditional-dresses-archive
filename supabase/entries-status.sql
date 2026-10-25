@@ -1,0 +1,27 @@
+-- Contributor entries: an edit may write status (issue #33).
+--
+-- ALREADY RUN on the live project (2026-10-25), in the Supabase dashboard
+-- (SQL Editor), after the Lab 10 review gate SQL. This file is the record of
+-- what was run. It adds one column grant and changes nothing else. It is safe
+-- to run again.
+--
+-- How it fits together:
+--   1. Since the review gate, a Contributor's edit sends status 'pending' so
+--      the entry goes back to review (lib/entry.js, editStatus). Without this
+--      grant every such edit failed with 42501 "permission denied for table
+--      entries"; a reviewer's edit sends no status, so it kept working.
+--   2. Only status is new. The other writable columns come from
+--      entries-edit.sql and photos-replace.sql.
+--   3. The review gate's update policy still decides which status a row may
+--      have: an owner may save it only as pending, unless they are a reviewer.
+--      Publishing goes through review_entry(). So this grant opens no way to
+--      skip review; it lets the policy be the check (see
+--      entries-status-manual-checks.md).
+--   4. Do not use the broader "grant update on public.entries" that Postgres
+--      suggests in its error hint: it would open owner, id and the timestamps.
+--
+-- The review gate SQL itself (status column, reviewers, is_reviewer,
+-- review_entry, the new policies) was run from the Lab 10 brief and is not
+-- recorded in this folder.
+
+grant update (status) on public.entries to authenticated;
