@@ -13,7 +13,10 @@ const PROVENANCE = [
 
 // Every value is rendered as plain text by React, so a title such as
 // <script>…</script> is shown, never run. Khmer text is shown as stored.
-export default function ContributorEntryCard({ entry }) {
+// showStatus adds where the entry stands in review (My entries only); the
+// Community shows published entries alone, so it never needs it.
+export default function ContributorEntryCard({ entry, showStatus = false }) {
+  const status = showStatus ? TEXT.review.status[entry.status] : null;
   const provenance = PROVENANCE.filter(([field]) => entry[field] !== null && entry[field] !== undefined);
 
   return (
@@ -24,6 +27,11 @@ export default function ContributorEntryCard({ entry }) {
       )}
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
       <h3>{entry.title}</h3>
+      {status && (
+        <dl className="provenance">
+          <div><dt><Bilingual text={TEXT.review.statusLabel} /></dt><dd><Bilingual text={status} /></dd></div>
+        </dl>
+      )}
       {provenance.length > 0 && (
         <dl className="provenance">
           {provenance.map(([field, label]) => (

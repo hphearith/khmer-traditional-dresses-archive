@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { changeWasSaved, characterCount, entryColumns, formValuesFromEntry, getDeleteFailureMessage, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
+import { ENTRY_STATUSES, changeWasSaved, characterCount, editStatus, entryColumns, formValuesFromEntry, getDeleteFailureMessage, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
 
 const YEAR = { currentYear: 2026 };
 
@@ -10,6 +10,21 @@ test("only the signed-in owner owns an entry; another account or a guest does no
   for (const guest of [null, undefined, ""]) {
     assert.equal(isOwnedBy("owner-a", guest), false, String(guest));
   }
+});
+
+test("an edit by a Contributor sends the entry back to review; a reviewer's edit keeps its status", () => {
+  assert.deepEqual(editStatus(false), { status: "pending" });
+  assert.deepEqual(editStatus(true), {});
+  // Only a plain true from is_reviewer counts. A failed check (null) or anything
+  // else sends the edit to review, which the database allows for everyone.
+  for (const answer of [null, undefined, "true", 1]) {
+    assert.deepEqual(editStatus(answer), { status: "pending" }, String(answer));
+  }
+});
+
+test("the statuses match the database's check constraint, and pending is the one an edit sends", () => {
+  assert.deepEqual(ENTRY_STATUSES, ["pending", "published", "returned"]);
+  assert.equal(ENTRY_STATUSES.includes(editStatus(false).status), true);
 });
 
 test("an update counts as saved only when the database handed back the changed row", () => {

@@ -47,6 +47,7 @@ export default async function Home() {
               <span style={{ display: "flex", minHeight: 44, alignItems: "center", color: "var(--muted)", fontSize: 14 }}>
                 {user.email}
               </span>
+              <a href="/my-entries"><Bilingual text={TEXT.community.myEntries} inline /></a>
               <a href="/change-username"><Bilingual text={TEXT.username.change} inline /></a>
               <form action={logout} style={{ display: "flex" }}>
                 <button type="submit" style={{ border: 0, padding: 0, background: "transparent", color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 5 }}>
