@@ -23,9 +23,10 @@ export default async function EditEntryPage({ params }) {
   if (!user) redirect("/login");
 
   // The two lookups do not depend on each other, so they run together. The
-  // rules still apply in order: Username first, then the entry. Entries are
-  // public, so the read succeeds for anyone; only the owner gets the form,
-  // and the database refuses a save from anyone else.
+  // rules still apply in order: Username first, then the entry. Published
+  // entries can be read by anyone, so only the owner gets the form, and the
+  // database refuses a save from anyone else. An unpublished entry is not
+  // found at all, except by its owner or a reviewer.
   const [{ username, error: usernameError }, { data: entry, error }] = await Promise.all([
     readUsername(supabase, user.id),
     supabase.from("entries").select(ENTRY_COLUMNS).eq("id", id).maybeSingle(),

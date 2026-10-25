@@ -9,6 +9,7 @@ import EntryField from "./EntryField.js";
 import PhotoField from "./PhotoField.js";
 import ProvenanceFields from "./ProvenanceFields.js";
 import RestoredNotice from "./RestoredNotice.js";
+import SubmittedNotice from "./SubmittedNotice.js";
 
 // noValidate: the browser's own required-field bubble shows only one field at
 // a time. The form checks every field itself and shows each message in place.
@@ -18,11 +19,13 @@ import RestoredNotice from "./RestoredNotice.js";
 // The text typed so far is kept in this browser as a Local draft (lib/draft.js) and
 // comes back when the form is reopened; it is cleared once the entry is saved.
 // userId is the signed-in account, so a Local draft is never shown to anyone else.
+// Once a new entry is saved, the form gives way to a notice that it waits for review.
 export default function EntryForm({ userId, entryId = null, initial = {}, photo = null }) {
   const draft = useEntryDraft({ userId, entryId, initial });
-  const { pending, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path, onSaved: draft.onSaved });
+  const { pending, submitted, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path, onSaved: draft.onSaved });
   const { values, restoreKey } = draft;
   const saveLabel = entryId ? TEXT.form.saveChanges : TEXT.form.saveEntry;
+  if (submitted) return <SubmittedNotice />;
 
   return (
     <form onSubmit={handleSubmit} onChange={draft.handleChange} onCompositionEnd={draft.handleChange} noValidate aria-busy={pending} style={{ display: "grid", gap: 24 }}>

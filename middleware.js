@@ -15,5 +15,5 @@ export async function middleware(request) {
 export const config = {
   // /contribute/:path* covers the edit page under /contribute/[id]/edit, which
   // needs the same session refresh as /contribute itself.
-  matcher: ["/", "/login", "/signup", "/choose-username", "/change-username", "/contribute/:path*", "/auth/callback"],
+  matcher: ["/", "/login", "/signup", "/choose-username", "/change-username", "/contribute/:path*", "/my-entries", "/auth/callback"],
 };
