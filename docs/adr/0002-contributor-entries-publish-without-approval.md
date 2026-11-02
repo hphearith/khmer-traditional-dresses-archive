@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: superseded by 0004
 ---
 
 # Contributor entries publish without approval; the Curator moderates afterwards
