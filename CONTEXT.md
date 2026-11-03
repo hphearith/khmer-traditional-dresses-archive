@@ -9,7 +9,7 @@ Anything published in the archive. Umbrella term for both an Official record and
 _Avoid_: Post, item, listing
 
 **Official record**:
-A curated Entry describing a type of dress (for example Sampot Hol), written by the Curator and published with the website itself. Contributors cannot add to, edit, or own these.
+A curated Entry describing a type of dress (for example Sampot Hol), written by the archive's owner (named as curator in `collection.config.js`) and published with the website itself. Contributors cannot add to, edit, or own these.
 _Avoid_: Garment entry, catalogue entry, static entry
 
 **Contributor entry**:
@@ -20,9 +20,9 @@ _Avoid_: Post, contributor post, submission, community post
 A type of dress, such as Sampot Hol or Av Pak. Only Official records describe garments; a Contributor entry is about a particular dress, never "a garment".
 _Avoid_: Using "garment" for a single commissioned dress
 
-**Curator**:
-The person who owns and runs the archive (configured in `collection.config.js`). Authors the Official records, and can hide or delete any Contributor entry. Is also a Contributor, whose own entries follow the same rules as anyone's.
-_Avoid_: Owner, admin, moderator
+**Reviewer**:
+A Contributor on the reviewers list. A Reviewer can publish or return Pending Contributor entries, and nothing more. Being the archive's owner does not make someone a Reviewer, and being a Reviewer does not make someone the owner. A Reviewer's own Contributor entries follow the same rules as anyone's.
+_Avoid_: Curator, admin, moderator, approver
 
 **Contributor**:
 Anyone with a confirmed account. Contributors can create, edit, and delete their own Contributor entries. Visitors without an account can only read.
@@ -41,27 +41,27 @@ The origin of a specific dress: who made it, where, when, and for what occasion.
 _Avoid_: History, background
 
 **Local draft**:
-The text a Contributor has typed into an entry form and not yet saved, kept in that browser on that device only until the entry is saved. It is not an Entry and it is never sent anywhere. A Draft (see Entry lifecycle) is a different thing: a saved Contributor entry that is not yet public.
+The text a Contributor has typed into an entry form and not yet saved, kept in that browser on that device only until the entry is saved. It is not an Entry and it is never sent anywhere. A saved entry that is not yet public is Pending (see Entry lifecycle), not a Local draft.
 _Avoid_: Draft (in code and docs; the screen text says "Draft saved"), autosave, backup
 
 **Source**:
-The archive-level origin of the Curator's knowledge: the tailor the archive documents, configured as `source` in `collection.config.js`. Not the same as Provenance, which belongs to one dress.
+The archive-level origin of the owner's knowledge: the tailor the archive documents, configured as `source` in `collection.config.js`. Not the same as Provenance, which belongs to one dress.
 _Avoid_: Provenance (for the archive as a whole)
-
-**Making-process map**:
-The Curator's outline of the stages of making a dress, documented from the tailor's account. It belongs to the archive, not to any single Entry.
-_Avoid_: Process steps, timeline
 
 ## Entry lifecycle
 
-**Draft**:
-A Contributor entry visible only to its Contributor, not yet public.
-_Avoid_: Pending, unpublished
+**Pending**:
+A Contributor entry waiting for a Reviewer's decision. Only its Contributor and Reviewers can see it. Every new entry starts Pending, and so does every entry a Contributor edits.
+_Avoid_: Draft, submitted, unpublished, in review
 
 **Published**:
-A Contributor entry visible to everyone, with no approval step before it goes live.
-_Avoid_: Approved, live
+A Contributor entry a Reviewer has published. Visible to everyone.
+_Avoid_: Approved, live, accepted
 
-**Hidden**:
-A Published Contributor entry the Curator has taken down from public view. The Contributor still owns it.
-_Avoid_: Deleted, removed, rejected
+**Returned**:
+A Contributor entry a Reviewer has sent back to its Contributor. Only its Contributor can see it. Editing and saving it makes it Pending again, in its original place in the Review queue.
+_Avoid_: Rejected, declined, hidden
+
+**Review queue**:
+Every Pending Contributor entry, oldest submission first, as a Reviewer sees it. A Returned entry that is edited goes back to the place its first submission gave it.
+_Avoid_: Inbox, moderation queue, backlog
