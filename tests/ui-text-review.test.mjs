@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
 import { ENTRY_STATUSES } from "../lib/entry.js";
-import { TEXT } from "../lib/uiText.js";
+import { TEXT, submittedText } from "../lib/uiText.js";
 
 test("a new entry's confirmation keeps the curator's English word for word", () => {
   assert.equal(
@@ -19,4 +19,41 @@ test("every status an entry can have is named in both languages, and nothing els
 test("the entry form no longer promises an entry or an edit goes public at once", () => {
   assert.doesNotMatch(TEXT.page.writeIntro.en, /public as soon as/);
   assert.doesNotMatch(TEXT.page.editIntro.en, /go live only when/);
+});
+
+test("every Review queue text is a pair with both languages", () => {
+  const texts = Object.entries(TEXT.review.queue);
+  assert.notEqual(texts.length, 0);
+  for (const [name, text] of texts) assert.equal(isPair(text), true, name);
+});
+
+test("the Review queue texts use the words the spec chose", () => {
+  assert.equal(TEXT.review.queue.title.en, "Review queue");
+  assert.equal(TEXT.review.queue.notReviewer.en, "This page is for reviewers.");
+  assert.equal(TEXT.review.queue.empty.en, "No entries are waiting for review.");
+});
+
+// Phnom Penh is UTC+7 all year (no daylight saving), so each expected date below
+// is worked out by hand: add seven hours to the UTC time.
+test("the submitted date is an English and Khmer pair, with Western digits", () => {
+  const text = submittedText("2026-10-25T10:00:00Z");
+  assert.equal(isPair(text), true);
+  assert.equal(text.en, "Submitted 25 October 2026");
+  assert.equal(text.km, "បានដាក់ស្នើនៅថ្ងៃទី 25 ខែតុលា ឆ្នាំ 2026");
+});
+
+test("the submitted date reads the timestamp the way Supabase sends it", () => {
+  assert.deepEqual(submittedText("2026-10-25T10:00:00.123456+00:00"), submittedText("2026-10-25T10:00:00Z"));
+});
+
+test("a submission just before midnight UTC is already the next day in Phnom Penh", () => {
+  // 23:30 UTC on 31 October is 06:30 on 1 November in Phnom Penh: the day and the month both move on.
+  const text = submittedText("2026-10-31T23:30:00Z");
+  assert.equal(text.en, "Submitted 1 November 2026");
+  assert.equal(text.km, "បានដាក់ស្នើនៅថ្ងៃទី 1 ខែវិច្ឆិកា ឆ្នាំ 2026");
+});
+
+test("the submitted date changes day exactly at midnight in Phnom Penh", () => {
+  assert.equal(submittedText("2026-10-31T16:59:59Z").en, "Submitted 31 October 2026"); // 23:59:59 in Phnom Penh
+  assert.equal(submittedText("2026-10-31T17:00:00Z").en, "Submitted 1 November 2026"); // 00:00:00 in Phnom Penh
 });
