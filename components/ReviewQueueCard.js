@@ -2,14 +2,16 @@ import { combined } from "../lib/bilingual.js";
 import { TEXT, sharedByText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import ProvenanceList from "./ProvenanceList.js";
+import ReviewDecisionButtons from "./ReviewDecisionButtons.js";
 
 // One Pending entry as a Reviewer reads it: everything the public would see once
 // it is published, with the whole story open. It has no Edit or Delete, even on
-// a Reviewer's own entry; deciding on the entry is not offered here yet.
+// a Reviewer's own entry; a Reviewer can only Publish or Return it.
 // submitted is the "Submitted <date>" pair, worked out on the server (submittedText).
+// onDecided(entry, decision) is called once the database has confirmed a decision.
 // Every value is plain text, so a title such as <script>…</script> is shown, never
 // run, and Khmer is shown as stored.
-export default function ReviewQueueCard({ entry, submitted }) {
+export default function ReviewQueueCard({ entry, submitted, onDecided }) {
   return (
     <article className="entry-card">
       {/* A plain img, like the Contributor entry card: the photo is public. */}
@@ -21,6 +23,7 @@ export default function ReviewQueueCard({ entry, submitted }) {
       <p className="entry-credit"><Bilingual text={submitted} /></p>
       <ProvenanceList entry={entry} />
       <p className="entry-story">{entry.story}</p>
+      <ReviewDecisionButtons entry={entry} onDecided={onDecided} />
     </article>
   );
 }
