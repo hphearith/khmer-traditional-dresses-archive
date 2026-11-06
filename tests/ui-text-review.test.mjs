@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
 import { ENTRY_STATUSES } from "../lib/entry.js";
-import { TEXT, submittedText } from "../lib/uiText.js";
+import { TEXT, decisionDoneText, submittedText } from "../lib/uiText.js";
 
 test("a new entry's confirmation keeps the curator's English word for word", () => {
   assert.equal(
@@ -56,4 +56,45 @@ test("a submission just before midnight UTC is already the next day in Phnom Pen
 test("the submitted date changes day exactly at midnight in Phnom Penh", () => {
   assert.equal(submittedText("2026-10-31T16:59:59Z").en, "Submitted 31 October 2026"); // 23:59:59 in Phnom Penh
   assert.equal(submittedText("2026-10-31T17:00:00Z").en, "Submitted 1 November 2026"); // 00:00:00 in Phnom Penh
+});
+
+test("the live line after a decision names the decision and the entry, in both languages", () => {
+  assert.deepEqual(decisionDoneText("published", "Waiting politely"), {
+    en: "Published: Waiting politely",
+    km: "បានផ្សាយ៖ Waiting politely",
+  });
+  assert.deepEqual(decisionDoneText("returned", "Waiting politely"), {
+    en: "Returned: Waiting politely",
+    km: "បានបញ្ជូនត្រឡប់មកវិញ៖ Waiting politely",
+  });
+});
+
+test("the live line keeps the title exactly as written: Khmer, spaces, a zero-width space, markup", () => {
+  for (const title of ["សំពត់ហូល", "  ឈុត\u200bអាពាហ៍ពិពាហ៍  ", "<script>alert(1)</script> & \"quotes\"", "Sampot Hol សំពត់ហូល"]) {
+    for (const decision of ["published", "returned"]) {
+      const text = decisionDoneText(decision, title);
+      assert.equal(isPair(text), true, title);
+      assert.equal(text.en.endsWith(`: ${title}`), true, `en: ${JSON.stringify(title)}`);
+      assert.equal(text.km.endsWith(`៖ ${title}`), true, `km: ${JSON.stringify(title)}`);
+    }
+  }
+});
+
+test("the decision buttons and the failure message use the words the spec chose, each in both languages", () => {
+  assert.equal(TEXT.review.queue.publish.en, "Publish");
+  assert.equal(TEXT.review.queue.publish.km, "ផ្សាយ");
+  assert.equal(TEXT.review.queue.return.en, "Return");
+  assert.equal(TEXT.review.queue.return.km, "បញ្ជូនត្រឡប់");
+  assert.equal(
+    TEXT.review.queue.decisionFailed.en,
+    "This entry could not be changed. It may already have been reviewed in another tab. Refresh the page to see the queue as it is now.",
+  );
+  for (const name of ["publish", "return", "decisionFailed"]) assert.equal(isPair(TEXT.review.queue[name]), true, name);
+});
+
+test("the live line uses the same status words the Contributor sees in My entries", () => {
+  // Story 27 of the spec: both sides of a review speak the same language.
+  const word = (text) => text.km.split("៖")[0];
+  assert.equal(word(decisionDoneText("published", "x")), TEXT.review.status.published.km);
+  assert.equal(TEXT.review.status.returned.km.startsWith(word(decisionDoneText("returned", "x"))), true);
 });

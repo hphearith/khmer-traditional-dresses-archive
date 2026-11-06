@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Bilingual from "../../components/Bilingual.js";
-import ReviewQueueCard from "../../components/ReviewQueueCard.js";
+import ReviewQueue from "../../components/ReviewQueue.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { readReviewQueue } from "../../lib/review.js";
 import { createClient } from "../../lib/supabase/server.js";
@@ -44,17 +44,7 @@ export default async function ReviewPage() {
       ) : (
         <>
           <h1 style={{ fontSize: 40, marginBottom: 32 }}><Bilingual text={TEXT.review.queue.title} /></h1>
-          {queue.entries.length === 0 ? (
-            <div className="empty">
-              <h2><Bilingual text={TEXT.review.queue.empty} /></h2>
-            </div>
-          ) : (
-            <div className="grid">
-              {queue.entries.map((entry) => (
-                <ReviewQueueCard key={entry.id} entry={entry} submitted={submittedText(entry.created_at)} />
-              ))}
-            </div>
-          )}
+          <ReviewQueue entries={queue.entries.map((entry) => ({ ...entry, submitted: submittedText(entry.created_at) }))} />
         </>
       )}
     </main>
