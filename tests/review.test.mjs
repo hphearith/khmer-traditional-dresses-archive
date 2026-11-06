@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readReviewQueue } from "../lib/review.js";
+import { decideOnEntry, readReviewQueue } from "../lib/review.js";
 
 const ok = (data) => ({ data, error: null });
 
@@ -113,5 +113,47 @@ test("the queue asks for everything its cards show, including when each entry wa
   const asked = columns.split(",").map((column) => column.trim());
   for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at"]) {
     assert.equal(asked.includes(column), true, column);
+  }
+});
+
+// A stand-in for the client when a Reviewer decides. rpc answers with the
+// canned { data, error }; every call is recorded, and a table is never available:
+// touching one fails the test, because a refused direct update raises no error.
+function fakeDecisionClient(answer) {
+  const calls = [];
+  const client = {
+    rpc: (name, args) => (calls.push(["rpc", name, args]), Promise.resolve(answer)),
+    from: (table) => { throw new Error(`The decision must not touch the ${table} table.`); },
+  };
+  return { calls, client };
+}
+
+test("a decision asks review_entry with the entry's id and the decision, and never touches the entries table", async () => {
+  for (const decision of ["published", "returned"]) {
+    const { calls, client } = fakeDecisionClient(ok(true));
+    await decideOnEntry(client, "e1", decision);
+    assert.deepEqual(calls, [["rpc", "review_entry", { entry_id: "e1", decision }]], decision);
+  }
+});
+
+test("a decision counts as made when review_entry answers exactly true", async () => {
+  const { client } = fakeDecisionClient(ok(true));
+  assert.equal(await decideOnEntry(client, "e1", "published"), true);
+});
+
+test("any answer from review_entry other than exactly true means the decision was not made", async () => {
+  // false is how review_entry refuses (not a Reviewer, or the entry is no longer Pending).
+  for (const answer of [false, null, undefined, "true", 1, {}]) {
+    const { client } = fakeDecisionClient(ok(answer));
+    assert.equal(await decideOnEntry(client, "e1", "published"), false, String(answer));
+  }
+});
+
+test("an error means the decision was not made, even when data says true", async (t) => {
+  t.mock.method(console, "error", () => {});
+  const boom = { code: "PGRST000", message: "Supabase is asleep" };
+  for (const data of [null, true]) {
+    const { client } = fakeDecisionClient({ data, error: boom });
+    assert.equal(await decideOnEntry(client, "e1", "returned"), false, String(data));
   }
 });
