@@ -16,30 +16,20 @@ One student's Khmer Living Archive, built in ICT 340 at AUPP. Every student buil
 
 ## Hard rules
 
-1. Do not add dependencies. The three in `package.json` are the whole list. If a task seems to need a package, stop and say so instead of installing it.
+1. Do not add dependencies. The approved list is `next`, `react`, `react-dom`, `@supabase/supabase-js` and `@supabase/ssr`. If a task seems to need another package, stop and say so instead of installing it.
 2. Do not touch `package.json`, `package-lock.json`, `next.config.mjs`, or `.gitignore` unless the task explicitly names them.
-3. Never write an API key, token, or password into any file. This repository is public.
+3. Never write an API key, token, or password into any file. This repository is public. Auth configuration lives in `.env.local` and in Vercel environment variables.
 4. Keep diffs scoped to what was asked. If completing the task honestly requires touching another file, say which file and why before editing it.
 5. One component per file in `components/`, plain function components, roughly 80 lines or less. If a component wants to be bigger, split it.
 6. Khmer text is first-class content, not an edge case. Never strip, transliterate, or "fix" it. Sample data comes from the student's real entries, never lorem ipsum.
 
 ## Working style
 
+- Start each issue on its own branch, named `<issue-number>-<slug>` and cut from an up-to-date `main`. The pull request body says `Closes #<issue-number>`.
 - For anything beyond a one-file change, state a short plan before writing code.
 - Explain changes plainly. The student must be able to defend every line in a code review; write code and explanations that make that possible.
 - The student reviews and approves every diff. Expect rejections and make them easy: small steps, clear boundaries.
 - A change is done only when `node --test tests/` passes. Run it after every change and paste the summary lines (pass/fail counts) into your report.
-
-## Sprint 2 amendment (added week 5)
-
-Two dependencies are approved for Sprint 2, and only these two:
-- @supabase/supabase-js
-- @supabase/ssr
-
-Everything else in the hard rules stands, especially rule 3:
-no keys, tokens, or passwords in any committed file, ever.
-Auth configuration lives in .env.local and in Vercel
-environment variables.
 
 ## Agent skills
 
