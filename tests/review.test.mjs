@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { decideOnEntry, readReviewQueue } from "../lib/review.js";
+import { decideOnEntry, readIsReviewer, readReviewQueue } from "../lib/review.js";
 
 const ok = (data) => ({ data, error: null });
 
@@ -155,5 +155,40 @@ test("an error means the decision was not made, even when data says true", async
   for (const data of [null, true]) {
     const { client } = fakeDecisionClient({ data, error: boom });
     assert.equal(await decideOnEntry(client, "e1", "returned"), false, String(data));
+  }
+});
+
+// The home page header shows the Review queue link only when this answers true.
+// fakeDecisionClient fits: it answers rpc from a canned result, records every
+// call, and fails the test if a table is touched.
+const SIGNED_IN = { id: "owner-a" };
+
+test("a signed-in Reviewer sees the link, and only is_reviewer is asked", async () => {
+  const { calls, client } = fakeDecisionClient(ok(true));
+  assert.equal(await readIsReviewer(client, SIGNED_IN), true);
+  assert.deepEqual(calls, [["rpc", "is_reviewer", undefined]]);
+});
+
+test("a guest never sees the link, and no call is made for them", async () => {
+  for (const guest of [null, undefined]) {
+    const { calls, client } = fakeDecisionClient(ok(true));
+    assert.equal(await readIsReviewer(client, guest), false, String(guest));
+    assert.deepEqual(calls, [], `${String(guest)}: guests trigger no extra call`);
+  }
+});
+
+test("an error hides the link, even when data says true", async (t) => {
+  t.mock.method(console, "error", () => {});
+  const boom = { code: "PGRST000", message: "Supabase is asleep" };
+  for (const data of [null, true]) {
+    const { client } = fakeDecisionClient({ data, error: boom });
+    assert.equal(await readIsReviewer(client, SIGNED_IN), false, String(data));
+  }
+});
+
+test("any answer from is_reviewer other than exactly true hides the link", async () => {
+  for (const answer of [false, null, undefined, "true", 1, {}]) {
+    const { client } = fakeDecisionClient(ok(answer));
+    assert.equal(await readIsReviewer(client, SIGNED_IN), false, String(answer));
   }
 });

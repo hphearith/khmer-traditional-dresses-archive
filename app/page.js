@@ -6,6 +6,7 @@ import { combined } from "../lib/bilingual.js";
 import { logout } from "../lib/logoutAction.js";
 import { readCommunityEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
+import { readIsReviewer } from "../lib/review.js";
 import { createClient } from "../lib/supabase/server.js";
 import { TEXT, bylineText, heroCaptionText, identityText } from "../lib/uiText.js";
 import { redirect } from "next/navigation";
@@ -26,9 +27,13 @@ export default async function Home() {
 
   // Read with the visitor's own access: guests read as anonymous, and no
   // cookie is set for them. A signed-in visitor's own entries are marked, so
-  // the Community tab can offer My entries.
+  // the Community tab can offer My entries. Only a signed-in visitor is asked
+  // whether they are a Reviewer, and the Review queue link needs a plain true.
   const identity = identityText(collection);
-  const community = await readCommunityEntries(supabase, user?.id);
+  const [community, isReviewer] = await Promise.all([
+    readCommunityEntries(supabase, user?.id),
+    readIsReviewer(supabase, user),
+  ]);
   if (community.error) console.error("Reading Community entries failed:", community.error);
 
   return (
@@ -48,6 +53,7 @@ export default async function Home() {
                 {user.email}
               </span>
               <a href="/my-entries"><Bilingual text={TEXT.community.myEntries} inline /></a>
+              {isReviewer && <a href="/review"><Bilingual text={TEXT.review.queue.title} inline /></a>}
               <a href="/change-username"><Bilingual text={TEXT.username.change} inline /></a>
               <form action={logout} style={{ display: "flex" }}>
                 <button type="submit" style={{ border: 0, padding: 0, background: "transparent", color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 5 }}>
