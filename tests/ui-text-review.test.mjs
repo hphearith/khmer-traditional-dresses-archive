@@ -11,11 +11,6 @@ test("a new entry's confirmation keeps the curator's English word for word", () 
   );
 });
 
-test("every status an entry can have is named in both languages, and nothing else is", () => {
-  assert.deepEqual(Object.keys(TEXT.review.status).sort(), [...ENTRY_STATUSES].sort());
-  for (const status of ENTRY_STATUSES) assert.equal(isPair(TEXT.review.status[status]), true, status);
-});
-
 test("the entry form no longer promises an entry or an edit goes public at once", () => {
   assert.doesNotMatch(TEXT.page.writeIntro.en, /public as soon as/);
   assert.doesNotMatch(TEXT.page.editIntro.en, /go live only when/);
@@ -92,13 +87,6 @@ test("the decision buttons and the failure message use the words the spec chose,
   for (const name of ["publish", "return", "decisionFailed"]) assert.equal(isPair(TEXT.review.queue[name]), true, name);
 });
 
-test("the live line uses the same status words the Contributor sees in My entries", () => {
-  // Story 27 of the spec: both sides of a review speak the same language.
-  const word = (text) => text.km.split("៖")[0];
-  assert.equal(word(decisionDoneText("published", "x")), TEXT.review.status.published.km);
-  assert.equal(TEXT.review.status.returned.km.startsWith(word(decisionDoneText("returned", "x"))), true);
-});
-
 test("every status has a short pill pair in both languages, and nothing else does", () => {
   assert.deepEqual(Object.keys(TEXT.review.pill).sort(), [...ENTRY_STATUSES].sort());
   for (const status of ENTRY_STATUSES) assert.equal(isPair(TEXT.review.pill[status]), true, status);
@@ -116,9 +104,9 @@ test("the Published and Returned pills use the same Khmer word as the Reviewer's
   assert.equal(TEXT.review.pill.returned.km, word(decisionDoneText("returned", "x")));
 });
 
-test("the pills add no new Khmer: each is the Khmer already shown for that status", () => {
-  assert.equal(TEXT.review.pill.pending.km, TEXT.review.status.pending.km);
-  assert.equal(TEXT.review.pill.published.km, TEXT.review.status.published.km);
-  // The Returned status text is "<word>៖ <hint>"; the pill is the word before the colon.
-  assert.equal(TEXT.review.status.returned.km.startsWith(`${TEXT.review.pill.returned.km}៖`), true);
+test("the Returned hint begins with the Returned pill's words, in both languages", () => {
+  assert.equal(isPair(TEXT.review.returnedHint), true);
+  assert.equal(TEXT.review.returnedHint.en.startsWith(`${TEXT.review.pill.returned.en}:`), true);
+  // The hint is "<word>៖ <what to do>"; the word before the colon is the pill's.
+  assert.equal(TEXT.review.returnedHint.km.startsWith(`${TEXT.review.pill.returned.km}៖`), true);
 });

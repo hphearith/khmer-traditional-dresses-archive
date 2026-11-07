@@ -23,7 +23,7 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
         <div className="entry-status">
           <StatusPill status={entry.status} />
           {entry.status === "returned" && (
-            <p className="entry-status-hint"><Bilingual text={TEXT.review.status.returned} /></p>
+            <p className="entry-status-hint"><Bilingual text={TEXT.review.returnedHint} /></p>
           )}
         </div>
       )}
