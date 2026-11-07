@@ -3,14 +3,14 @@ import { TEXT, sharedByText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import DeleteEntryButton from "./DeleteEntryButton.js";
 import ProvenanceList from "./ProvenanceList.js";
+import StatusPill from "./StatusPill.js";
 
 // Every value is rendered as plain text by React, so a title such as
 // <script>…</script> is shown, never run. Khmer text is shown as stored.
-// showStatus adds where the entry stands in review (My entries only); the
-// Community shows published entries alone, so it never needs it.
+// showStatus adds where the entry stands in review, as a Status pill (My
+// entries only); All entries shows published entries alone, so it never needs it.
+// A Returned entry also says what to do next, under its pill.
 export default function ContributorEntryCard({ entry, showStatus = false }) {
-  const status = showStatus ? TEXT.review.status[entry.status] : null;
-
   return (
     <article className="entry-card">
       {/* A plain img, like GarmentCard. The photo is public, so a guest needs no cookie to see it. */}
@@ -19,10 +19,13 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
       )}
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
       <h3>{entry.title}</h3>
-      {status && (
-        <dl className="provenance">
-          <div><dt><Bilingual text={TEXT.review.statusLabel} /></dt><dd><Bilingual text={status} /></dd></div>
-        </dl>
+      {showStatus && (
+        <div className="entry-status">
+          <StatusPill status={entry.status} />
+          {entry.status === "returned" && (
+            <p className="entry-status-hint"><Bilingual text={TEXT.review.status.returned} /></p>
+          )}
+        </div>
       )}
       <ProvenanceList entry={entry} />
       <details>

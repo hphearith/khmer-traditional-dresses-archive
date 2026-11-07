@@ -98,3 +98,27 @@ test("the live line uses the same status words the Contributor sees in My entrie
   assert.equal(word(decisionDoneText("published", "x")), TEXT.review.status.published.km);
   assert.equal(TEXT.review.status.returned.km.startsWith(word(decisionDoneText("returned", "x"))), true);
 });
+
+test("every status has a short pill pair in both languages, and nothing else does", () => {
+  assert.deepEqual(Object.keys(TEXT.review.pill).sort(), [...ENTRY_STATUSES].sort());
+  for (const status of ENTRY_STATUSES) assert.equal(isPair(TEXT.review.pill[status]), true, status);
+});
+
+test("the pills use the words the ticket chose", () => {
+  assert.deepEqual(TEXT.review.pill.pending, { en: "Pending", km: "កំពុងរង់ចាំការពិនិត្យ" });
+  assert.deepEqual(TEXT.review.pill.published, { en: "Published", km: "បានផ្សាយ" });
+  assert.deepEqual(TEXT.review.pill.returned, { en: "Returned", km: "បានបញ្ជូនត្រឡប់មកវិញ" });
+});
+
+test("the Published and Returned pills use the same Khmer word as the Reviewer's live line", () => {
+  const word = (text) => text.km.split("៖")[0];
+  assert.equal(TEXT.review.pill.published.km, word(decisionDoneText("published", "x")));
+  assert.equal(TEXT.review.pill.returned.km, word(decisionDoneText("returned", "x")));
+});
+
+test("the pills add no new Khmer: each is the Khmer already shown for that status", () => {
+  assert.equal(TEXT.review.pill.pending.km, TEXT.review.status.pending.km);
+  assert.equal(TEXT.review.pill.published.km, TEXT.review.status.published.km);
+  // The Returned status text is "<word>៖ <hint>"; the pill is the word before the colon.
+  assert.equal(TEXT.review.status.returned.km.startsWith(`${TEXT.review.pill.returned.km}៖`), true);
+});

@@ -198,7 +198,7 @@ The page, cards, buttons, and banners have no shadow. Contrast, spacing, rules, 
 
 ## Shapes
 
-Use square editorial panels and image wells. Buttons and fields have a consistent 4px radius. Categories are small rectangular buttons, not pills. Use 1px solid separators; selected secondary actions may add a 2px bottom rule. Fine dashed rules may occur inside illustrative cloth labels only. No scalloped frames, faux temple ornaments, or generic motifs labeled as authentic Khmer patterns.
+Use square editorial panels and image wells. Buttons and fields have a consistent 4px radius. Categories are small rectangular buttons, not pills; the one deliberate rounded shape is the status pill on an entry in My entries, a fully rounded capsule that labels a state and is not a control. Use 1px solid separators; selected secondary actions may add a 2px bottom rule. Fine dashed rules may occur inside illustrative cloth labels only. No scalloped frames, faux temple ornaments, or generic motifs labeled as authentic Khmer patterns.
 
 ## Components
 

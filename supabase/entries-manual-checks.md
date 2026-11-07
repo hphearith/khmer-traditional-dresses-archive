@@ -188,7 +188,10 @@ is still there.
 11. In a private window with no cookies, open `/?tab=community`: every entry
     shows, newest first, and DevTools → Application → Cookies is empty.
 12. Open the Community tab at phone width (375px) with a long Khmer story:
-    no sideways scrolling, and Khmer marks are not clipped or split.
+    no sideways scrolling, and Khmer marks are not clipped or split. Do it
+    again in My entries (step 23), where each card also has a Status pill: the
+    English and Khmer on each pill are whole, not clipped, and nothing scrolls
+    sideways.
 13. With no rows in `public.entries`, the Community tab shows "No entries yet".
 14. Editing (issue #14). As A, choose "Edit" on one of A's entries: the form
     opens with the saved text, the Year list shows the saved year, and each
@@ -196,8 +199,9 @@ is still there.
     you land on `/?tab=community`, the entry keeps its place in the list, and
     the Khmer story is unchanged.
 15. "My entries" appears on the Community tab only while logged in, and shows
-    only A's entries. "Edit" appears on A's entries and on no one else's. A
-    guest sees neither "My entries" nor any "Edit".
+    only A's entries, in every status (see steps 23-29). "Edit" appears on A's
+    entries and on no one else's. A guest sees neither "My entries" nor any
+    "Edit".
 16. As a guest, open `/contribute/<any entry id>/edit`: you are sent to `/login`.
 17. As B, open `/contribute/<an entry id of A's>/edit` by typing the address:
     the page says "You can only change entries you wrote" and shows no form.
@@ -212,8 +216,8 @@ is still there.
     cannot be undone." appears with the focus on Cancel. Choose "Cancel": the
     question goes, the entry is untouched and the focus is back on Delete.
     Choose Delete again, then "Delete for good": the entry leaves the
-    Community tab, and "My entries" if that view was open, without leaving the
-    page. Reload: it is still gone.
+    view that was open (All entries or My entries), without leaving the page.
+    Reload: it is still gone. Repeat from My entries, with a Pending entry.
 20. "Delete" appears on A's entries and on no one else's. A guest sees none.
 21. A delete the database refuses. As A, open the Community tab, delete that
     entry in the SQL Editor (test data only), then choose "Delete" and
@@ -223,6 +227,45 @@ is still there.
     back.
 22. Delete an entry whose title is Khmer: the question names no title, but the
     button's accessible name does (`Delete: <title>`); the Khmer is intact.
+
+My entries in the Community (issue #39). You need A with one Pending, one
+Published and one Returned entry (a Reviewer can publish and return them from
+`/review`), and B with no entries.
+
+23. As A, open `/?tab=community` and choose "My entries": all three entries
+    show, newest first, each with a pill on one line, English then Khmer:
+    Pending, Published, Returned. The Returned card also shows "Returned: edit
+    and save to send it for review again" under its pill. "All entries" shows
+    only the Published entry, with no pill.
+24. As A with only the Pending entry left (delete the others), My entries
+    shows that entry with a Pending pill, not "You have not written an
+    entry yet". As B, My entries shows only "You have not written an entry yet",
+    with no extra button.
+25. The address. Choosing "My entries" changes the address to
+    `/?tab=community&view=mine`, and "All entries" to `/?tab=community`. Reload
+    on each: the same view stays open. Use Back and Forward: the view follows.
+    Open `/?tab=community&view=mine` in a new tab: it opens on My entries. Open
+    `/?tab=community&view=anything`: All entries.
+26. As a guest (private window), open `/?tab=community&view=mine`: All entries
+    shows, there is no toggle and no pill, and DevTools → Application →
+    Cookies is empty.
+27. Search. In My entries, search for a word from one of A's titles: only that
+    entry stays, and "Showing 1 of 3" counts the list shown. Search for
+    "Pending" (a word none of A's entries contain): nothing matches, because
+    status words are not searched. Choose "Reset
+    search": all three return. Type a search, then switch to All entries: the
+    text is still in the box and filters that list too.
+28. Each list fails on its own. The home page reads on the server, so DevTools
+    cannot block a read; break one in the code instead, in a scratch edit you
+    revert afterwards. In `lib/readEntries.js`, change `, status` in
+    `readMyEntries`'s select to `, nope`, and reload as A. My entries shows
+    "Entries could not be loaded" and All entries still lists the Published
+    entries. Revert, then change `.eq("status", "published")` in
+    `readCommunityEntries` to `.eq("nope", "published")`: All entries shows
+    the same message and My entries still lists all three. Revert both.
+29. Edit and Delete appear on A's cards in My entries and in All entries (for
+    the Published one). Delete the Pending entry from My entries: the card
+    leaves without the page changing, and a reload does not bring it back.
 
 ## 4. Account removal
 

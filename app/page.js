@@ -4,7 +4,7 @@ import HomeTabs from "../components/HomeTabs.js";
 import garments from "../data/garments.js";
 import { combined } from "../lib/bilingual.js";
 import { logout } from "../lib/logoutAction.js";
-import { readCommunityEntries } from "../lib/readEntries.js";
+import { readCommunityEntries, readMyEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
 import { readIsReviewer } from "../lib/review.js";
 import { createClient } from "../lib/supabase/server.js";
@@ -26,15 +26,18 @@ export default async function Home() {
   }
 
   // Read with the visitor's own access: guests read as anonymous, and no
-  // cookie is set for them. A signed-in visitor's own entries are marked, so
-  // the Community tab can offer My entries. Only a signed-in visitor is asked
-  // whether they are a Reviewer, and the Review queue link needs a plain true.
+  // cookie is set for them. Only a signed-in visitor gets a second read, of
+  // their own entries in every status, for My entries; each list fails on its
+  // own. Only a signed-in visitor is asked whether they are a Reviewer, and the
+  // Review queue link needs a plain true.
   const identity = identityText(collection);
-  const [community, isReviewer] = await Promise.all([
+  const [community, mine, isReviewer] = await Promise.all([
     readCommunityEntries(supabase, user?.id),
+    user ? readMyEntries(supabase, user.id) : { entries: [], error: null },
     readIsReviewer(supabase, user),
   ]);
   if (community.error) console.error("Reading Community entries failed:", community.error);
+  if (mine.error) console.error("Reading My entries failed:", mine.error);
 
   return (
     <>
@@ -86,7 +89,10 @@ export default async function Home() {
           </figure>
         </section>
 
-        <HomeTabs communityEntries={community.entries} communityFailed={Boolean(community.error)} signedIn={Boolean(user)} />
+        <HomeTabs
+          communityEntries={community.entries} communityFailed={Boolean(community.error)}
+          myEntries={mine.entries} myFailed={Boolean(mine.error)} signedIn={Boolean(user)}
+        />
 
         <section className="source" id="about" aria-labelledby="source-heading">
           <div className="container source-inner">
