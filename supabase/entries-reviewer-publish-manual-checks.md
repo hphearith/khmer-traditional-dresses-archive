@@ -68,4 +68,4 @@ the app change, and report which step failed.
 | Date | Sections | Result |
 |---|---|---|
 | 2026-11-07 | 1: the SQL ran, and a Contributor adding an entry as `published` was refused with 42501 | Pass |
-| | 2 | Not run yet: needs the app change deployed |
+| 2026-11-07 | 2: a Reviewer's new entry is Published, and a Contributor's new and edited entries are Pending, as reported by the owner | Pass |

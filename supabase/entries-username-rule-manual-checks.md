@@ -85,8 +85,9 @@ which step failed.
 | Date | Sections | Result |
 |---|---|---|
 | 2026-11-07 | 2: the SQL ran, and `pg_policies` shows the Username rule on both policies | Pass |
-| 2026-11-07 | 1, 3, 4 and 5 | Not run: the owner chose to skip them |
+| 2026-11-07 | 1, 3 and 5 | Not run: the owner chose to skip them |
+| 2026-11-07 | 4, in part: a Contributor can add and edit, and a Reviewer can add, seen during the checks for #58 | Pass |
 
-The rules are confirmed as live, but how they behave has not been checked: not
-that an account with no Username is refused, and not that a Contributor or
-Reviewer can still save. Run sections 3 and 4 if that needs proving later.
+Still not checked: that an account with no Username is refused, which is what the
+fix is for, and the rest of section 4. Run sections 3 and 4 if that needs proving
+later.
