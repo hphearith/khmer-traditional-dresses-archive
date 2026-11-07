@@ -22,7 +22,8 @@ where table_schema = 'public' and table_name = 'entries'
 ## 2. Editing on the live site
 
 - As the Contributor, edit an entry and save.
-  Expect: it saves, and `/my-entries` shows it as pending.
+  Expect: it saves, you land on the Community's My entries view
+  (`/?tab=community&view=mine`), and the entry shows there with a Pending pill.
 - As the reviewer, edit an entry and save.
   Expect: it saves, and its status is unchanged.
 

@@ -9,7 +9,7 @@ This supersedes 0002. A new or edited Contributor entry is Pending, and only a R
 
 ## Consequences
 
-- The Community and its search read Published entries only. `/my-entries` shows the Contributor every one of their entries and its status.
+- The Community and its search read Published entries only. The Community's My entries view shows the Contributor every one of their entries and its status.
 - 0002's bottleneck worry is real: nothing goes public until a Reviewer acts on it.
 - A Contributor's edit always sends the entry back to Pending, even if it was Published. A Reviewer's edit leaves its status alone.
 - The Draft and Hidden states from 0002 are gone. They were never built.
