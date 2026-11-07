@@ -4,28 +4,15 @@ The policies live in the database and the repo holds no credentials, so they are
 checked **by hand** around running `supabase/entries-username-rule.sql`. Report
 the results as manually verified, not automated.
 
-You need three test accounts, none of them holding real entries you care about:
+Section 4 needs two test accounts, neither holding real entries you care about:
 
-- **No Username:** confirmed, with no Username (make one with "Auto Confirm" and
-  no metadata). `<NO_NAME_ID>` is its id, from Authentication → Users.
 - **Contributor:** confirmed, with a Username, not on the reviewers list.
 - **Reviewer:** on the reviewers list, with a Username.
 
-Sign in from the browser console with the publishable key; never commit a key or
-password.
-
 ## 1. Before running the SQL: see the gap
 
-As **No Username**, in the browser console:
-
-```js
-await sb.from('entries').insert({ owner: '<NO_NAME_ID>', title: 'Username rule test', story: 'Before' }).select();
-// expect: the row comes back. This is the gap #56 closes.
-```
-
-If it is refused instead, stop: the live rules are not what #56 describes.
-
-Keep that row's id as `<NO_NAME_ENTRY_ID>` for section 3.
+This could only be seen before the SQL was run, and it was skipped. The policies
+read from `pg_policies` beforehand are what showed the gap (issue #56).
 
 ## 2. Run the SQL (SQL Editor)
 
@@ -39,14 +26,66 @@ where schemaname = 'public' and tablename = 'entries' and cmd in ('INSERT', 'UPD
 -- expect: two rows. INSERT's with_check and both of UPDATE's rules mention usernames.
 ```
 
-## 3. No Username is refused (browser console)
+## 3. No Username is refused (SQL Editor)
 
-```js
-await sb.from('entries').insert({ owner: '<NO_NAME_ID>', title: 'Username rule test', story: 'After' }).select();
-// expect: 42501 new row violates row-level security policy for table "entries"
+Each query briefly removes the Username of an entry's owner, acts as that owner,
+and tries the change. Nothing is kept: both end by cancelling their transaction,
+which puts the Username back. Run them separately.
 
-await sb.from('entries').update({ title: 'Changed' }).eq('id', '<NO_NAME_ENTRY_ID>').select();
-// expect: data is [] with no error, and the title in the Table Editor is unchanged
+```sql
+begin;
+
+select set_config('test.owner', (select owner::text from public.entries limit 1), true);
+delete from public.usernames where user_id = current_setting('test.owner')::uuid;
+
+select set_config(
+  'request.jwt.claims',
+  json_build_object('sub', current_setting('test.owner'), 'role', 'authenticated')::text,
+  true
+);
+set local role authenticated;
+
+insert into public.entries (owner, title, story, photo_path)
+values (
+  (select auth.uid()),
+  'Username rule test',
+  'Test',
+  (select auth.uid())::text || '/test'
+);
+
+rollback;
+-- expect: 42501 new row violates row-level security policy for table "entries"
+```
+
+A refused edit raises no error, so this query ends with one that says how many
+rows changed.
+
+```sql
+begin;
+
+select set_config('test.entry', (select id::text from public.entries limit 1), true);
+select set_config('test.owner', (select owner::text from public.entries where id = current_setting('test.entry')::uuid), true);
+delete from public.usernames where user_id = current_setting('test.owner')::uuid;
+
+select set_config(
+  'request.jwt.claims',
+  json_build_object('sub', current_setting('test.owner'), 'role', 'authenticated')::text,
+  true
+);
+set local role authenticated;
+
+do $$
+declare
+  changed integer;
+begin
+  update public.entries set title = title
+  where id = current_setting('test.entry')::uuid;
+  get diagnostics changed = row_count;
+  raise exception 'The edit changed % row(s)', changed;
+end $$;
+
+rollback;
+-- expect: The edit changed 0 row(s)
 ```
 
 ## 4. Everyone else still works (on the live site)
@@ -63,17 +102,9 @@ await sb.from('entries').update({ title: 'Changed' }).eq('id', '<NO_NAME_ENTRY_I
 - As **Contributor**, edit the Returned entry.
   Expect: it saves and is Pending again.
 
-## 5. Clean up (SQL Editor)
+## 5. Clean up
 
-The No Username account cannot delete its own entry, so remove the test row here:
-
-```sql
-delete from public.entries where id = '<NO_NAME_ENTRY_ID>';
-```
-
-Delete the other test entries the same way, or through the site. Then delete the
-No Username account in Authentication → Users, so the database goes back to
-having no account without a Username.
+Delete the test entries from section 4 through the site.
 
 ## If a check fails
 
@@ -85,9 +116,8 @@ which step failed.
 | Date | Sections | Result |
 |---|---|---|
 | 2026-11-07 | 2: the SQL ran, and `pg_policies` shows the Username rule on both policies | Pass |
-| 2026-11-07 | 1, 3 and 5 | Not run: the owner chose to skip them |
 | 2026-11-07 | 4, in part: a Contributor can add and edit, and a Reviewer can add, seen during the checks for #58 | Pass |
+| 2026-11-07 | 3: with its owner's Username removed, adding an entry is refused with 42501, and an edit changes 0 rows | Pass |
+| 2026-11-07 | 1 | Not run: it could only be seen before the SQL ran |
 
-Still not checked: that an account with no Username is refused, which is what the
-fix is for, and the rest of section 4. Run sections 3 and 4 if that needs proving
-later.
+Still not checked: the rest of section 4. Run it if that needs proving later.
