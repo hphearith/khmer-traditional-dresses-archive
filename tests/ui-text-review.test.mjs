@@ -6,8 +6,13 @@ import { TEXT, decisionDoneText, submittedText } from "../lib/uiText.js";
 test("a new entry's confirmation keeps the curator's English word for word", () => {
   assert.equal(
     TEXT.review.submitted.en,
-    "Your post has been submitted for review. You will be notified when your post goes live.",
+    "Your post has been submitted for review. Check My entries to see when it is published or returned.",
   );
+});
+
+test("a new entry's confirmation promises no notification, because the app sends none", () => {
+  assert.doesNotMatch(TEXT.review.submitted.en, /notif/i);
+  assert.doesNotMatch(TEXT.review.submitted.km, /ការជូនដំណឹង/);
 });
 
 test("the entry form no longer promises an entry or an edit goes public at once", () => {
