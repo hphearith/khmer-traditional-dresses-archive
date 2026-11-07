@@ -21,7 +21,7 @@
 --      suggests in its error hint: it would open owner, id and the timestamps.
 --
 -- The review gate SQL itself (status column, reviewers, is_reviewer,
--- review_entry, the new policies) was run from the Lab 10 brief and is not
--- recorded in this folder.
+-- review_entry, the new policies) was run from the Lab 10 brief. The brief's
+-- text is recorded in review-gate.sql, which says how it differs from this project.
 
 grant update (status) on public.entries to authenticated;
