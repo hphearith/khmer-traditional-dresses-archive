@@ -6,18 +6,25 @@
 --
 -- What this file is, and is not:
 --   1. The SQL below is the text of the Lab 10 brief, unchanged. It is not a
---      copy taken from the live database, which has not been compared with it.
+--      copy taken from the live database.
 --   2. It cannot be exactly what ran here. The three "drop policy" lines name
 --      policies this project never created under those names. entries.sql
 --      calls them "Entries are publicly readable" and "Contributors with a
 --      Username create entries as themselves", and entries-edit.sql calls the
 --      third "Owners update their own entries". A failed drop cancels the whole
---      transaction, so the text must have been changed when it was run.
---   3. To see the rules really in force, ask the database (read-only):
+--      transaction, so those lines must have been changed when it was run, or
+--      the old policies removed some other way.
+--   3. The live policies were compared with this text on 2026-11-07. The read,
+--      add and edit policies matched steps 5, 6 and 7, and the old policies
+--      were gone. Steps 6 and 7 dropped the Username rule the old policies had,
+--      so entries-username-rule.sql has since replaced them (issue #56). The
+--      status column, its check constraint, the functions and the grants were
+--      not compared.
+--   4. To see the rules really in force, ask the database (read-only):
 --        select policyname, cmd, roles, qual, with_check
 --        from pg_policies
 --        where schemaname = 'public' and tablename in ('entries', 'reviewers');
---   4. PASTE-YOUR-UUID-HERE is left as the brief wrote it. The real reviewer's
+--   5. PASTE-YOUR-UUID-HERE is left as the brief wrote it. The real reviewer's
 --      id stays out of this public repository.
 --
 -- Running it by accident changes nothing. On the live project step 1 fails
