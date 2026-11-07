@@ -6,6 +6,7 @@ import { formValuesFromEntry, isOwnedBy } from "../../../../lib/entry.js";
 import { photoUrl } from "../../../../lib/photoStorage.js";
 import { ENTRY_COLUMNS } from "../../../../lib/readEntries.js";
 import { readUsername } from "../../../../lib/readUsername.js";
+import { readIsReviewer } from "../../../../lib/review.js";
 import { createClient } from "../../../../lib/supabase/server.js";
 import { TEXT } from "../../../../lib/uiText.js";
 
@@ -22,14 +23,15 @@ export default async function EditEntryPage({ params }) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // The two lookups do not depend on each other, so they run together. The
+  // The lookups do not depend on each other, so they run together. The
   // rules still apply in order: Username first, then the entry. Published
   // entries can be read by anyone, so only the owner gets the form, and the
   // database refuses a save from anyone else. An unpublished entry is not
   // found at all, except by its owner or a reviewer.
-  const [{ username, error: usernameError }, { data: entry, error }] = await Promise.all([
+  const [{ username, error: usernameError }, { data: entry, error }, isReviewer] = await Promise.all([
     readUsername(supabase, user.id),
     supabase.from("entries").select(ENTRY_COLUMNS).eq("id", id).maybeSingle(),
+    readIsReviewer(supabase, user),
   ]);
 
   // Same rule as /contribute: a failed lookup is not "no Username".
@@ -50,9 +52,13 @@ export default async function EditEntryPage({ params }) {
           <p role="alert" style={{ color: "red" }}><Bilingual text={TEXT.page.editNotOwner} /></p>
         ) : (
           <>
-            <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-              <Bilingual text={TEXT.page.editIntro} />
-            </p>
+            {/* The intro is all about going back to review, which a Reviewer's own
+                entry does not do. If the check fails, this shows, as for a Contributor. */}
+            {!isReviewer && (
+              <p style={{ color: "var(--muted)", marginBottom: 32 }}>
+                <Bilingual text={TEXT.page.editIntro} />
+              </p>
+            )}
             <EntryForm userId={user.id} entryId={entry.id} initial={formValuesFromEntry(entry)}
               photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />
           </>

@@ -86,6 +86,20 @@ test("the decision buttons and the failure message use the words the spec chose,
   for (const name of ["publish", "return", "decisionFailed"]) assert.equal(isPair(TEXT.review.queue[name]), true, name);
 });
 
+test("a Reviewer's write intro keeps the first sentence and says nothing about review, with no new Khmer", () => {
+  const { writeIntro, writeIntroReviewer } = TEXT.page;
+  assert.equal(writeIntroReviewer.en, "Tell the story of one dress you ordered or had made, in Khmer, English or both.");
+  assert.equal(writeIntro.en.startsWith(writeIntroReviewer.en), true);
+  // Cut from the Contributor's Khmer at its sentence break, so a Khmer reader has nothing new to check.
+  assert.equal(writeIntroReviewer.km.endsWith("។"), true);
+  assert.equal(writeIntro.km.startsWith(writeIntroReviewer.km), true);
+  assert.doesNotMatch(writeIntroReviewer.en, /review/i);
+  assert.doesNotMatch(writeIntroReviewer.km, /ពិនិត្យ/);
+  // A Contributor's text stays as it was.
+  assert.match(writeIntro.en, /Your entry is reviewed before it is published\.$/);
+  assert.match(writeIntro.km, /ពិនិត្យ/);
+});
+
 test("every status has a short pill pair in both languages, and nothing else does", () => {
   const statuses = ["pending", "published", "returned"];
   assert.deepEqual(Object.keys(TEXT.review.pill).sort(), statuses);
