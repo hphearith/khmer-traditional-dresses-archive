@@ -14,9 +14,10 @@
 --      entries-edit.sql and photos-replace.sql.
 --   3. The review gate's update policy still decides which status a row may
 --      have: an owner may save it only as pending, unless they are a reviewer.
---      Publishing goes through review_entry(). So this grant opens no way to
---      skip review; it lets the policy be the check (see
---      entries-status-manual-checks.md).
+--      Publishing another Contributor's entry goes through review_entry(). So
+--      this grant lets no Contributor skip review; it lets the policy be the
+--      check (see entries-status-manual-checks.md). A Reviewer can set the
+--      status of their own entry directly, which is allowed (docs/adr/0004).
 --   4. Do not use the broader "grant update on public.entries" that Postgres
 --      suggests in its error hint: it would open owner, id and the timestamps.
 --

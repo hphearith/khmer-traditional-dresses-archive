@@ -21,7 +21,7 @@ A type of dress, such as Sampot Hol or Av Pak. Only Official records describe ga
 _Avoid_: Using "garment" for a single commissioned dress
 
 **Reviewer**:
-A Contributor on the reviewers list. A Reviewer can publish or return Pending Contributor entries, and nothing more. Being the archive's owner does not make someone a Reviewer, and being a Reviewer does not make someone the owner. A Reviewer's own Contributor entries follow the same rules as anyone's.
+A Contributor on the reviewers list. A Reviewer can publish or return Pending Contributor entries, and nothing more. Being the archive's owner does not make someone a Reviewer, and being a Reviewer does not make someone the owner. A Reviewer's own Contributor entries start Pending like anyone's, but a Reviewer may publish their own, and editing their own leaves its status as it is.
 _Avoid_: Curator, admin, moderator, approver
 
 **Contributor**:
@@ -59,7 +59,7 @@ A Contributor entry a Reviewer has published. Visible to everyone.
 _Avoid_: Approved, live, accepted
 
 **Returned**:
-A Contributor entry a Reviewer has sent back to its Contributor. Only its Contributor can see it. Editing and saving it makes it Pending again, in its original place in the Review queue.
+A Contributor entry a Reviewer has sent back to its Contributor. Only its Contributor and Reviewers can see it. Editing and saving it makes it Pending again, in its original place in the Review queue.
 _Avoid_: Rejected, declined, hidden
 
 **Review queue**:
