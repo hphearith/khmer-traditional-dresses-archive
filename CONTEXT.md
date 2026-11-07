@@ -65,3 +65,11 @@ _Avoid_: Rejected, declined, hidden
 **Review queue**:
 Every Pending Contributor entry, oldest submission first, as a Reviewer sees it. A Returned entry that is edited goes back to the place its first submission gave it.
 _Avoid_: Inbox, moderation queue, backlog
+
+**My entries**:
+The view of the Community in which a signed-in Contributor sees every one of their own Contributor entries, whatever its status, each with a Status pill. It is the one place a Contributor reviews their own entries. Guests never see it.
+_Avoid_: My posts, dashboard
+
+**Status pill**:
+The small capsule-shaped label on an entry in My entries that names where the entry stands: Pending, Published or Returned.
+_Avoid_: Badge, chip, tag
