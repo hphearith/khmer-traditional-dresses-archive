@@ -24,8 +24,8 @@ where table_schema = 'public' and table_name = 'entries'
 - As the Contributor, edit an entry and save.
   Expect: it saves, you land on the Community's My entries view
   (`/?tab=community&view=mine`), and the entry shows there with a Pending pill.
-- As the reviewer, edit an entry and save.
-  Expect: it saves, and its status is unchanged.
+- As the reviewer, edit one of your own Published entries and save.
+  Expect: it saves, and it is still Published.
 
 ## 3. The policy still holds (browser console, as the Contributor)
 
