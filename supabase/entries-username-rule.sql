@@ -2,8 +2,10 @@
 --
 -- ALREADY RUN on the live project (2026-11-07), in the Supabase dashboard (SQL
 -- Editor), after review-gate.sql and entries-status.sql. This file is the record
--- of what was run. It replaces two policies and changes nothing else. It is safe
--- to run again. pg_policies confirmed the new rules are live, but most of the
+-- of what was run. It replaces two policies and changes nothing else. Do not run
+-- it again: entries-reviewer-publish.sql (issue #58) has since replaced the add
+-- policy, and running this would stop a Reviewer's new entries being published,
+-- and so refuse them. pg_policies confirmed the new rules are live, but most of the
 -- behaviour checks were skipped: see entries-username-rule-manual-checks.md.
 --
 -- How it fits together:

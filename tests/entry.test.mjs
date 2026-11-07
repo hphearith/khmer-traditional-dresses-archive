@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { changeWasSaved, characterCount, editStatus, entryColumns, formValuesFromEntry, getDeleteFailureMessage, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
+import { changeWasSaved, characterCount, editStatus, entryColumns, formValuesFromEntry, getDeleteFailureMessage, getEntryMessage, getSaveFailureMessage, isOwnedBy, isWithinLimit, newEntryStatus, resolveCredit, validateEntry, yearOptions } from "../lib/entry.js";
 
 const YEAR = { currentYear: 2026 };
 
@@ -12,13 +12,21 @@ test("only the signed-in owner owns an entry; another account or a guest does no
   }
 });
 
-test("an edit by a Contributor sends the entry back to review; a reviewer's edit keeps its status", () => {
+test("an edit by a Contributor sends the entry back to review; a reviewer's edit publishes it", () => {
   assert.deepEqual(editStatus(false), { status: "pending" });
-  assert.deepEqual(editStatus(true), {});
+  assert.deepEqual(editStatus(true), { status: "published" });
   // Only a plain true from is_reviewer counts. A failed check (null) or anything
   // else sends the edit to review, which the database allows for everyone.
   for (const answer of [null, undefined, "true", 1]) {
     assert.deepEqual(editStatus(answer), { status: "pending" }, String(answer));
+  }
+});
+
+test("a reviewer's new entry is published; anyone else's sends no status, so the column's default makes it pending", () => {
+  assert.deepEqual(newEntryStatus(true), { status: "published" });
+  // Only a plain true from is_reviewer counts, as with an edit.
+  for (const answer of [false, null, undefined, "true", 1]) {
+    assert.deepEqual(newEntryStatus(answer), {}, String(answer));
   }
 });
 
