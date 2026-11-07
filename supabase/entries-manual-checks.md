@@ -161,8 +161,11 @@ is still there.
    Khmer text in Title and Story. The Year field is a list, not a box: it
    offers the current year down to 1900 and "Not sure", so a bad year can only
    be sent by a direct call (section 2).
-5. Save with only a title and a story: you land on `/?tab=community` and the
-   entry is first, credited `Shared by @<A's Username>`.
+5. Save with only a title and a story: the form is replaced by "Your post has
+   been submitted for review…" and a "My entries" button. The entry is not on
+   the Community tab's All entries, because it waits for review. Choose "My
+   entries": the entry is first, with a Pending pill, credited
+   `Shared by @<A's Username>`. Steps 6-8 check their entries the same way.
 6. Save another with every field filled, in Khmer and English mixed, with
    credited-as `គ្រួសារសុខា`: it is first, credited `Shared by គ្រួសារសុខា`, with
    every Provenance line shown and the Khmer exactly as typed.
@@ -196,8 +199,9 @@ is still there.
 14. Editing (issue #14). As A, choose "Edit" on one of A's entries: the form
     opens with the saved text, the Year list shows the saved year, and each
     counter shows the saved length. Change the title and choose "Save changes":
-    you land on `/?tab=community`, the entry keeps its place in the list, and
-    the Khmer story is unchanged.
+    you land on My entries, the entry keeps its place in the list with a Pending
+    pill (an edit sends it back for review, so it leaves All entries until a
+    Reviewer publishes it), and the Khmer story is unchanged.
 15. "My entries" appears on the Community tab only while logged in, and shows
     only A's entries, in every status (see steps 23-29). "Edit" appears on A's
     entries and on no one else's. A guest sees neither "My entries" nor any
