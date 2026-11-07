@@ -6,22 +6,44 @@ checked **by hand**. Report the results as manually verified, not automated.
 (`node --test tests/`).
 
 You need a **Reviewer** account, and a **Contributor** account that has a Username
-and is not on the reviewers list. `<CONTRIBUTOR_ID>` is the Contributor's id, from
-Authentication → Users. Sign in from the browser console with the publishable key;
-never commit a key or password.
+and is not on the reviewers list.
 
 ## 1. Before merging: the rule holds
 
-Run `supabase/entries-reviewer-publish.sql` in the SQL Editor, then this, as the
-**Contributor**, in the browser console:
+Run `supabase/entries-reviewer-publish.sql` in the SQL Editor, then this, also in
+the SQL Editor. It acts as a Contributor, and needs no key, password or account id.
+The last line cancels everything, so no test entry is left behind.
 
-```js
-await sb.from('entries').insert({ owner: '<CONTRIBUTOR_ID>', title: 'Status rule test', story: 'Test', photo_path: '<CONTRIBUTOR_ID>/test', status: 'published' }).select();
-// expect: 42501 new row violates row-level security policy for table "entries"
+```sql
+begin;
+
+select set_config(
+  'request.jwt.claims',
+  json_build_object(
+    'sub', (select user_id from public.usernames
+            where user_id not in (select user_id from public.reviewers)
+            limit 1),
+    'role', 'authenticated'
+  )::text,
+  true
+);
+set local role authenticated;
+
+insert into public.entries (owner, title, story, photo_path, status)
+values (
+  (select auth.uid()),
+  'Status rule test',
+  'Test',
+  (select auth.uid())::text || '/test',
+  'published'
+);
+
+rollback;
+-- expect: 42501 new row violates row-level security policy for table "entries"
 ```
 
-If the row comes back instead, stop and undo: a Contributor could skip review.
-Delete that row in the SQL Editor.
+If it answers "Success. No rows returned" instead, stop and undo: a Contributor
+could skip review.
 
 ## 2. After the app change is deployed (on the live site)
 
@@ -45,5 +67,5 @@ the app change, and report which step failed.
 
 | Date | Sections | Result |
 |---|---|---|
-| 2026-11-07 | The SQL in section 1 was run, as reported by the owner | Done |
-| | The Contributor refusal in section 1, and section 2 | Not run yet |
+| 2026-11-07 | 1: the SQL ran, and a Contributor adding an entry as `published` was refused with 42501 | Pass |
+| | 2 | Not run yet: needs the app change deployed |
