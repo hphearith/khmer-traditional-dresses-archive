@@ -55,7 +55,6 @@ export default async function Home() {
               <span style={{ display: "flex", minHeight: 44, alignItems: "center", color: "var(--muted)", fontSize: 14 }}>
                 {user.email}
               </span>
-              <a href="/my-entries"><Bilingual text={TEXT.community.myEntries} inline /></a>
               {isReviewer && <a href="/review"><Bilingual text={TEXT.review.queue.title} inline /></a>}
               <a href="/change-username"><Bilingual text={TEXT.username.change} inline /></a>
               <form action={logout} style={{ display: "flex" }}>
