@@ -12,6 +12,7 @@ test("a new entry's confirmation keeps the curator's English word for word", () 
 
 test("a new entry's confirmation promises no notification, because the app sends none", () => {
   assert.doesNotMatch(TEXT.review.submitted.en, /notif/i);
+  assert.doesNotMatch(TEXT.review.submitted.km, /ការជូនដំណឹង/);
 });
 
 test("the entry form no longer promises an entry or an edit goes public at once", () => {
