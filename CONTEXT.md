@@ -59,8 +59,12 @@ A Contributor entry a Reviewer has published. Visible to everyone.
 _Avoid_: Approved, live, accepted
 
 **Returned**:
-A Contributor entry a Reviewer has sent back to its Contributor. Only its Contributor and Reviewers can see it. Editing and saving it makes it Pending again, in its original place in the Review queue.
+A Contributor entry a Reviewer has sent back to its Contributor, with a Return note. Only its Contributor and Reviewers can see it. Editing and saving it makes it Pending again, in its original place in the Review queue.
 _Avoid_: Rejected, declined, hidden
+
+**Return note**:
+The Reviewer's own words, sent with a Return, telling the Contributor what to change. A Reviewer cannot Return an entry without one, although entries Returned before Return notes existed have none. It is shown as the Reviewer wrote it, Khmer included. Only the entry's Contributor and Reviewers can read it. It stays with the entry when the Contributor edits it and it becomes Pending again, a later Return replaces it, and it is gone once the entry is Published.
+_Avoid_: Feedback, comment, rejection reason, review note
 
 **Review queue**:
 Every Pending Contributor entry, oldest submission first, as a Reviewer sees it. A Returned entry that is edited goes back to the place its first submission gave it.
