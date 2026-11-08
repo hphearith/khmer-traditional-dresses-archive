@@ -1,6 +1,7 @@
 import collection from "../collection.config.js";
 import DraftToast from "../components/DraftToast.js";
 import LanguageProvider from "../components/LanguageProvider.js";
+import LanguageToggle from "../components/LanguageToggle.js";
 import { getLanguage } from "../lib/getLanguage.js";
 import "./globals.css";
 
@@ -18,6 +19,7 @@ export default async function RootLayout({ children }) {
     <html lang={language}>
       <body>
         <LanguageProvider language={language}>
+          <LanguageToggle />
           {children}
           <DraftToast />
         </LanguageProvider>
