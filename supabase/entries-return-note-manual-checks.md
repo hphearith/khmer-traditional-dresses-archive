@@ -106,7 +106,9 @@ begin;
 -- read the reviewers list through the API.
 select
   set_config('test.reviewer',
-    coalesce((select user_id::text from public.reviewers limit 1), ''), true),
+    coalesce((select r.user_id::text from public.reviewers r
+              join public.usernames u on u.user_id = r.user_id
+              limit 1), ''), true),
   set_config('test.contributor',
     coalesce((select user_id::text from public.usernames
               where user_id not in (select user_id from public.reviewers)
@@ -129,7 +131,7 @@ declare
   report text := 'Return note checks:';
 begin
   if current_setting('test.reviewer') = '' or current_setting('test.contributor') = '' then
-    raise exception 'Needs a Reviewer, and a Contributor with a Username who is not a Reviewer';
+    raise exception 'Needs a Reviewer with a Username, and a Contributor with a Username who is not a Reviewer';
   end if;
 
   -- The Contributor adds an entry. It starts Pending.
