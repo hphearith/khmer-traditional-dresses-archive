@@ -3,13 +3,15 @@ import { TEXT, sharedByText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import DeleteEntryButton from "./DeleteEntryButton.js";
 import ProvenanceList from "./ProvenanceList.js";
+import ReturnNote from "./ReturnNote.js";
 import StatusPill from "./StatusPill.js";
 
 // Every value is rendered as plain text by React, so a title such as
 // <script>…</script> is shown, never run. Khmer text is shown as stored.
 // showStatus adds where the entry stands in review, as a Status pill (My
 // entries only); All entries shows published entries alone, so it never needs it.
-// A Returned entry also says what to do next, under its pill.
+// A Returned entry also says what to do next, under its pill, followed by its
+// Return note if it has one. A Pending or Published entry never shows a note.
 export default function ContributorEntryCard({ entry, showStatus = false }) {
   return (
     <article className="entry-card">
@@ -23,7 +25,10 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
         <div className="entry-status">
           <StatusPill status={entry.status} />
           {entry.status === "returned" && (
-            <p className="entry-status-hint"><Bilingual text={TEXT.review.returnedHint} /></p>
+            <>
+              <p className="entry-status-hint"><Bilingual text={TEXT.review.returnedHint} /></p>
+              <ReturnNote heading={TEXT.review.note.name} note={entry.return_note} />
+            </>
           )}
         </div>
       )}

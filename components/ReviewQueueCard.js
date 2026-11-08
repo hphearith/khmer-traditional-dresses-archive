@@ -2,6 +2,7 @@ import { combined } from "../lib/bilingual.js";
 import { TEXT, sharedByText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import ProvenanceList from "./ProvenanceList.js";
+import ReturnNote from "./ReturnNote.js";
 import ReviewDecisionButtons from "./ReviewDecisionButtons.js";
 
 // One Pending entry as a Reviewer reads it: everything the public would see once
@@ -10,7 +11,8 @@ import ReviewDecisionButtons from "./ReviewDecisionButtons.js";
 // submitted is the "Submitted <date>" pair, worked out on the server (submittedText).
 // onDecided(entry, decision) is called once the database has confirmed a decision.
 // Every value is plain text, so a title such as <script>…</script> is shown, never
-// run, and Khmer is shown as stored.
+// run, and Khmer is shown as stored. An entry that was Returned and then edited
+// still carries its Return note, shown read-only so the Reviewer can check the change.
 export default function ReviewQueueCard({ entry, submitted, onDecided }) {
   return (
     <article className="entry-card">
@@ -23,6 +25,7 @@ export default function ReviewQueueCard({ entry, submitted, onDecided }) {
       <p className="entry-credit"><Bilingual text={submitted} /></p>
       <ProvenanceList entry={entry} />
       <p className="entry-story">{entry.story}</p>
+      <ReturnNote heading={TEXT.review.note.returnedBefore} note={entry.return_note} />
       <ReviewDecisionButtons entry={entry} onDecided={onDecided} />
     </article>
   );

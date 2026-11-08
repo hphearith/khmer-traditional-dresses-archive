@@ -618,6 +618,57 @@ input[type="search"]::-webkit-search-cancel-button {
   line-height: 1.9;
 }
 
+/* A Return note, read-only: the Reviewer's own words in a square fabric panel,
+   with every line break kept and long words wrapped inside the card. */
+.return-note {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  padding: 12px 16px;
+  background: var(--fabric);
+}
+
+.return-note-heading {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.9;
+}
+
+.return-note-text {
+  margin-top: 4px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* The box a Reviewer writes a Return note in, styled like the entry form's fields. */
+.return-note-form {
+  margin-top: 16px;
+}
+
+/* The hint and the counter under the box, in the same small muted type as the Status pill's hint. */
+.return-note-hint {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.return-note-form textarea {
+  width: 100%;
+  min-width: 0;
+  margin-top: 8px;
+  border: 1px solid var(--control);
+  border-radius: 4px;
+  padding: 12px 16px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.9;
+  resize: vertical;
+}
+
 /* All entries or My entries, shown to a signed-in visitor on the Community tab. */
 .entry-views {
   display: flex;
