@@ -60,3 +60,12 @@ test("500 Khmer characters fit, and 501 do not", () => {
   assert.equal(checkReturnNote("ក".repeat(500)).ok, true);
   assert.equal(checkReturnNote("ក".repeat(501)).ok, false);
 });
+
+test("a note the database cannot store is refused: a NUL, or half of an emoji pair", () => {
+  // Postgres text holds neither, so review_entry would fail on them.
+  for (const text of ["\u0000", "Add\u0000 the year.", "\uD800", "\uDC00", "a\uD800b", "\uDC00\uD800", "🧵\uD800"]) {
+    assert.equal(checkReturnNote(text).ok, false, JSON.stringify(text));
+  }
+  // A whole emoji pair is still one ordinary character.
+  assert.equal(checkReturnNote("🧵🧵").ok, true);
+});
