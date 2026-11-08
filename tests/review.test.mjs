@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { decideOnEntry, readIsReviewer, readReviewQueue } from "../lib/review.js";
+import { decideOnEntry, readIsReviewer, readReviewQueue, waitingEntries } from "../lib/review.js";
 
 const ok = (data) => ({ data, error: null });
 
@@ -104,14 +104,14 @@ test("each queue entry carries its Credit, photo address and submitted time, wit
   assert.equal("owner" in entries[0], false);
 });
 
-test("the queue asks for everything its cards show, including when each entry was submitted and any earlier Return note", async () => {
+test("the queue asks for everything its cards show, including when each entry was submitted and last saved, and any earlier Return note", async () => {
   // The fake hands back whatever row it is given, so without this a query that forgot
   // created_at would pass every other test and then fail on the page, which dates each card.
   const { selected, client } = fakeSupabase({ isReviewer: ok(true), tables: { entries: ok([]) } });
   await readReviewQueue(client);
   const [[, columns]] = selected.filter(([table]) => table === "entries");
   const asked = columns.split(",").map((column) => column.trim());
-  for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at", "return_note"]) {
+  for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at", "updated_at", "return_note"]) {
     assert.equal(asked.includes(column), true, column);
   }
 });
@@ -208,4 +208,27 @@ test("any answer from is_reviewer other than exactly true hides the link", async
     const { client } = fakeDecisionClient(ok(answer));
     assert.equal(await readIsReviewer(client, SIGNED_IN), false, String(answer));
   }
+});
+
+// The queue hides an entry the Reviewer has decided on until the page is loaded
+// again. Switching the Interface language refreshes the entries without loading
+// the page, so the hiding must survive a refresh that is out of date and must
+// not swallow an entry its Contributor has since edited and resubmitted.
+const pending = (id, updated_at) => ({ id, updated_at, title: `Entry ${id}` });
+
+test("an entry nobody has decided on yet waits in the queue", () => {
+  const entries = [pending("a", "2026-11-01T10:00:00Z"), pending("b", "2026-11-02T10:00:00Z")];
+  assert.deepEqual(waitingEntries(entries, []).map((entry) => entry.id), ["a", "b"]);
+});
+
+test("a decided entry stays out of the queue when a refresh still brings it as it was", () => {
+  const entries = [pending("a", "2026-11-01T10:00:00Z"), pending("b", "2026-11-02T10:00:00Z")];
+  const decided = [{ id: "a", updated_at: "2026-11-01T10:00:00Z" }];
+  assert.deepEqual(waitingEntries(entries, decided).map((entry) => entry.id), ["b"]);
+});
+
+test("a Returned entry its Contributor edited and resubmitted comes back to the queue", () => {
+  const entries = [pending("a", "2026-11-09T08:30:00Z")];
+  const decided = [{ id: "a", updated_at: "2026-11-01T10:00:00Z" }];
+  assert.deepEqual(waitingEntries(entries, decided).map((entry) => entry.id), ["a"]);
 });
