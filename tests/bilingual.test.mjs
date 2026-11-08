@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { combined, isPair } from "../lib/bilingual.js";
+import { combined, isPair, pick } from "../lib/bilingual.js";
 
 test("a pair needs both an English and a Khmer text that is not blank", () => {
   assert.equal(isPair({ en: "Title", km: "ចំណងជើង" }), true);
@@ -19,4 +19,15 @@ test("a placeholder or aria-label joins English and Khmer in one string, Khmer u
 
 test("combined refuses an incomplete pair instead of showing half a label", () => {
   assert.throws(() => combined({ en: "Title" }), /both/);
+});
+
+test("pick shows one language of a pair, the Khmer exactly as written", () => {
+  const tricky = "ក្រុង​សៀមរាប";
+  assert.equal(pick({ en: "Place", km: tricky }, "en"), "Place");
+  assert.equal(pick({ en: "Place", km: tricky }, "km"), tricky);
+});
+
+test("pick refuses an incomplete pair or an unknown language instead of showing nothing", () => {
+  assert.throws(() => pick({ en: "Title" }, "en"), /both/);
+  assert.throws(() => pick({ en: "Title", km: "ចំណងជើង" }, "fr"), /en or km/);
 });
