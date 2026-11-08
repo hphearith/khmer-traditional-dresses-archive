@@ -23,8 +23,12 @@ export default function LanguageToggle() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
+  // current is the language on screen, so while a switch is still on its way
+  // a press on the language being left must still go through: otherwise
+  // English → ខ្មែរ → English, pressed quickly, ends in Khmer. The last press
+  // writes the cookie last, and its refresh is the last to land.
   function choose(language) {
-    if (language === current) return;
+    if (language === current && !pending) return;
     document.cookie = languageCookie(language, window.location.protocol === "https:");
     startTransition(() => router.refresh());
   }
