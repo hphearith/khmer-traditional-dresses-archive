@@ -62,10 +62,22 @@ select
 
 ## 3. The site's calls still reach the function (browser console)
 
-The SQL Editor cannot show what the API sees, so these go through it. Sign in as
-the **Contributor** from the browser console with the publishable key, as in
-`entries-status-manual-checks.md`; never commit a key or password. The entry id
-is all zeros on purpose: no entry has it, so nothing changes.
+The SQL Editor cannot show what the API sees, so these go through it. Open the
+live site, open the browser console, and sign in there as the **Contributor**
+with a client of your own. The project URL and publishable key are in
+`.env.local` (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`).
+Type them and the password into the console only: never into a file, and never
+commit them. `persistSession: false` keeps this sign-in out of the site's own
+session. Close the tab when you are done.
+
+```js
+const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/+esm');
+const sb = createClient('<PROJECT_URL>', '<PUBLISHABLE_KEY>', { auth: { persistSession: false } });
+await sb.auth.signInWithPassword({ email: '<CONTRIBUTOR_EMAIL>', password: '<PASSWORD>' });
+// expect: error: null, and data.user is the Contributor
+```
+
+The entry id below is all zeros on purpose: no entry has it, so nothing changes.
 
 ```js
 await sb.rpc('review_entry', { entry_id: '00000000-0000-0000-0000-000000000000', decision: 'published' });
@@ -283,7 +295,9 @@ grant lines after it. Then report which check failed.
 
 | Date | Sections | Result |
 |---|---|---|
-| | 1: Returned entries before the SQL ran | Not yet run |
-| | 2: the SQL ran; grants, function and trigger as expected | Not yet run |
-| | 3: both API calls answer false with no error; a Reviewer's Publish works on the site | Not yet run |
-| | 4: every check PASS | Not yet run |
+| 2026-11-08 | 1: 3 entries were Returned before the SQL ran. The live `review_entry(uuid, text)` was saved, and matches the one in the undo block | Done |
+| 2026-11-08 | 2: the SQL ran. `return_note` has SELECT only, for anon and authenticated. The old function is gone, a guest cannot call the new one, a signed-in account can, and the trigger is present | Pass |
+| 2026-11-08 | 3: as the Contributor, both API calls answered `data: false, error: null` (status 200). On the site, the Reviewer published a Contributor's entry: it left the Review queue and shows on the Community tab | Pass |
+| 2026-11-08 | 4: all 12 checks PASS | Pass |
+
+Still to check: section 5, with #67.

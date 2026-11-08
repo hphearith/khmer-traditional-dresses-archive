@@ -1,10 +1,11 @@
 -- Contributor entries: every Return carries a Return note (issue #66, part of #43).
 --
--- NOT YET RUN. Run it by hand in the Supabase dashboard (SQL Editor), leaving out
--- the commented undo block at the end, then work through
--- entries-return-note-manual-checks.md and record the date there. It adds one
--- column and one trigger, replaces review_entry, and changes nothing else. It is
--- safe to run again: the second run changes nothing.
+-- ALREADY RUN on the live project (2026-11-08), in the Supabase dashboard (SQL
+-- Editor), without the commented undo block. This file is the record of what
+-- was run; the checks and their results are in
+-- entries-return-note-manual-checks.md. It adds one column and one trigger,
+-- replaces review_entry, and changes nothing else. It is safe to run again: the
+-- second run changes nothing.
 --
 -- AFTER RUNNING IT, DO NOT PRESS RETURN ON THE LIVE SITE until issue #67 (the
 -- screens) is deployed. The deployed code still calls review_entry with two
