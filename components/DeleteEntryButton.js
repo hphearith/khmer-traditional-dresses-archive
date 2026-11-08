@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 import { useDeleteEntry } from "../lib/useDeleteEntry.js";
 import Bilingual from "./Bilingual.js";
@@ -9,6 +10,7 @@ import Bilingual from "./Bilingual.js";
 // Delete asks first. Cancel is focused, so Enter on the question never deletes,
 // and focus returns to Delete when the question is dismissed.
 export default function DeleteEntryButton({ entryId, title }) {
+  const language = useLanguage();
   const [confirming, setConfirming] = useState(false);
   const { pending, error, deleteEntry, clearError } = useDeleteEntry(entryId);
   const deleteButton = useRef(null);
@@ -29,14 +31,14 @@ export default function DeleteEntryButton({ entryId, title }) {
   if (!confirming) {
     return (
       <button ref={deleteButton} type="button" className="button secondary"
-        aria-label={`${combined(TEXT.card.delete)}: ${title}`} onClick={() => setConfirming(true)}>
+        aria-label={`${pick(TEXT.card.delete, language)}: ${title}`} onClick={() => setConfirming(true)}>
         <Bilingual text={TEXT.card.delete} inline />
       </button>
     );
   }
 
   return (
-    <div className="entry-confirm" role="group" aria-label={`${combined(TEXT.card.confirmGroup)}: ${title}`}>
+    <div className="entry-confirm" role="group" aria-label={`${pick(TEXT.card.confirmGroup, language)}: ${title}`}>
       <p><Bilingual text={TEXT.card.confirmQuestion} /></p>
       <div className="entry-confirm-actions">
         <button type="button" className="button" onClick={deleteEntry} disabled={pending}>

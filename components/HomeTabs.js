@@ -1,7 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { getHomeTabHref, moveHomeTab, parseHomeTab, parseHomeView } from "../lib/homeTabs.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -14,6 +15,7 @@ const TABS = [
 ];
 
 export default function HomeTabs({ communityEntries, communityFailed, myEntries, myFailed, signedIn }) {
+  const language = useLanguage();
   // The page-level tab lives in the address (?tab=), and so does the Community
   // view (?view=). GarmentsArchive keeps its own separate category filter state,
   // so the two never share a name. Only a signed-in visitor has My entries;
@@ -41,7 +43,7 @@ export default function HomeTabs({ communityEntries, communityFailed, myEntries,
   return (
     <div id="collection" className="home-tabs-wrap">
       <div className="container">
-        <div className="home-tabs" role="tablist" aria-label={combined(TEXT.tabs.label)} onKeyDown={onKeyDown}>
+        <div className="home-tabs" role="tablist" aria-label={pick(TEXT.tabs.label, language)} onKeyDown={onKeyDown}>
           {TABS.map((tab) => (
             <button
               className="home-tab"

@@ -1,4 +1,5 @@
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { yearOptions } from "../lib/entry.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -14,6 +15,7 @@ const CONTROL = {
 // because a direct call can send anything.
 // initialYear is the year an entry being edited already has ("" for none).
 export default function YearField({ error, initialYear = "" }) {
+  const language = useLanguage();
   const years = yearOptions(new Date().getFullYear(), initialYear);
 
   return (
@@ -23,7 +25,7 @@ export default function YearField({ error, initialYear = "" }) {
       </label>
       <select id="year" name="year" defaultValue={initialYear} style={CONTROL}
         aria-invalid={error ? true : undefined} aria-describedby={error ? "year-error" : undefined}>
-        <option value="">{combined(TEXT.provenance.notSure)}</option>
+        <option value="">{pick(TEXT.provenance.notSure, language)}</option>
         {years.map((year) => <option key={year} value={year}>{year}</option>)}
       </select>
       {error && <p id="year-error" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}

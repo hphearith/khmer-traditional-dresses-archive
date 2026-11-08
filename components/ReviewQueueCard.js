@@ -1,4 +1,5 @@
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT, sharedByText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import ProvenanceList from "./ProvenanceList.js";
@@ -14,11 +15,12 @@ import ReviewDecisionButtons from "./ReviewDecisionButtons.js";
 // run, and Khmer is shown as stored. An entry that was Returned and then edited
 // still carries its Return note, shown read-only so the Reviewer can check the change.
 export default function ReviewQueueCard({ entry, submitted, onDecided }) {
+  const language = useLanguage();
   return (
     <article className="entry-card">
       {/* A plain img, like the Contributor entry card: the photo is public. */}
       {entry.photo_url && (
-        <img className="entry-photo" src={entry.photo_url} alt={`${combined(TEXT.card.photoFor)}: ${entry.title}`} loading="lazy" />
+        <img className="entry-photo" src={entry.photo_url} alt={`${pick(TEXT.card.photoFor, language)}: ${entry.title}`} loading="lazy" />
       )}
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
       <h3>{entry.title}</h3>

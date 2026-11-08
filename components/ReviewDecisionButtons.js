@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 import { useReviewDecision } from "../lib/useReviewDecision.js";
 import Bilingual from "./Bilingual.js";
@@ -13,6 +14,7 @@ import ReturnNoteForm from "./ReturnNoteForm.js";
 // is disabled while a decision is on its way. If the database did not make it,
 // the entry stays and says so, and an open box keeps its text.
 export default function ReviewDecisionButtons({ entry, onDecided }) {
+  const language = useLanguage();
   const { sending, failed, decide } = useReviewDecision(entry, onDecided);
   const [writing, setWriting] = useState(false);
   const returnButton = useRef(null);
@@ -32,11 +34,11 @@ export default function ReviewDecisionButtons({ entry, onDecided }) {
       ) : (
         <div className="entry-actions">
           <button type="button" className="button" disabled={sending} onClick={() => decide("published")}
-            aria-label={`${combined(TEXT.review.queue.publish)}: ${entry.title}`}>
+            aria-label={`${pick(TEXT.review.queue.publish, language)}: ${entry.title}`}>
             <Bilingual text={TEXT.review.queue.publish} inline />
           </button>
           <button ref={returnButton} type="button" className="button secondary" disabled={sending} onClick={() => setWriting(true)}
-            aria-label={`${combined(TEXT.review.queue.return)}: ${entry.title}`}>
+            aria-label={`${pick(TEXT.review.queue.return, language)}: ${entry.title}`}>
             <Bilingual text={TEXT.review.queue.return} inline />
           </button>
         </div>

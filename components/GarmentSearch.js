@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { matchGarment, parseQuery } from "../lib/garmentSearch.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -10,6 +11,7 @@ import GarmentSuggestions from "./GarmentSuggestions.js";
 const LIST_ID = "garment-search-suggestions";
 
 export default function GarmentSearch({ query, onQueryChange, garments, inputRef }) {
+  const language = useLanguage();
   const [open, setOpen] = useState(false);
   const [cursor, setCursor] = useState(-1);
   const terms = parseQuery(query);
@@ -59,7 +61,7 @@ export default function GarmentSearch({ query, onQueryChange, garments, inputRef
           ref={inputRef}
           type="search"
           role="combobox"
-          placeholder={combined(TEXT.catalogue.placeholder)}
+          placeholder={pick(TEXT.catalogue.placeholder, language)}
           value={query}
           aria-autocomplete="list"
           aria-haspopup="listbox"
@@ -74,7 +76,7 @@ export default function GarmentSearch({ query, onQueryChange, garments, inputRef
           onBlur={() => { setOpen(false); setCursor(-1); }}
         />
         {query && (
-          <button className="search-clear" type="button" aria-label={combined(TEXT.catalogue.clearSearch)} onClick={() => { onQueryChange(""); setOpen(false); setCursor(-1); }}>
+          <button className="search-clear" type="button" aria-label={pick(TEXT.catalogue.clearSearch, language)} onClick={() => { onQueryChange(""); setOpen(false); setCursor(-1); }}>
             ✕
           </button>
         )}
