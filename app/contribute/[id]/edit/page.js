@@ -2,9 +2,10 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import Bilingual from "../../../../components/Bilingual.js";
 import EntryForm from "../../../../components/EntryForm.js";
+import ReturnNote from "../../../../components/ReturnNote.js";
 import { formValuesFromEntry, isOwnedBy } from "../../../../lib/entry.js";
 import { photoUrl } from "../../../../lib/photoStorage.js";
-import { ENTRY_COLUMNS } from "../../../../lib/readEntries.js";
+import { OWN_ENTRY_COLUMNS } from "../../../../lib/readEntries.js";
 import { readUsername } from "../../../../lib/readUsername.js";
 import { readIsReviewer } from "../../../../lib/review.js";
 import { createClient } from "../../../../lib/supabase/server.js";
@@ -27,10 +28,11 @@ export default async function EditEntryPage({ params }) {
   // rules still apply in order: Username first, then the entry. Published
   // entries can be read by anyone, so only the owner gets the form, and the
   // database refuses a save from anyone else. An unpublished entry is not
-  // found at all, except by its owner or a reviewer.
+  // found at all, except by its owner or a reviewer. The status and the Return
+  // note are read too, so a Returned entry can show what to change.
   const [{ username, error: usernameError }, { data: entry, error }, isReviewer] = await Promise.all([
     readUsername(supabase, user.id),
-    supabase.from("entries").select(ENTRY_COLUMNS).eq("id", id).maybeSingle(),
+    supabase.from("entries").select(OWN_ENTRY_COLUMNS).eq("id", id).maybeSingle(),
     readIsReviewer(supabase, user),
   ]);
 
@@ -59,6 +61,8 @@ export default async function EditEntryPage({ params }) {
                 <Bilingual text={TEXT.page.editIntro} />
               </p>
             )}
+            {/* Only a Returned entry shows its note: a Pending one may still carry it, unasked for here. */}
+            {entry.status === "returned" && <ReturnNote heading={TEXT.review.note.name} note={entry.return_note} />}
             <EntryForm userId={user.id} entryId={entry.id} initial={formValuesFromEntry(entry)}
               photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />
           </>
