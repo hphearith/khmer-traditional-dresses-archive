@@ -5,10 +5,11 @@ credentials, so they are checked **by hand** around running
 `supabase/entries-return-note.sql`. Report the results as manually verified, not
 automated. Nothing in `node --test tests/` covers this file.
 
-Everything runs in the SQL Editor. Section 3 needs two accounts that already
-exist, and finds them itself, so no id, key or password is written anywhere:
+Sections 1, 2 and 4 run in the SQL Editor, section 3 in the browser console.
+Sections 3 and 4 need two accounts that already exist. Section 4 finds them
+itself, so no id, key or password is written anywhere:
 
-- a **Reviewer**: on the reviewers list;
+- a **Reviewer**: on the reviewers list, with a Username;
 - a **Contributor**: has a Username and is not on the reviewers list.
 
 **After running the SQL, do not press Return on the live site until issue #67
@@ -27,8 +28,8 @@ where status = 'returned';
 
 The undo block puts `review_entry` back as `review-gate.sql` wrote it, but that
 text was never compared with the live function. Copy what this returns and keep
-it outside the repository until #67 is merged: if you ever undo, restore this
-text instead.
+it outside the repository until #67 is merged. If you ever undo, it goes in the
+undo block in place of the bundled function (the block's comment says where).
 
 ```sql
 select pg_get_functiondef('public.review_entry(uuid, text)'::regprocedure);
@@ -52,14 +53,43 @@ order by grantee, privilege_type;
 select
   to_regprocedure('public.review_entry(uuid, text)') is null as old_function_gone,
   has_function_privilege('anon', 'public.review_entry(uuid, text, text)', 'execute') as guest_can_call,
-  has_function_privilege('authenticated', 'public.review_entry(uuid, text, text)', 'execute') as signed_in_can_call;
--- expect: true, false, true
+  has_function_privilege('authenticated', 'public.review_entry(uuid, text, text)', 'execute') as signed_in_can_call,
+  exists (select 1 from pg_trigger
+          where tgname = 'entries_clear_return_note_on_publish'
+            and tgrelid = 'public.entries'::regclass) as publish_trigger_present;
+-- expect: true, false, true, true
 ```
 
-## 3. The rules hold (one script)
+## 3. The site's calls still reach the function (browser console)
+
+The SQL Editor cannot show what the API sees, so these go through it. Sign in as
+the **Contributor** from the browser console with the publishable key, as in
+`entries-status-manual-checks.md`; never commit a key or password. The entry id
+is all zeros on purpose: no entry has it, so nothing changes.
+
+```js
+await sb.rpc('review_entry', { entry_id: '00000000-0000-0000-0000-000000000000', decision: 'published' });
+// expect: data: false, error: null. This is the call the deployed site makes,
+// with no note, so Publish still reaches the new function.
+
+await sb.rpc('review_entry', { entry_id: '00000000-0000-0000-0000-000000000000', decision: 'returned', note: 'Test' });
+// expect: data: false, error: null. The API knows the three-argument function.
+```
+
+An error with code `PGRST202` ("Could not find the function") means the API has
+not reloaded its schema yet. Run `notify pgrst, 'reload schema';` in the SQL
+Editor and try again.
+
+Then, on the live site, as the **Reviewer**: Publish one of the Contributor's
+Pending entries from the Review queue (add a test entry as the Contributor
+first if there is none). Expect it to leave the queue and show on the Community
+tab. Delete the test entry afterwards through the site.
+
+## 4. The rules hold (one script)
 
 Paste the whole block and run it once. It adds two test entries as the
-Contributor, acts as the Reviewer and as a guest, and **always ends in an
+Contributor and one as the Reviewer, acts as each of them and as a guest, and
+**always ends in an
 error**: the last step raises the report as an error message on purpose,
 because an error cancels the whole transaction. Nothing is kept.
 
@@ -91,6 +121,7 @@ declare
   khmer text := E'សូមបន្ថែមឈ្មោះជាងកាត់ដេរ\nនិងឆ្នាំដែលបានកាត់ដេរ';
   entry uuid;
   returned_entry uuid;
+  own_entry uuid;
   answer boolean;
   row_status text;
   row_note text;
@@ -178,6 +209,16 @@ begin
   ok := answer = false and row_status = 'published' and row_note is null;
   report := report || E'\n5c. a Return on a Published entry is refused: ' || case when ok then 'PASS' else 'FAIL' end;
 
+  -- 5d. A Reviewer's own Returned entry, saved straight to Published, loses its note.
+  insert into public.entries (owner, title, story, photo_path)
+  values ((select auth.uid()), 'Return note test 3', 'Test', (select auth.uid())::text || '/test')
+  returning id into own_entry;
+  answer := public.review_entry(own_entry, 'returned', khmer);
+  update public.entries set status = 'published' where id = own_entry;
+  select status, return_note into row_status, row_note from public.entries where id = own_entry;
+  ok := answer = true and row_status = 'published' and row_note is null;
+  report := report || E'\n5d. a Reviewer publishing their own Returned entry clears the note: ' || case when ok then 'PASS' else 'FAIL' end;
+
   -- 9. The two-argument function is gone.
   ok := to_regprocedure('public.review_entry(uuid, text)') is null;
   report := report || E'\n9. review_entry(uuid, text) no longer exists: ' || case when ok then 'PASS' else 'FAIL' end;
@@ -193,6 +234,7 @@ begin
   perform set_config('test.report', report, true);
   perform set_config('test.published', entry::text, true);
   perform set_config('test.returned', returned_entry::text, true);
+  perform set_config('test.own', own_entry::text, true);
 end $$;
 
 -- 10. As a guest: no Return note anywhere.
@@ -211,9 +253,10 @@ begin
   select count(*) into seen from public.entries where id = current_setting('test.returned')::uuid;
   ok := ok and seen = 0;
   select count(*) into seen from public.entries
-    where id = current_setting('test.published')::uuid and return_note is null;
-  ok := ok and seen = 1;
-  report := report || E'\n10. a guest sees the Published entry with no note, and not the Returned one: ' || case when ok then 'PASS' else 'FAIL' end;
+    where id in (current_setting('test.published')::uuid, current_setting('test.own')::uuid)
+      and return_note is null;
+  ok := ok and seen = 2;
+  report := report || E'\n10. a guest sees both Published entries with no note, and not the Returned one: ' || case when ok then 'PASS' else 'FAIL' end;
 
   raise exception '%', report;
 end $$;
@@ -221,7 +264,7 @@ end $$;
 rollback;
 ```
 
-## 4. On the live site, after #67 is deployed
+## 5. On the live site, after #67 is deployed
 
 The screens are #67's to check: its pull request carries the walk-through
 (Return with a note, see it as the Contributor, edit, Publish, see it gone).
@@ -229,13 +272,16 @@ Until then, do not press Return on the live site.
 
 ## If a check fails
 
-Run the undo block at the end of `supabase/entries-return-note.sql`, and report
-which check failed.
+Run the undo block at the end of `supabase/entries-return-note.sql`. If you
+saved the live function in section 1, put that text in the block in place of
+the bundled one, between its "old function" lines, and keep the revoke and
+grant lines after it. Then report which check failed.
 
 ## Results (manually verified)
 
 | Date | Sections | Result |
 |---|---|---|
 | | 1: Returned entries before the SQL ran | Not yet run |
-| | 2: the SQL ran; grants and function as expected | Not yet run |
-| | 3: every check PASS | Not yet run |
+| | 2: the SQL ran; grants, function and trigger as expected | Not yet run |
+| | 3: both API calls answer false with no error; a Reviewer's Publish works on the site | Not yet run |
+| | 4: every check PASS | Not yet run |

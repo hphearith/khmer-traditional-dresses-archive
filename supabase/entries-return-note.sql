@@ -3,8 +3,8 @@
 -- NOT YET RUN. Run it by hand in the Supabase dashboard (SQL Editor), leaving out
 -- the commented undo block at the end, then work through
 -- entries-return-note-manual-checks.md and record the date there. It adds one
--- column, replaces review_entry, and changes nothing else. It is safe to run
--- again: the second run changes nothing.
+-- column and one trigger, replaces review_entry, and changes nothing else. It is
+-- safe to run again: the second run changes nothing.
 --
 -- AFTER RUNNING IT, DO NOT PRESS RETURN ON THE LIVE SITE until issue #67 (the
 -- screens) is deployed. The deployed code still calls review_entry with two
@@ -26,8 +26,13 @@
 --   3. Select IS granted on the whole table (entries.sql), so the new column is
 --      readable on every row row-level security shows. Pending and Returned rows
 --      are hidden from everyone but their Contributor and Reviewers, but a
---      Published row is shown to anyone. That is why Publish clears the note in
---      the same update: a note left on a Published row would be public.
+--      Published row is shown to anyone, so a note left on a Published row would
+--      be public. A trigger therefore clears the note whenever a row is saved as
+--      Published, however it gets there. review_entry is one way. The other is a
+--      Reviewer saving their own entry, which may go straight to Published
+--      (docs/adr/0004): without the trigger, a Reviewer whose own entry had been
+--      Returned would publish its note. A policy refusing that save instead
+--      would lock them out, since nobody but review_entry can clear the note.
 --   4. The two-argument review_entry(uuid, text) is dropped. Postgres treats a
 --      different argument list as a different function, so leaving it would keep
 --      a way to Return with no note.
@@ -35,19 +40,20 @@
 --      when it changed the row. Every refusal is false: not a Reviewer, an
 --      unknown decision, an entry that is not Pending, a Return whose note is
 --      missing, blank or over 500 characters, or a Publish that sends a note.
---   6. The note is trimmed of spaces, tabs and newlines at its two ends only.
---      Nothing inside it changes, and no Khmer character is ever removed.
---      char_length counts one per character (code point), as the browser's
---      maxLength does, so 500 means the same thing on both sides.
+--   6. The note is trimmed of spaces, tabs, newlines and carriage returns at its
+--      two ends only. Nothing inside it changes, and no Khmer character is ever
+--      removed. char_length counts code points. A browser's maxLength counts
+--      UTF-16 code units instead: the same for Khmer and any other character in
+--      the Basic Multilingual Plane, but two for an emoji. So a box with
+--      maxLength 500 never lets through a note this function refuses.
 --   7. When the Contributor edits a Returned entry, it becomes Pending and keeps
 --      its Return note, so the Reviewer can see what was asked. A later Return
 --      replaces it. Deleting the entry removes it with the row.
 --
--- To undo: the block at the end of this file puts back the two-argument
--- function and removes the column. It puts the function back as review-gate.sql
--- wrote it, which was never compared with the live one: section 1 of the
--- manual checks saves the live text first, and that text is what to restore. Undoing loses every Return note, and once
--- #67 is deployed it also stops Return working on the site.
+-- To undo: the block at the end of this file removes the trigger, the column
+-- and the new function, and puts back the two-argument function. Undoing loses
+-- every Return note, and once #67 is deployed it also stops Return working on
+-- the site.
 
 begin;
 
@@ -81,7 +87,8 @@ begin
     if note is not null then
       return false;
     end if;
-    update public.entries set status = 'published', return_note = null
+    -- The trigger below clears return_note as the row becomes Published.
+    update public.entries set status = 'published'
       where id = entry_id and status = 'pending';
     return found;
   end if;
@@ -93,15 +100,46 @@ $$;
 revoke execute on function public.review_entry(uuid, text, text) from public, anon;
 grant execute on function public.review_entry(uuid, text, text) to authenticated;
 
+-- Runs as whoever saved the row, and needs no column grant: it changes the row
+-- being saved, and column grants only limit what a statement itself names.
+create or replace function public.entries_clear_return_note_on_publish()
+returns trigger
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+begin
+  if new.status = 'published' then
+    new.return_note := null;
+  end if;
+  return new;
+end;
+$$;
+
+revoke execute on function public.entries_clear_return_note_on_publish() from public, anon, authenticated;
+
+drop trigger if exists entries_clear_return_note_on_publish on public.entries;
+create trigger entries_clear_return_note_on_publish
+  before insert or update on public.entries
+  for each row execute function public.entries_clear_return_note_on_publish();
+
 commit;
 
 -- ---------------------------------------------------------------------------
 -- Undo, only if this change causes a problem. Remove the comment marks and run
--- these lines on their own. The function is review_entry as review-gate.sql
--- created it.
+-- these lines on their own.
+--
+-- The function between the two "old function" lines is review_entry as
+-- review-gate.sql wrote it, which was never compared with the live one. If you
+-- saved the live text in section 1 of the manual checks, put that text there
+-- instead. Keep the revoke and grant lines either way: the saved text does not
+-- include them.
 --
 -- begin;
+-- drop trigger if exists entries_clear_return_note_on_publish on public.entries;
+-- drop function if exists public.entries_clear_return_note_on_publish();
 -- drop function if exists public.review_entry(uuid, text, text);
+-- -- old function: start
 -- create or replace function public.review_entry(entry_id uuid, decision text)
 -- returns boolean
 -- language plpgsql
@@ -120,6 +158,7 @@ commit;
 --   return found;
 -- end;
 -- $$;
+-- -- old function: end
 -- revoke execute on function public.review_entry(uuid, text) from public, anon;
 -- grant execute on function public.review_entry(uuid, text) to authenticated;
 -- alter table public.entries drop column if exists return_note;
