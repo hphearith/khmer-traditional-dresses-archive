@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { LANGUAGE_COOKIE } from "../../lib/language.js";
 
 export default function CookieInformationPage() {
   return (
     <main style={{ minHeight: "100vh", background: "var(--paper)", color: "var(--ink)", padding: "48px 24px" }}>
-      <article style={{ width: "100%", maxWidth: 680, margin: "0 auto" }}>
+      {/* This page is still English only (docs/adr/0005), so it is marked English
+          even when the reader has chosen Khmer. */}
+      <article lang="en" style={{ width: "100%", maxWidth: 680, margin: "0 auto" }}>
         <p className="label" style={{ color: "var(--wine)", marginBottom: 20 }}>Cookie information</p>
         <h1 style={{ marginBottom: 24 }}>Our use of cookies</h1>
         <p style={{ color: "var(--muted)", marginBottom: 28 }}>
@@ -18,6 +21,20 @@ export default function CookieInformationPage() {
         <section aria-labelledby="contributor-heading" style={{ marginBottom: 24 }}>
           <h2 id="contributor-heading" style={{ fontSize: 28, marginBottom: 8 }}>Signing in</h2>
           <p>Essential cookies keep your account secure and remember you as you move between pages.</p>
+        </section>
+
+        <section aria-labelledby="language-heading" style={{ marginBottom: 24 }}>
+          <h2 id="language-heading" style={{ fontSize: 28, marginBottom: 8 }}>Your language choice</h2>
+          <p style={{ marginBottom: 8 }}>
+            The archive is shown in English unless you choose Khmer with the language buttons at the top of every
+            page. When you press one, a cookie named <code>{LANGUAGE_COOKIE}</code> is saved in this browser holding
+            only your choice, <code>en</code> or <code>km</code>, so the next page opens in the same language.
+          </p>
+          <p>
+            It is set only when you press a language button, whether or not you are signed in, and nothing else is
+            stored with it. It lasts one month, and you can remove it in your browser&rsquo;s site data, after which
+            the archive is shown in English again.
+          </p>
         </section>
 
         <section aria-labelledby="drafts-heading" style={{ marginBottom: 24 }}>
@@ -38,7 +55,7 @@ export default function CookieInformationPage() {
             session storage so the next page can say &ldquo;Draft saved&rdquo;. The page removes it as soon as it
             reads it, and the browser removes it when you close the tab.
           </p>
-          <p>Browsing as a guest stores nothing: local drafts exist only once you are signed in and start writing.</p>
+          <p>Browsing as a guest keeps no local drafts: they exist only once you are signed in and start writing.</p>
         </section>
 
         <section aria-labelledby="optional-heading" style={{ marginBottom: 32 }}>
