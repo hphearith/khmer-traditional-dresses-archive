@@ -104,14 +104,14 @@ test("each queue entry carries its Credit, photo address and submitted time, wit
   assert.equal("owner" in entries[0], false);
 });
 
-test("the queue asks for everything its cards show, including when each entry was submitted", async () => {
+test("the queue asks for everything its cards show, including when each entry was submitted and any earlier Return note", async () => {
   // The fake hands back whatever row it is given, so without this a query that forgot
   // created_at would pass every other test and then fail on the page, which dates each card.
   const { selected, client } = fakeSupabase({ isReviewer: ok(true), tables: { entries: ok([]) } });
   await readReviewQueue(client);
   const [[, columns]] = selected.filter(([table]) => table === "entries");
   const asked = columns.split(",").map((column) => column.trim());
-  for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at"]) {
+  for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at", "return_note"]) {
     assert.equal(asked.includes(column), true, column);
   }
 });
@@ -128,11 +128,28 @@ function fakeDecisionClient(answer) {
   return { calls, client };
 }
 
-test("a decision asks review_entry with the entry's id and the decision, and never touches the entries table", async () => {
-  for (const decision of ["published", "returned"]) {
+test("a Publish asks review_entry with the entry's id and no note, and never touches the entries table", async () => {
+  // Even a note handed in by mistake is not sent: review_entry refuses a Publish with a note.
+  for (const note of [undefined, "Looks good"]) {
     const { calls, client } = fakeDecisionClient(ok(true));
-    await decideOnEntry(client, "e1", decision);
-    assert.deepEqual(calls, [["rpc", "review_entry", { entry_id: "e1", decision }]], decision);
+    await decideOnEntry(client, "e1", "published", note);
+    assert.deepEqual(calls, [["rpc", "review_entry", { entry_id: "e1", decision: "published" }]], String(note));
+  }
+});
+
+test("a Return asks review_entry with the entry's id and the Return note, Khmer and line breaks as typed", async () => {
+  const note = "សូមបន្ថែមឆ្នាំ។\nAdd the year, please.";
+  const { calls, client } = fakeDecisionClient(ok(true));
+  await decideOnEntry(client, "e1", "returned", note);
+  assert.deepEqual(calls, [["rpc", "review_entry", { entry_id: "e1", decision: "returned", note }]]);
+});
+
+test("a Return counts as made only when review_entry answers exactly true", async () => {
+  const { client } = fakeDecisionClient(ok(true));
+  assert.equal(await decideOnEntry(client, "e1", "returned", "Add the year."), true);
+  for (const answer of [false, null, "true"]) {
+    const { client: refusing } = fakeDecisionClient(ok(answer));
+    assert.equal(await decideOnEntry(refusing, "e1", "returned", "Add the year."), false, String(answer));
   }
 });
 

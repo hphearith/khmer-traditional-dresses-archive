@@ -1,14 +1,15 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readCommunityEntries, readMyEntries } from "../lib/readEntries.js";
+import { ENTRY_COLUMNS, readCommunityEntries, readMyEntries } from "../lib/readEntries.js";
 
-// A stand-in for the Supabase client: it records every filter a query adds and
-// answers with the rows given for that table.
+// A stand-in for the Supabase client: it records every filter a query adds, and
+// the columns each table is read with, and answers with the rows given for that table.
 function fakeSupabase(tables) {
   const calls = [];
+  const selected = [];
   const from = (table) => {
     const query = {
-      select: () => query,
+      select: (columns) => (selected.push([table, columns]), query),
       order: () => query,
       in: (column, values) => (calls.push([table, "in", column, values]), query),
       eq: (column, value) => (calls.push([table, "eq", column, value]), query),
@@ -17,7 +18,7 @@ function fakeSupabase(tables) {
     return query;
   };
   const storage = { from: () => ({ getPublicUrl: (path) => ({ data: { publicUrl: `https://photos/${path}` } }) }) };
-  return { calls, client: { from, storage } };
+  return { calls, selected, client: { from, storage } };
 }
 
 const ROW = { id: "e1", owner: "owner-a", title: "សំពត់ហូល", story: "Made by my aunt.", credited_as: null, photo_path: "owner-a/p.jpg", status: "pending" };
@@ -39,4 +40,27 @@ test("My entries reads the signed-in account's own entries, in every status, wit
   assert.equal(entries[0].credit, "@sokha");
   // Khmer is shown as stored.
   assert.equal(entries[0].title, "សំពត់ហូល");
+});
+
+// The columns the entries table was read with, one name each.
+const entryColumns = (selected) => {
+  const [[, columns]] = selected.filter(([table]) => table === "entries");
+  return columns.split(",").map((column) => column.trim());
+};
+
+test("My entries reads each entry's Return note, so a Returned entry can show it", async () => {
+  const returned = { ...ROW, status: "returned", return_note: "សូមបន្ថែមឆ្នាំ។\nAdd the year." };
+  const { selected, client } = fakeSupabase({ entries: [returned], usernames: NAMES });
+  const { entries } = await readMyEntries(client, "owner-a");
+  assert.equal(entryColumns(selected).includes("return_note"), true);
+  // Handed to the page exactly as stored.
+  assert.equal(entries[0].return_note, "សូមបន្ថែមឆ្នាំ។\nAdd the year.");
+});
+
+test("the Community never asks for a Return note", async () => {
+  const { selected, client } = fakeSupabase({ entries: [], usernames: NAMES });
+  await readCommunityEntries(client, "owner-a");
+  assert.equal(entryColumns(selected).includes("return_note"), false);
+  // The shared list stays without it too, since the Community reads exactly that list.
+  assert.equal(ENTRY_COLUMNS.split(",").map((column) => column.trim()).includes("return_note"), false);
 });

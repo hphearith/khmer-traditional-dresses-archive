@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
+import { RETURN_NOTE_LIMIT } from "../lib/returnNote.js";
 import { TEXT, decisionDoneText, submittedText } from "../lib/uiText.js";
 
 test("a new entry's confirmation keeps the curator's English word for word", () => {
@@ -128,4 +129,22 @@ test("the Returned hint begins with the Returned pill's words, in both languages
   assert.equal(TEXT.review.returnedHint.en.startsWith(`${TEXT.review.pill.returned.en}:`), true);
   // The hint is "<word>៖ <what to do>"; the word before the colon is the pill's.
   assert.equal(TEXT.review.returnedHint.km.startsWith(`${TEXT.review.pill.returned.km}៖`), true);
+});
+
+test("every Return note text is a pair with both languages", () => {
+  const texts = Object.entries(TEXT.review.note);
+  assert.deepEqual(texts.map(([name]) => name).sort(), ["hint", "name", "returnedBefore", "sendBack"]);
+  for (const [name, text] of texts) assert.equal(isPair(text), true, name);
+});
+
+test("the Return note texts use the words the ticket chose", () => {
+  assert.equal(TEXT.review.note.name.en, "Return note");
+  assert.equal(TEXT.review.note.sendBack.en, "Send back");
+  assert.equal(TEXT.review.note.returnedBefore.en, "Returned before with this note");
+});
+
+test("the Return note hint names the same limit review_entry keeps, in both languages", () => {
+  assert.equal(RETURN_NOTE_LIMIT, 500);
+  assert.match(TEXT.review.note.hint.en, /\b500 characters\b/);
+  assert.match(TEXT.review.note.hint.km, /500 តួអក្សរ/);
 });
