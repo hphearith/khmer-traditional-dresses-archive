@@ -11,7 +11,8 @@ export const metadata = {
 };
 
 // The page is drawn in the reader's Interface language from the first render,
-// so there is no English-then-Khmer flash (docs/adr/0005).
+// so the page never shows one language and then flips to the other
+// (docs/adr/0005).
 export default async function RootLayout({ children }) {
   const language = await getLanguage();
 

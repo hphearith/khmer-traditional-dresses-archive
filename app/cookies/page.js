@@ -26,14 +26,14 @@ export default function CookieInformationPage() {
         <section aria-labelledby="language-heading" style={{ marginBottom: 24 }}>
           <h2 id="language-heading" style={{ fontSize: 28, marginBottom: 8 }}>Your language choice</h2>
           <p style={{ marginBottom: 8 }}>
-            The archive is shown in English unless you choose Khmer with the language buttons at the top of every
+            The archive is shown in Khmer unless you choose English with the language buttons at the top of every
             page. When you press one, a cookie named <code>{LANGUAGE_COOKIE}</code> is saved in this browser holding
             only your choice, <code>en</code> or <code>km</code>, so the next page opens in the same language.
           </p>
           <p>
             It is set only when you press a language button, whether or not you are signed in, and nothing else is
             stored with it. It lasts one month, and you can remove it in your browser&rsquo;s site data, after which
-            the archive is shown in English again.
+            the archive is shown in Khmer again.
           </p>
         </section>
 

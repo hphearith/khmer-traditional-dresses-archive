@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { LANGUAGE_COOKIE, LANGUAGE_COOKIE_MAX_AGE, languageCookie, readLanguage } from "../lib/language.js";
 
-test("the lang cookie choosing Khmer shows Khmer, and English is km's only alternative", () => {
-  assert.equal(readLanguage("km"), "km");
+test("the lang cookie choosing English shows English, and choosing Khmer shows Khmer", () => {
   assert.equal(readLanguage("en"), "en");
+  assert.equal(readLanguage("km"), "km");
 });
 
-test("a missing or junk lang cookie falls back to English", () => {
-  for (const value of [undefined, null, "", "KM", " km", "kh", "fr", "km;en", 1]) {
-    assert.equal(readLanguage(value), "en", JSON.stringify(value));
+test("a missing or junk lang cookie falls back to Khmer, the default", () => {
+  for (const value of [undefined, null, "", "EN", " en", "eng", "fr", "en;km", 1]) {
+    assert.equal(readLanguage(value), "km", JSON.stringify(value));
   }
 });
 
