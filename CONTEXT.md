@@ -48,6 +48,10 @@ _Avoid_: Draft (in code and docs; the screen text says "Draft saved"), autosave,
 The archive-level origin of the owner's knowledge: the tailor the archive documents, configured as `source` in `collection.config.js`. Not the same as Provenance, which belongs to one dress.
 _Avoid_: Provenance (for the archive as a whole)
 
+**Interface language**:
+The language the archive's own words are shown in, English or Khmer, chosen by the reader. It never changes what an Entry says: a Contributor entry is shown as its Contributor wrote it, and an Official record's names are shown in both languages.
+_Avoid_: Locale, site language, translation
+
 ## Entry lifecycle
 
 **Pending**:

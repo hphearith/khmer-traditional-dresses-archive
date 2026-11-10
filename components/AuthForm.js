@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT, resendMessageText } from "../lib/uiText.js";
 import { useAuthForm } from "../lib/useAuthForm.js";
 import AuthCredentialFields from "./AuthCredentialFields.js";
@@ -9,6 +10,7 @@ import Bilingual from "./Bilingual.js";
 import ConfirmationNotice from "./ConfirmationNotice.js";
 
 export default function AuthForm({ signup = false }) {
+  const language = useLanguage();
   const [mounted, setMounted] = useState(false);
   const { pending, error, usernameError, confirmationEmail, handleSubmit } = useAuthForm(signup);
 
@@ -43,7 +45,7 @@ export default function AuthForm({ signup = false }) {
         </button>
       </form>
       {!signup && confirmationEmail && (
-        <section aria-label={combined(TEXT.auth.emailConfirmation)} style={{ marginTop: 24 }}>
+        <section aria-label={pick(TEXT.auth.emailConfirmation, language)} style={{ marginTop: 24 }}>
           <p style={{ marginBottom: 16 }}>
             <Bilingual text={TEXT.auth.needsConfirmation} />
           </p>

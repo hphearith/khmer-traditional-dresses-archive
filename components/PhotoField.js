@@ -1,4 +1,5 @@
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { PHOTO_EXTENSIONS } from "../lib/photo.js";
 import { TEXT, photoHintText } from "../lib/uiText.js";
 import { usePhotoPreview } from "../lib/usePhotoPreview.js";
@@ -16,6 +17,7 @@ const CONTROL = {
 // choosing nothing keeps it. There is no way to remove it without replacing it.
 // A photo chosen here is shown at once, in place of the current one, before it is saved.
 export default function PhotoField({ error, current = null }) {
+  const language = useLanguage();
   const { preview, handleChange } = usePhotoPreview();
   const describedBy = ["photo-hint", error && "photo-error"].filter(Boolean).join(" ");
 
@@ -27,7 +29,7 @@ export default function PhotoField({ error, current = null }) {
       </label>
       {(preview || current) && (
         <img src={preview ?? current.url}
-          alt={preview ? combined(TEXT.photo.chosenAlt) : `${combined(TEXT.photo.currentAlt)}: ${current.title}`}
+          alt={preview ? pick(TEXT.photo.chosenAlt, language) : `${pick(TEXT.photo.currentAlt, language)}: ${current.title}`}
           style={{ display: "block", maxWidth: "100%", maxHeight: 240, marginBottom: 12, borderRadius: 4 }} />
       )}
       <input id="photo" name="photo" type="file" accept={Object.keys(PHOTO_EXTENSIONS).join(",")}

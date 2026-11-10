@@ -1,4 +1,5 @@
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 
@@ -10,8 +11,9 @@ const TABS = [
 ];
 
 export default function GarmentFilter({ activeTab, onSelectTab }) {
+  const language = useLanguage();
   return (
-    <div className="filters" role="group" aria-label={combined(TEXT.catalogue.filterLabel)}>
+    <div className="filters" role="group" aria-label={pick(TEXT.catalogue.filterLabel, language)}>
       {TABS.map((tab) => (
         <button
           className="filter"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { waitingEntries } from "../lib/review.js";
 import { TEXT, decisionDoneText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import ReviewQueueCard from "./ReviewQueueCard.js";
@@ -10,13 +11,16 @@ import ReviewQueueCard from "./ReviewQueueCard.js";
 // outside the cards, so it survives the card it talks about; the next success
 // replaces it. Each entry in entries carries its "Submitted <date>" pair,
 // worked out on the server (submittedText), so the browser never disagrees.
+// Switching the Interface language refreshes entries without loading the page
+// again, so a decided entry is remembered with the updated_at it was decided at
+// (waitingEntries): a resubmitted entry comes back, a stale copy does not.
 export default function ReviewQueue({ entries }) {
-  const [decidedIds, setDecidedIds] = useState([]);
+  const [decided, setDecided] = useState([]);
   const [done, setDone] = useState(null);
-  const waiting = entries.filter((entry) => !decidedIds.includes(entry.id));
+  const waiting = waitingEntries(entries, decided);
 
   function onDecided(entry, decision) {
-    setDecidedIds((ids) => [...ids, entry.id]);
+    setDecided((list) => [...list, { id: entry.id, updated_at: entry.updated_at }]);
     // The key makes two decisions with the same title read out twice.
     setDone({ key: entry.id, text: decisionDoneText(decision, entry.title) });
   }

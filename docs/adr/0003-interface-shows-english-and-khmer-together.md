@@ -1,3 +1,7 @@
+---
+status: superseded by 0005
+---
+
 # The interface shows English and Khmer together; a language switcher comes later
 
 Interface text (labels, hints, error messages, buttons) is written as an `{ en, km }` pair in `lib/uiText.js` and drawn by `components/Bilingual.js`, which shows English with the Khmer beneath it, or on one line for buttons, nav links and tab names. There is no language switcher yet. Guest browsing must stay cookie-free and store nothing (spec #9, story 43), so a `lang` cookie is ruled out, and showing both languages needs no state at all: it renders the same on the server and in the browser. A switcher is wanted later; `Bilingual` is the one place that decides how the languages appear, so adding one changes that component and not the screens that use it.

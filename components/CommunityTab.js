@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { combined } from "../lib/bilingual.js";
+import { pick } from "../lib/bilingual.js";
+import { useLanguage } from "../lib/useLanguage.js";
 import { filterEntries } from "../lib/entrySearch.js";
 import { TEXT, countText, emptyEntriesText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -18,6 +19,7 @@ export default function CommunityTab({
   entries = [], failed = false, myEntries = [], myFailed = false,
   signedIn = false, view = "all", onViewChange,
 }) {
+  const language = useLanguage();
   const [query, setQuery] = useState("");
   const inputRef = useRef(null);
   const mine = signedIn && view === "mine";
@@ -45,7 +47,7 @@ export default function CommunityTab({
         </>
       )}
       {signedIn && (
-        <div className="entry-views" role="group" aria-label={combined(TEXT.community.viewsLabel)}>
+        <div className="entry-views" role="group" aria-label={pick(TEXT.community.viewsLabel, language)}>
           <button type="button" aria-pressed={!mine} onClick={() => onViewChange("all")}><Bilingual text={TEXT.community.allEntries} inline /></button>
           <button type="button" aria-pressed={mine} onClick={() => onViewChange("mine")}><Bilingual text={TEXT.community.myEntries} inline /></button>
         </div>
