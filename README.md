@@ -74,24 +74,21 @@ I used AI coding agents throughout, working one GitHub issue at a time on a bran
 
 | Model / tool | What it wrote | What I kept, what I changed | How I checked it |
 |---|---|---|---|
-| Claude Opus 5.5 (Claude Code) | UNSURE: fill in the features, e.g. the review gate screens, Return notes, the language toggle | UNSURE | Ran `node --test tests/`, ran the SQL, tested as a second account and as a guest |
-| Claude Sonnet 5.5 (Claude Code) | UNSURE | UNSURE | UNSURE |
-| Claude Haiku 5.5 (Claude Code) | One commit. UNSURE which | UNSURE | UNSURE |
-| OpenAI Codex (the repo has `.codex` files) | UNSURE: which model, which tasks | UNSURE | UNSURE |
-| AI research agent | The Khmer string audit, `docs/research/khmer-audit.md` | It is not a native speaker. UNSURE: which strings a Khmer reader changed | Dictionaries and Ministry guidance cited in the audit; a Khmer reader |
-| Any model, all Khmer interface text | Drafts of every Khmer string in `lib/uiText.js` | UNSURE | Read by a Khmer reader before commit (`docs/adr/0005`) |
+| Claude Opus 5.5 (Claude Code) | Planning, discussing, thinking with me until we both agree and are on the same page, and then it drafting the plan | I steered it away from bad decisions and made sure it understood my vision | used a skill from Matt Pocock's skills called 'grill-me' |
+| Claude Sonnet 5.5 (Claude Code) | Most of the codebase under the instructions of Opus 5.5 | I got rid of minor security holes regarding reviewer send-backs | Had Opus or non-claude AI model check its written code |
+| OpenAI Codex 6.2 SOL | Wrote nothing, checks the code written by Sonnet 5.5  | It mentioned some minor edge cases that I dismissed | I sent feedback back and forth between Claude and Codex |
 
 Git history: 39 commits co-authored by Claude Opus 5.5, 39 by Claude Sonnet 5.5, 1 by Claude Haiku 5.5, out of 141.
 
-Things the AI got wrong that I caught (UNSURE, add your own):
+Things the AI got wrong that I caught:
 
 - The Lab 10 review gate replaced the add and edit policies with ones that dropped the Username rule, so an account with no Username could add an entry through the API. Found when the live policies were compared with the SQL files, and fixed in `supabase/entries-username-rule.sql`.
 - After the review gate, every Contributor edit failed with "permission denied" because `status` had never been granted for update. Postgres suggested granting update on the whole table, which would have opened `owner` and `id`. I granted the one column instead (`supabase/entries-status.sql`).
 
 ## 6. Sources and credits
 
-- **My mother**, owner of a tailor shop, who has been making traditional Khmer dresses for over 20 years. She is the archive's source. UNSURE: confirm she agreed to be named this way.
-- **Apsara Mode Tailor, Phnom Penh**, named as the maker on all seven Official records. UNSURE: whether this is my mother's shop, and that they agreed to be named.
+- **My mother**, owner of a tailor shop, who has been making traditional Khmer dresses for over 20 years. She is the archive's source for the Official collection.
+- **Apsara Mode Tailor, Phnom Penh**, named as the maker on all seven Official records.
 - **Photos of the Official records** (`public/images/garments/`): UNSURE who took each one. Credit each photographer here, or say they were taken by me.
 - **Contributor entries** are credited on the entry itself, by the name the Contributor chose, and every photo carries the Contributor's consent.
 - **Khmer checking:** Chuon Nath's Khmer dictionary (1967) and Headley's *Cambodian-English Dictionary* (1997) through the SEAlang Library, and the Ministry of Culture and Fine Arts' 2026 guidance on Khmer traditional dress. Full list in `docs/research/khmer-audit.md`.
