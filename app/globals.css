@@ -179,6 +179,13 @@ nav [lang="km"],
   font-weight: 700;
 }
 
+/* A flag is two letters the font joins into one picture. Inline, the flag
+   takes the script of the Khmer word after it, and Khmer shaping never joins
+   them, so 🇰🇭 showed as "KH". inline-block lays the flag out on its own. */
+.language-toggle .flag {
+  display: inline-block;
+}
+
 .hero {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
