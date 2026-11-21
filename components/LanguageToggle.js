@@ -1,10 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { pick } from "../lib/bilingual.js";
 import { languageCookie } from "../lib/language.js";
-import { useLanguage } from "../lib/useLanguage.js";
+import { useLanguage, useSetLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 
 // Each language is named in its own script, whatever the page is showing. The
@@ -15,27 +13,27 @@ const CHOICES = [
   { language: "en", flag: "🇬🇧", name: "English" },
 ];
 
-// Switches the Interface language. Pressing a choice writes the lang cookie,
-// the only time it is written, then asks the server to redraw the page in
-// place, so scroll position and anything typed into a form are kept.
+// Switches the Interface language. Pressing a choice changes it on screen at
+// once, with no trip to the server, so scroll position and anything typed into
+// a form are kept. It also writes the lang cookie, the only time it is
+// written, so the next page load opens in the same language, and sets
+// <html lang>, which the server set only for the first load.
 export default function LanguageToggle() {
   const current = useLanguage();
-  const router = useRouter();
-  const [pending, startTransition] = useTransition();
+  const setLanguage = useSetLanguage();
 
-  // current is the language on screen, so while a switch is still on its way
-  // a press on the language being left must still go through: otherwise
-  // English → ខ្មែរ → English, pressed quickly, ends in Khmer. The last press
-  // writes the cookie last, and its refresh is the last to land.
+  // Each press finishes before the next can start, so a quick
+  // English → ខ្មែរ → English always ends in English.
   function choose(language) {
-    if (language === current && !pending) return;
+    if (language === current) return;
     document.cookie = languageCookie(language, window.location.protocol === "https:");
-    startTransition(() => router.refresh());
+    document.documentElement.lang = language;
+    setLanguage(language);
   }
 
   return (
     <div className="container language-bar">
-      <div role="group" aria-label={pick(TEXT.language.label, current)} aria-busy={pending || undefined} className="language-toggle">
+      <div role="group" aria-label={pick(TEXT.language.label, current)} className="language-toggle">
         {CHOICES.map(({ language, flag, name }) => (
           <button key={language} type="button" lang={language} aria-pressed={language === current} onClick={() => choose(language)}>
             <span aria-hidden="true" className="flag">{flag}</span> {name}

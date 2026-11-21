@@ -1,9 +1,8 @@
 import collection from "../collection.config.js";
 import Bilingual from "../components/Bilingual.js";
+import HomeNav from "../components/HomeNav.js";
 import HomeTabs from "../components/HomeTabs.js";
 import garments from "../data/garments.js";
-import { pick } from "../lib/bilingual.js";
-import { getLanguage } from "../lib/getLanguage.js";
 import { logout } from "../lib/logoutAction.js";
 import { readCommunityEntries, readMyEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
@@ -32,7 +31,6 @@ export default async function Home() {
   // own. Only a signed-in visitor is asked whether they are a Reviewer, and the
   // Review queue link needs a plain true.
   const identity = identityText(collection);
-  const language = await getLanguage();
   const [community, mine, isReviewer] = await Promise.all([
     readCommunityEntries(supabase, user?.id),
     user ? readMyEntries(supabase, user.id) : { entries: [], error: null },
@@ -49,7 +47,7 @@ export default async function Home() {
           <span className="mark" aria-hidden="true">✳</span>
           <span className="label"><Bilingual text={TEXT.home.brand} inline /></span>
         </a>
-        <nav aria-label={pick(TEXT.home.navLabel, language)}>
+        <HomeNav>
           <a href="#collection"><Bilingual text={TEXT.home.navCollection} inline /></a>
           <a href="#about"><Bilingual text={TEXT.home.navAbout} inline /></a>
           {user ? (
@@ -71,7 +69,7 @@ export default async function Home() {
               <a href="/signup"><Bilingual text={TEXT.auth.signUp} inline /></a>
             </>
           )}
-        </nav>
+        </HomeNav>
       </header>
       <main id="top">
         <section className="container hero" aria-labelledby="archive-name">
