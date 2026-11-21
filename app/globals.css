@@ -492,7 +492,7 @@ input[type="search"]::-webkit-search-cancel-button {
   background: var(--fabric);
 }
 
-.suggestion-khmer {
+.suggestion-other {
   color: var(--wine);
   text-align: right;
 }
@@ -808,7 +808,7 @@ body [lang="km"] {
   line-height: 1.9;
 }
 
-.khmer {
+.card-subtitle {
   margin-block: 4px 12px;
   color: var(--wine);
   font-size: 18px;
