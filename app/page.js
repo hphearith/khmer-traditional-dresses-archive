@@ -18,24 +18,24 @@ export default async function Home() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Guests have no user, so they never reach this lookup. A failed lookup is
-  // not "no Username": it lets the page load rather than trapping the account.
-  if (user) {
-    const { username, error } = await readUsername(supabase, user.id);
-    if (!error && !username) redirect("/choose-username");
-  }
-
-  // Read with the visitor's own access: guests read as anonymous, and no
-  // cookie is set for them. Only a signed-in visitor gets a second read, of
-  // their own entries in every status, for My entries; each list fails on its
-  // own. Only a signed-in visitor is asked whether they are a Reviewer, and the
-  // Review queue link needs a plain true.
+  // Every read starts at once, so the page waits for the slowest one, not
+  // their sum. Read with the visitor's own access: guests read as anonymous,
+  // and no cookie is set for them. Only a signed-in visitor has a Username to
+  // look up, gets a second read, of their own entries in every status, for My
+  // entries, and is asked whether they are a Reviewer; each list fails on its
+  // own, and the Review queue link needs a plain true.
   const identity = identityText(collection);
-  const [community, mine, isReviewer] = await Promise.all([
+  const [account, community, mine, isReviewer] = await Promise.all([
+    user ? readUsername(supabase, user.id) : null,
     readCommunityEntries(supabase, user?.id),
     user ? readMyEntries(supabase, user.id) : { entries: [], error: null },
     readIsReviewer(supabase, user),
   ]);
+
+  // An account without a Username is sent to choose one before anything is
+  // shown. A failed lookup is not "no Username": it lets the page load rather
+  // than trapping the account.
+  if (account && !account.error && !account.username) redirect("/choose-username");
   if (community.error) console.error("Reading Community entries failed:", community.error);
   if (mine.error) console.error("Reading My entries failed:", mine.error);
 
