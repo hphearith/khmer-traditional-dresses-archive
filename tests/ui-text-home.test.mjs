@@ -61,3 +61,10 @@ test("the hero caption names the garment in both languages and keeps maker and p
   assert.equal(text.en, "Av Chang Pong, made by Apsara Mode Tailor in Phnom Penh.");
   assert.equal(text.km, "អាវចងពង់ ផលិតដោយ Apsara Mode Tailor នៅ Phnom Penh។");
 });
+
+test("the section labels carry no meaningless sequence numbers", async () => {
+  const { TEXT } = await import("../lib/uiText.js");
+  for (const label of [TEXT.catalogue.label, TEXT.home.aboutLabel]) {
+    for (const half of [label.en, label.km]) assert.doesNotMatch(half, /^\d+\s*\//, half);
+  }
+});
