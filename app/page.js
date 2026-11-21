@@ -78,7 +78,7 @@ export default async function Home() {
             <p className="label"><Bilingual text={TEXT.home.heroLabel} /></p>
             <h1 id="archive-name"><Bilingual text={identity.name} /></h1>
             <p className="lead"><Bilingual text={identity.description} /></p>
-            <a className="button" href="#collection"><Bilingual text={TEXT.home.browse} inline /> <span aria-hidden="true">↗</span></a>
+            <a className="button" href="#collection"><Bilingual text={TEXT.home.browse} inline /> <span aria-hidden="true">↓</span></a>
             <p className="hero-note"><Bilingual text={TEXT.home.heroNote} /></p>
           </div>
           <figure>
