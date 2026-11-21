@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
 import { ENTRY_LIMITS, getDeleteFailureMessage, getEntryMessage, getSaveFailureMessage } from "../lib/entry.js";
@@ -8,11 +9,17 @@ import {
   saveFailureText, sharedByText,
 } from "../lib/uiText.js";
 
-// Every fixed text in TEXT, however deeply it is grouped.
+const KHMER = /[ក-៿]/;
+
+// Every fixed text in TEXT, including invalid leaves such as an empty object.
 function allPairs(group, path = "TEXT") {
-  return Object.entries(group).flatMap(([key, value]) => (
-    isPair(value) || typeof value !== "object" ? [[`${path}.${key}`, value]] : allPairs(value, `${path}.${key}`)
-  ));
+  return Object.entries(group).flatMap(([key, value]) => {
+    const name = `${path}.${key}`;
+    if (!isPair(value) && value && typeof value === "object" && !Array.isArray(value) && Object.keys(value).length > 0) {
+      return allPairs(value, name);
+    }
+    return [[name, value]];
+  });
 }
 
 test("every fixed text has both an English and a Khmer text", () => {
@@ -20,8 +27,35 @@ test("every fixed text has both an English and a Khmer text", () => {
 });
 
 test("every Khmer text contains Khmer, so an English line is never pasted in as its translation", () => {
-  const khmer = /[ក-៿]/;
-  for (const [path, value] of allPairs(TEXT)) assert.match(value.km, khmer, path);
+  for (const [path, value] of allPairs(TEXT)) assert.match(value?.km, KHMER, path);
+});
+
+// Every TEXT.a.b… written in the app's own code, with the file it is in. A path
+// stops at the first [, so TEXT.review.pill[status] is read as TEXT.review.pill.
+// \b keeps names such as PHOTO_TYPES_TEXT out.
+function textReferences() {
+  const references = [];
+  for (const dir of ["app", "components", "lib"]) {
+    const root = new URL(`../${dir}/`, import.meta.url);
+    for (const file of readdirSync(root, { recursive: true })) {
+      if (!file.endsWith(".js")) continue;
+      const source = readFileSync(new URL(file, root), "utf8");
+      for (const [, path] of source.matchAll(/\bTEXT((?:\.[A-Za-z_$][\w$]*)+)/g)) {
+        references.push([`${dir}/${file}`, `TEXT${path}`]);
+      }
+    }
+  }
+  return references;
+}
+
+test("every interface text the app uses exists, so no page breaks on a missing or renamed key", () => {
+  const references = textReferences();
+  // A scan that found nothing would pass every check below.
+  assert.ok(references.some(([, path]) => path === "TEXT.home.navLabel"), "the scan finds TEXT.home.navLabel in components/HomeNav.js");
+  for (const [file, path] of references) {
+    const value = path.split(".").slice(1).reduce((group, key) => (group && Object.hasOwn(group, key) ? group[key] : undefined), TEXT);
+    assert.notEqual(value, undefined, `${file}: ${path} is not in TEXT (lib/uiText.js)`);
+  }
 });
 
 test("entry messages keep today's English and add Khmer for every field and reason", () => {
@@ -64,8 +98,10 @@ test("delete failures keep today's English and add Khmer for every code, known o
 test("photo messages keep today's English and add Khmer for every field and reason", () => {
   for (const [field, reason] of [["photo", "required"], ["photo", "type"], ["photo", "size"], ["consent", "required"]]) {
     const text = photoMessageText(field, reason);
-    assert.equal(text.en, getPhotoMessage(field, reason), `${field}:${reason}`);
-    assert.equal(isPair(text), true, `${field}:${reason}`);
+    const label = `${field}:${reason}`;
+    assert.equal(text.en, getPhotoMessage(field, reason), label);
+    assert.equal(isPair(text), true, label);
+    assert.match(text.km, KHMER, label);
   }
 });
 
@@ -73,8 +109,10 @@ test("photo upload failures keep today's English and add Khmer for every code an
   const failures = [{ statusCode: 403 }, { statusCode: "413" }, { status: 415 }, { code: "offline" }, { code: "timeout" }, { statusCode: 500 }, undefined];
   for (const failure of failures) {
     const text = photoFailureText(failure);
-    assert.equal(text.en, getPhotoFailureMessage(failure), JSON.stringify(failure));
-    assert.equal(isPair(text), true, JSON.stringify(failure));
+    const label = JSON.stringify(failure) ?? "no error details";
+    assert.equal(text.en, getPhotoFailureMessage(failure), label);
+    assert.equal(isPair(text), true, label);
+    assert.match(text.km, KHMER, label);
   }
 });
 
