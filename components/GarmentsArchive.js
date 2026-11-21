@@ -14,6 +14,8 @@ export default function GarmentsArchive() {
   const [query, setQuery] = useState("");
   const inputRef = useRef(null);
   const filtered = filterGarments(garments, { activeTab, query });
+  // Nothing to reset yet: on phones the full-width Reset button is hidden (globals.css).
+  const idle = activeTab === "all" && query === "";
   const reset = () => {
     setActiveTab("all");
     setQuery("");
@@ -28,7 +30,7 @@ export default function GarmentsArchive() {
       </div>
       <div className="search-row">
         <GarmentSearch query={query} onQueryChange={setQuery} garments={garments} inputRef={inputRef} />
-        <button className="button secondary" type="button" onClick={reset}><Bilingual text={TEXT.catalogue.reset} inline /></button>
+        <button className={idle ? "button secondary reset-idle" : "button secondary"} type="button" onClick={reset}><Bilingual text={TEXT.catalogue.reset} inline /></button>
       </div>
       <GarmentFilter activeTab={activeTab} onSelectTab={setActiveTab} />
       {filtered.length === 0 ? (

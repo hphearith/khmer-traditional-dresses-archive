@@ -503,6 +503,12 @@ input[type="search"]::-webkit-search-cancel-button {
   gap: 48px 24px;
 }
 
+/* A last card alone in its row is centred under the others rather than
+   left stranded at the start of the row. */
+.grid > .garment-card:last-child:nth-child(3n + 1) {
+  grid-column: 2;
+}
+
 .garment-card {
   min-width: 0;
   border-bottom: 1px solid var(--line);
@@ -911,6 +917,16 @@ footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .grid > .garment-card:last-child:nth-child(3n + 1) {
+    grid-column: auto;
+  }
+
+  .grid > .garment-card:last-child:nth-child(2n + 1) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 12px);
+  }
+
   .hero,
   .source-inner {
     grid-template-columns: 1fr;
@@ -947,6 +963,11 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .grid > .garment-card:last-child:nth-child(2n + 1) {
+    justify-self: stretch;
+    width: auto;
+  }
+
   .masthead {
     flex-wrap: wrap;
     gap: 12px;
@@ -972,6 +993,11 @@ footer {
     grid-row: 4;
     width: 100%;
     margin-top: 12px;
+  }
+
+  /* With nothing to reset, a full-width button only pushes the records down. */
+  .search-row > .reset-idle {
+    display: none;
   }
 
   .source {
