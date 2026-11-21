@@ -9,6 +9,7 @@ import { readUsername } from "../lib/readUsername.js";
 import { readIsReviewer } from "../lib/review.js";
 import { createClient } from "../lib/supabase/server.js";
 import { TEXT, bylineText, heroCaptionText, identityText } from "../lib/uiText.js";
+import { readVisitor } from "../lib/visitor.js";
 import { redirect } from "next/navigation";
 
 // The hero shows this Official record's photo: Apsara Mode Tailor's sign is behind it.
@@ -16,7 +17,7 @@ const heroGarment = garments.find((garment) => garment.id === "av-chang-pong");
 
 export default async function Home() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await readVisitor(supabase);
 
   // Every read starts at once, so the page waits for the slowest one, not
   // their sum. Read with the visitor's own access: guests read as anonymous,
