@@ -1,14 +1,13 @@
 import assert from "node:assert/strict";
-import { existsSync } from "node:fs";
+import { statSync } from "node:fs";
 import test from "node:test";
 import garments from "../data/garments.js";
 
-const publicDir = new URL("../public", import.meta.url).pathname;
-
-test("every Official record shows a real photo that exists in public/", () => {
+test("every Official record points to a photo file in public/", () => {
   for (const garment of garments) {
     assert.ok(!garment.imageUrl.includes("placeholder"), garment.id);
-    assert.ok(existsSync(publicDir + garment.imageUrl), `${garment.id}: ${garment.imageUrl}`);
+    const photo = new URL(`../public${garment.imageUrl}`, import.meta.url);
+    assert.ok(statSync(photo, { throwIfNoEntry: false })?.isFile(), `${garment.id}: ${garment.imageUrl} must point to a file`);
   }
 });
 
