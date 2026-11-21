@@ -10,3 +10,6 @@ out
 
 .agents
 skills-lock.json
+
+# Playwright browser-check output (screenshots, snapshots, console logs)
+.playwright-mcp/
