@@ -41,7 +41,7 @@ export default function CommunityTab({
         <>
           <div className="search-row">
             <CommunitySearch query={query} onQueryChange={setQuery} inputRef={inputRef} />
-            <button className="button secondary" type="button" onClick={resetSearch}><Bilingual text={TEXT.catalogue.reset} inline /></button>
+            <button className={query === "" ? "button secondary reset-idle" : "button secondary"} type="button" onClick={resetSearch}><Bilingual text={TEXT.catalogue.reset} inline /></button>
           </div>
           <p className="count" role="status" aria-live="polite" aria-atomic="true"><Bilingual text={countText(shown.length, list.length)} /></p>
         </>
