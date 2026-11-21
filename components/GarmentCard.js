@@ -1,4 +1,5 @@
 import { pick } from "../lib/bilingual.js";
+import { garmentNames } from "../lib/garmentNames.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -13,6 +14,7 @@ const PROVENANCE = [
 
 export default function GarmentCard({ garment }) {
   const language = useLanguage();
+  const [title, subtitle] = garmentNames(garment, language);
   const provenance = PROVENANCE.filter(([field]) => garment[field] !== null && garment[field] !== undefined);
 
   return (
@@ -21,16 +23,16 @@ export default function GarmentCard({ garment }) {
         <img
           className="swatch-image"
           src={garment.imageUrl}
-          alt={`${garment.nameEn} (${garment.nameKh})`}
-          lang="en"
+          alt={`${title.text} (${subtitle.text})`}
+          lang={title.lang}
           width="4"
           height="5"
           loading="lazy"
         />
       </div>
       <div className="card-top label"><span>{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</span></div>
-      <h3 lang="en">{garment.nameEn}</h3>
-      <p className="khmer" lang="km">{garment.nameKh}</p>
+      <h3 lang={title.lang}>{title.text}</h3>
+      <p className="card-subtitle" lang={subtitle.lang}>{subtitle.text}</p>
       <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <span lang="en">{garment.material}</span></p>
       {provenance.length > 0 && (
         <dl className="provenance">
@@ -40,7 +42,7 @@ export default function GarmentCard({ garment }) {
         </dl>
       )}
       <details>
-        <summary aria-label={`${pick(TEXT.catalogue.readEntry, language)}: ${garment.nameEn}`}><Bilingual text={TEXT.catalogue.readEntry} inline /></summary>
+        <summary aria-label={`${pick(TEXT.catalogue.readEntry, language)}: ${title.text}`}><Bilingual text={TEXT.catalogue.readEntry} inline /></summary>
         <p lang="en">{garment.description}</p>
       </details>
     </article>

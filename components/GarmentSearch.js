@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { matchGarment, parseQuery } from "../lib/garmentSearch.js";
+import { matchGarment, parseQuery, suggestionValue } from "../lib/garmentSearch.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import GarmentSuggestions from "./GarmentSuggestions.js";
@@ -23,8 +23,9 @@ export default function GarmentSearch({ query, onQueryChange, garments, inputRef
     ? `garment-suggestion-${suggestions[cursor].id}`
     : undefined;
 
-  const selectItem = (name) => {
-    onQueryChange(name);
+  // The chosen name goes in the script the reader typed (Khmer or English).
+  const selectItem = (garment) => {
+    onQueryChange(suggestionValue(garment, query));
     setOpen(false);
     setCursor(-1);
   };
@@ -45,7 +46,7 @@ export default function GarmentSearch({ query, onQueryChange, garments, inputRef
       });
     } else if (event.key === "Enter" && expanded && suggestions[cursor]) {
       event.preventDefault();
-      selectItem(suggestions[cursor].nameEn);
+      selectItem(suggestions[cursor]);
     } else if (event.key === "Escape") {
       setOpen(false);
       setCursor(-1);
