@@ -38,7 +38,7 @@ export default function LanguageToggle() {
       <div role="group" aria-label={pick(TEXT.language.label, current)} aria-busy={pending || undefined} className="language-toggle">
         {CHOICES.map(({ language, flag, name }) => (
           <button key={language} type="button" lang={language} aria-pressed={language === current} onClick={() => choose(language)}>
-            <span aria-hidden="true">{flag}</span> {name}
+            <span aria-hidden="true" className="flag">{flag}</span> {name}
           </button>
         ))}
       </div>
