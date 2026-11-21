@@ -6,7 +6,7 @@ const ok = (data) => ({ data, error: null });
 
 // A stand-in for the Supabase client. It records every call the code makes and
 // answers from canned results: is_reviewer's answer, and one { data, error }
-// per table.
+// per table. Each entry row carries its owner's Username as the database embeds it.
 function fakeSupabase({ isReviewer, tables = {} }) {
   const calls = [];
   const selected = [];
@@ -25,8 +25,7 @@ function fakeSupabase({ isReviewer, tables = {} }) {
   return { calls, selected, client: { from, rpc, storage } };
 }
 
-const ENTRY_ROW = { id: "e1", owner: "owner-a", title: "សំពត់ហូល", story: "Made by my aunt.", credited_as: null, photo_path: "owner-a/p.jpg", created_at: "2026-10-25T10:00:00.123456+00:00" };
-const NAMES = [{ user_id: "owner-a", username: "sokha" }];
+const ENTRY_ROW = { id: "e1", owner: "owner-a", title: "សំពត់ហូល", story: "Made by my aunt.", credited_as: null, photo_path: "owner-a/p.jpg", created_at: "2026-10-25T10:00:00.123456+00:00", usernames: { username: "sokha" } };
 
 const entryCalls = (calls) => calls.filter(([table]) => table === "entries");
 
@@ -42,7 +41,7 @@ test("a Reviewer's queue is the Pending entries, oldest submission first", async
 
 test("any answer from is_reviewer other than exactly true means not a Reviewer, and no entries are read", async () => {
   for (const answer of [false, null, undefined, "true", 1, {}]) {
-    const { calls, client } = fakeSupabase({ isReviewer: ok(answer), tables: { entries: ok([ENTRY_ROW]), usernames: ok(NAMES) } });
+    const { calls, client } = fakeSupabase({ isReviewer: ok(answer), tables: { entries: ok([ENTRY_ROW]) } });
     const result = await readReviewQueue(client);
     assert.equal(result.access, "not-reviewer", String(answer));
     assert.deepEqual(result.entries, [], String(answer));
@@ -54,7 +53,7 @@ test("a failed Reviewer check is a failure, not 'not a Reviewer', and no entries
   const boom = { code: "PGRST000", message: "Supabase is asleep" };
   // Even an answer of true is not trusted when the call also reports an error.
   for (const answer of [null, true]) {
-    const { calls, client } = fakeSupabase({ isReviewer: { data: answer, error: boom }, tables: { entries: ok([ENTRY_ROW]), usernames: ok(NAMES) } });
+    const { calls, client } = fakeSupabase({ isReviewer: { data: answer, error: boom }, tables: { entries: ok([ENTRY_ROW]) } });
     const result = await readReviewQueue(client);
     assert.equal(result.access, "failed", String(answer));
     assert.deepEqual(result.entries, [], String(answer));
@@ -64,27 +63,21 @@ test("a failed Reviewer check is a failure, not 'not a Reviewer', and no entries
 });
 
 test("a queue read that fails is a failure with no entries, never an empty queue", async () => {
+  // The Credits come in the same request as the entries, so this is the only read that can fail.
   const boom = { code: "57014", message: "timeout" };
-  const failures = {
-    "the entries read": { entries: { data: null, error: boom } },
-    "the Credit lookup": { entries: ok([ENTRY_ROW]), usernames: { data: null, error: boom } },
-  };
-  for (const [name, tables] of Object.entries(failures)) {
-    const { client } = fakeSupabase({ isReviewer: ok(true), tables });
-    const result = await readReviewQueue(client);
-    assert.equal(result.access, "failed", name);
-    assert.deepEqual(result.entries, [], name);
-    assert.equal(result.error, boom, name);
-  }
+  const { client } = fakeSupabase({ isReviewer: ok(true), tables: { entries: { data: null, error: boom } } });
+  const result = await readReviewQueue(client);
+  assert.equal(result.access, "failed");
+  assert.deepEqual(result.entries, []);
+  assert.equal(result.error, boom);
 });
 
 test("each queue entry carries its Credit, photo address and submitted time, with a Khmer title unchanged", async () => {
   const rows = [
     ENTRY_ROW,
-    { id: "e2", owner: "owner-b", title: "ឈុតអាពាហ៍ពិពាហ៍ <b>2019</b>", story: "ប្រលោមលោក", credited_as: "អ្នកស្រី សុភា", photo_path: null, created_at: "2026-10-26T01:00:00+00:00" },
+    { id: "e2", owner: "owner-b", title: "ឈុតអាពាហ៍ពិពាហ៍ <b>2019</b>", story: "ប្រលោមលោក", credited_as: "អ្នកស្រី សុភា", photo_path: null, created_at: "2026-10-26T01:00:00+00:00", usernames: { username: "dara" } },
   ];
-  const names = [...NAMES, { user_id: "owner-b", username: "dara" }];
-  const { client } = fakeSupabase({ isReviewer: ok(true), tables: { entries: ok(rows), usernames: ok(names) } });
+  const { client } = fakeSupabase({ isReviewer: ok(true), tables: { entries: ok(rows) } });
 
   const { access, entries, error } = await readReviewQueue(client);
 
@@ -102,6 +95,7 @@ test("each queue entry carries its Credit, photo address and submitted time, wit
   assert.equal(entries[1].photo_url, null);
   // Only the Credit is shown, never the account behind it.
   assert.equal("owner" in entries[0], false);
+  assert.equal("usernames" in entries[0], false);
 });
 
 test("the queue asks for everything its cards show, including when each entry was submitted and last saved, and any earlier Return note", async () => {
@@ -111,7 +105,7 @@ test("the queue asks for everything its cards show, including when each entry wa
   await readReviewQueue(client);
   const [[, columns]] = selected.filter(([table]) => table === "entries");
   const asked = columns.split(",").map((column) => column.trim());
-  for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at", "updated_at", "return_note"]) {
+  for (const column of ["id", "owner", "title", "story", "credited_as", "photo_path", "created_at", "updated_at", "return_note", "usernames(username)"]) {
     assert.equal(asked.includes(column), true, column);
   }
 });
