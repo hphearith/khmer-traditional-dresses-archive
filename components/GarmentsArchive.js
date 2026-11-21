@@ -3,11 +3,16 @@
 import { useRef, useState } from "react";
 import garments from "../data/garments.js";
 import { filterGarments } from "../lib/garmentSearch.js";
+import { sharedProvenance, withoutShared } from "../lib/officialProvenance.js";
 import { TEXT, countText, emptyGarmentsText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import GarmentFilter from "./GarmentFilter.js";
 import GarmentCard from "./GarmentCard.js";
 import GarmentSearch from "./GarmentSearch.js";
+import SharedProvenance from "./SharedProvenance.js";
+
+// Read once: the whole collection, not the filtered view, decides what is shared.
+const SHARED = sharedProvenance(garments);
 
 export default function GarmentsArchive() {
   const [activeTab, setActiveTab] = useState("all");
@@ -25,7 +30,7 @@ export default function GarmentsArchive() {
   return (
     <section className="container catalogue" aria-labelledby="collection-heading">
       <div className="section-head">
-        <div><p className="label"><Bilingual text={TEXT.catalogue.label} inline /></p><h2 id="collection-heading"><Bilingual text={TEXT.catalogue.heading} /></h2></div>
+        <div><p className="label"><Bilingual text={TEXT.catalogue.label} inline /></p><h2 id="collection-heading"><Bilingual text={TEXT.catalogue.heading} /></h2><SharedProvenance shared={SHARED} /></div>
         <p className="count" role="status" aria-live="polite" aria-atomic="true"><Bilingual text={countText(filtered.length, garments.length)} /></p>
       </div>
       <div className="search-row">
@@ -40,7 +45,7 @@ export default function GarmentsArchive() {
           <button className="button secondary" type="button" onClick={reset}><Bilingual text={TEXT.catalogue.resetAll} inline /></button>
         </div>
       ) : (
-        <div className="grid">{filtered.map((garment) => <GarmentCard key={garment.id} garment={garment} />)}</div>
+        <div className="grid">{filtered.map((garment) => <GarmentCard key={garment.id} garment={withoutShared(garment, SHARED)} />)}</div>
       )}
     </section>
   );
