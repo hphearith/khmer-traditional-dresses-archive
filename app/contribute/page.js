@@ -14,15 +14,18 @@ export default async function ContributePage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  // Both reads start at once. A Reviewer's own entry needs no review, so they
+  // are not told it does. If the check fails, isReviewer is false and the page
+  // says what it says to a Contributor.
+  const [{ username, error }, isReviewer] = await Promise.all([
+    readUsername(supabase, user.id),
+    readIsReviewer(supabase, user),
+  ]);
+
   // Same rule as the home page: a failed lookup is not "no Username", so it
   // never bounces the account. The database still refuses an entry from an
   // account without a Username (supabase/entries.sql).
-  const { username, error } = await readUsername(supabase, user.id);
   if (!error && !username) redirect("/choose-username");
-
-  // A Reviewer's own entry needs no review, so they are not told it does. If the
-  // check fails, this is false and the page says what it says to a Contributor.
-  const isReviewer = await readIsReviewer(supabase, user);
 
   return (
     <main style={{ minHeight: "100vh", background: "var(--paper)", color: "var(--ink)", padding: "48px 16px" }}>

@@ -19,12 +19,16 @@ export default async function ReviewPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // Same rule as My entries: a failed lookup is not "no Username".
-  const { username, error: usernameError } = await readUsername(supabase, user.id);
-  if (!usernameError && !username) redirect("/choose-username");
+  // Both reads start at once. Inside readReviewQueue the Reviewer check still
+  // comes first and no entry is read without it, so starting it before the
+  // Username is known shows nothing the database would not.
+  const [{ username, error: usernameError }, queue] = await Promise.all([
+    readUsername(supabase, user.id),
+    readReviewQueue(supabase),
+  ]);
 
-  // The Reviewer check comes first and no entry is read without it.
-  const queue = await readReviewQueue(supabase);
+  // Same rule as My entries: a failed lookup is not "no Username".
+  if (!usernameError && !username) redirect("/choose-username");
   if (queue.access === "failed") console.error("Reading the Review queue failed:", queue.error);
 
   return (
