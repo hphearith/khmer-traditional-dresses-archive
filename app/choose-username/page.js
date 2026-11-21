@@ -5,12 +5,13 @@ import { logout } from "../../lib/logoutAction.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { createClient } from "../../lib/supabase/server.js";
 import { TEXT } from "../../lib/uiText.js";
+import { readVisitor } from "../../lib/visitor.js";
 
 export const dynamic = "force-dynamic";
 
 export default async function ChooseUsernamePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await readVisitor(supabase);
   if (!user) redirect("/login");
 
   // Only a positive "already has one" leaves this page. A failed lookup keeps

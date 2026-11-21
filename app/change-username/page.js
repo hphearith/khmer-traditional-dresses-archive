@@ -6,12 +6,13 @@ import { readUsername } from "../../lib/readUsername.js";
 import { createClient } from "../../lib/supabase/server.js";
 import { TEXT, changeMessageText, yourUsernameText } from "../../lib/uiText.js";
 import { checkUsernameChange } from "../../lib/usernameChange.js";
+import { readVisitor } from "../../lib/visitor.js";
 
 export const dynamic = "force-dynamic";
 
 export default async function ChangeUsernamePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await readVisitor(supabase);
   if (!user) redirect("/login");
 
   const { username, changedAt, error } = await readUsername(supabase, user.id);

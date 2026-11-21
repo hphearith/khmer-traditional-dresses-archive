@@ -6,6 +6,7 @@ import { readUsername } from "../../lib/readUsername.js";
 import { readReviewQueue } from "../../lib/review.js";
 import { createClient } from "../../lib/supabase/server.js";
 import { TEXT, submittedText } from "../../lib/uiText.js";
+import { readVisitor } from "../../lib/visitor.js";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ const messageHeading = { fontSize: 26, lineHeight: 1.3 };
 // database refuses everyone else's Pending entries whatever this page does.
 export default async function ReviewPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await readVisitor(supabase);
   if (!user) redirect("/login");
 
   // Both reads start at once. Inside readReviewQueue the Reviewer check still
