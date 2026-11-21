@@ -6,12 +6,13 @@ import { readUsername } from "../../lib/readUsername.js";
 import { readIsReviewer } from "../../lib/review.js";
 import { createClient } from "../../lib/supabase/server.js";
 import { TEXT } from "../../lib/uiText.js";
+import { readVisitor } from "../../lib/visitor.js";
 
 export const dynamic = "force-dynamic";
 
 export default async function ContributePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await readVisitor(supabase);
   if (!user) redirect("/login");
 
   // Both reads start at once. A Reviewer's own entry needs no review, so they
