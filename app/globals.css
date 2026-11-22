@@ -677,12 +677,31 @@ input[type="search"]::-webkit-search-cancel-button {
   white-space: pre-wrap;
 }
 
-/* Edit and Delete on the owner's own entry. The confirmation takes the full row. */
+/* Edit and Delete on the owner's own entry. The row is the anchor the delete
+   question floats from. */
 .entry-actions {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 16px;
+}
+
+/* The delete question floats over its own card instead of joining the page
+   flow, so opening it never makes the card taller or moves the cards around it.
+   It covers the Edit and Delete row and grows upward over the card, never down:
+   on a phone the cards sit in a sideways scroller that would clip anything
+   hanging below them. It casts the same shadow as the search suggestions, the
+   other thing that floats over the dresses. */
+.delete-confirm {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  box-shadow: 0 10px 24px -8px rgba(40, 30, 20, 0.3);
+}
+
+.delete-confirm .entry-confirm-actions {
+  justify-content: center;
 }
 
 .entry-confirm {
