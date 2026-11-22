@@ -5,10 +5,11 @@ import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT, sharedByText, entryPhotoText, namedEntryText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import DeleteEntryButton from "./DeleteEntryButton.js";
-import ProvenanceList from "./ProvenanceList.js";
 import ReturnNote from "./ReturnNote.js";
 import StatusPill from "./StatusPill.js";
 
+// The card keeps to photo, title and who shared it. Occasion, year, maker, place
+// and materials (ProvenanceList) are shown on the entry's own page (EntryRecord).
 // Every value is rendered as plain text by React, so a title such as
 // <script>…</script> is shown, never run. Khmer text is shown as stored.
 // showStatus adds where the entry stands in review, as a Status pill (My
@@ -43,7 +44,6 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
           )}
         </div>
       )}
-      <ProvenanceList entry={entry} />
       {/* Offered only on the signed-in owner's own entries. The database refuses any other change or delete.
           The row follows the card's text rather than sitting at the card's foot, so when one card's delete
           question makes the grid row taller, the buttons on the other cards in that row stay where they are. */}
