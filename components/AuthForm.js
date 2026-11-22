@@ -23,7 +23,7 @@ export default function AuthForm({ signup = false }) {
   if (signup && confirmationEmail) {
     return (
       <div>
-        <p role="status" style={{ marginBottom: 20 }}>
+        <p role="status" style={{ marginBottom: 24 }}>
           <Bilingual text={resendMessageText(null)} />
         </p>
         <ConfirmationNotice initialEmail={confirmationEmail} initialCooldown={60} />
@@ -33,7 +33,7 @@ export default function AuthForm({ signup = false }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 20 }}>
+      <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
         <AuthCredentialFields signup={signup} pending={pending} usernameError={usernameError} />
         {error && <p role="alert" style={{ color: "red" }}><Bilingual text={error} /></p>}
         <button type="submit" disabled={pending} style={{

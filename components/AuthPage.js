@@ -22,8 +22,8 @@ export default function AuthPage({ signup = false, verificationRequested = false
           </p>
         )}
         <AuthForm signup={signup} />
-        <aside aria-labelledby="cookie-heading" style={{ marginTop: 32, padding: 20, border: "1px solid var(--line)", background: "var(--surface)" }}>
-          <h2 id="cookie-heading" style={{ fontSize: 22, marginBottom: 8 }}><Bilingual text={TEXT.auth.cookiesHeading} /></h2>
+        <aside aria-labelledby="cookie-heading" style={{ marginTop: 32, padding: 16, border: "1px solid var(--line)", background: "var(--surface)" }}>
+          <h2 id="cookie-heading" style={{ fontSize: 26, marginBottom: 8 }}><Bilingual text={TEXT.auth.cookiesHeading} /></h2>
           <p style={{ color: "var(--muted)", marginBottom: 12 }}>
             <Bilingual text={TEXT.auth.cookiesText} />
           </p>
