@@ -9,17 +9,12 @@ import MixedText from "./MixedText.js";
 
 const LABELS = { lower: TEXT.catalogue.lower, upper: TEXT.catalogue.upper, ensemble: TEXT.catalogue.cardEnsemble };
 
-// The same Provenance rows, labels and markup as a Community entry (ContributorEntryCard).
-const PROVENANCE = [
-  ["maker", TEXT.card.makerShort],
-  ["place", TEXT.provenance.place],
-];
-
+// Like a Community entry's card, the card leaves out Maker and Place; they are
+// shown on the record's own page (GarmentRecord).
 export default function GarmentCard({ garment }) {
   const language = useLanguage();
   const [title, subtitle] = garmentNames(garment, language);
   const href = garmentHref(garment.id);
-  const provenance = PROVENANCE.filter(([field]) => garment[field] !== null && garment[field] !== undefined);
   const isKm = language === "km";
 
   return (
@@ -50,20 +45,6 @@ export default function GarmentCard({ garment }) {
           <MixedText text={garment.material} />
         )}
       </p>
-      {provenance.length > 0 && (
-        <dl className="provenance">
-          {provenance.map(([field, label]) => {
-            const hasKh = isKm && garment[`${field}Kh`];
-            const val = hasKh ? garment[`${field}Kh`] : garment[field];
-            return (
-              <div key={field}>
-                <dt><Bilingual text={label} /></dt>
-                <dd lang={hasKh ? "km" : "en"}>{val}</dd>
-              </div>
-            );
-          })}
-        </dl>
-      )}
       {/* The description lives on the record's own page (app/garments/[id]/page.js). */}
       <Link className="read-link" href={href} aria-label={pick(readGarmentText(title.text), language)}>
         <Bilingual text={TEXT.catalogue.readEntry} inline />
