@@ -4,7 +4,7 @@ export const garments = [
     nameEn: "Sampot Hol",
     nameKh: "សំពត់ហូល",
     category: "lower",
-    material: "Chong Kiet Tie-Dyed Silk (សូត្រចងគៀត)",
+    material: "Chong Kiet Tie-Dyed Silk (សូត្រចងគាត)",
     description:
       "A renowned traditional wrap skirt woven using the intricate Chong Kiet (ikat) resist-dyeing method, distinguished by geometric motifs and natural pigments.",
     imageUrl: "/images/garments/Hol.jpg",
@@ -40,7 +40,7 @@ export const garments = [
     nameEn: "Sbui / Sbai",
     nameKh: "ស្បៃ",
     category: "upper",
-    material: "Pleated Silk with Gold Thread & Sequins (ស្បៃប៉ាក់ខ្សែសយ)",
+    material: "Pleated Silk with Gold Thread & Sequins (ស្បៃជីបប៉ាក់ឌិនខ្សែសយ)",
     description:
       "A ceremonial pleated silk shawl draped diagonally across the left shoulder, trailing down the back with gilded thread embroidery.",
     imageUrl: "/images/garments/sbai.jpg",
@@ -62,7 +62,7 @@ export const garments = [
   {
     id: "traditional-wedding-ensemble",
     nameEn: "Traditional Wedding Ensemble",
-    nameKh: "សំលៀកបំពាក់ការប្រពៃណី",
+    nameKh: "សម្លៀកបំពាក់អាពាហ៍ពិពាហ៍ប្រពៃណី",
     category: "ensemble",
     material: "Gold Brocade, Handwoven Silk Sampot & Gilded Sbai",
     description:
@@ -74,7 +74,7 @@ export const garments = [
   {
     id: "pagoda-ensemble",
     nameEn: "Pagoda Ensemble",
-    nameKh: "សំលៀកបំពាក់ទៅវត្ត",
+    nameKh: "សម្លៀកបំពាក់ប្រពៃណីទៅវត្ត",
     category: "ensemble",
     material: "White Embroidered Av Pak with Sampot Hol / Phamuong",
     description:
