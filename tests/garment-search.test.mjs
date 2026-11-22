@@ -34,6 +34,12 @@ test("every word must match, in any order and any field", () => {
   assert.deepEqual(search("sampot cotton"), []);
 });
 
+test("a comma, semicolon or Khmer full stop separates words like a space", () => {
+  assert.deepEqual(search("sampot, silk"), search("sampot silk"));
+  assert.deepEqual(search("sampot;silk"), search("sampot silk"));
+  assert.deepEqual(search("សំពត់ហូល។"), ["hol"]);
+});
+
 test("a quoted phrase stays together", () => {
   assert.deepEqual(search('"sampot hol"'), ["hol"]);
   assert.deepEqual(search('"hol sampot"'), []);
