@@ -34,6 +34,8 @@ export default function GarmentCard({ garment }) {
           loading="lazy"
         />
       </div>
+      {/* The grey step the dress stands on in the salon (app/home.css). */}
+      <div className="plinth" aria-hidden="true" />
       <h3 lang={title.lang}><Link className="card-link" href={href}>{title.text}</Link></h3>
       <p className="card-subtitle" lang={subtitle.lang}>{subtitle.text}</p>
       <p className="card-category">{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</p>

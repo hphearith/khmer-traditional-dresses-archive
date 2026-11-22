@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="soft" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="0.6"/></filter>
+    <filter id="cloud"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.012" numOctaves="3" seed="7"/><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.56  0 0 0 0 0.58  0 0 0 0.22 0"/></filter>
+  </defs>
+  <rect width="1200" height="260" fill="#ECEBE8"/>
+  <rect width="1200" height="260" filter="url(#cloud)"/>
+  <g fill="none" stroke="#8E9298" stroke-linecap="round" filter="url(#soft)" opacity="0.55">
+    <path d="M-20 40 C 120 70, 180 30, 300 90 S 470 200, 560 180" stroke-width="1.2"/>
+    <path d="M640 -10 C 700 60, 690 120, 780 170 S 900 230, 1000 270" stroke-width="1.6"/>
+    <path d="M900 0 C 960 50, 1080 60, 1220 130" stroke-width="1"/>
+    <path d="M60 270 C 140 200, 230 210, 330 150" stroke-width="0.9"/>
+  </g>
+  <g fill="none" stroke="#B08A3E" stroke-linecap="round" stroke-linejoin="round" filter="url(#soft)">
+    <path d="M180 -10 C 230 40, 215 80, 260 120 C 300 155, 290 205, 340 270" stroke-width="3.2"/>
+    <path d="M260 120 C 300 118, 330 100, 372 108" stroke-width="1.6"/>
+    <path d="M222 66 C 205 90, 170 98, 150 126" stroke-width="1.1"/>
+    <path d="M720 270 C 760 210, 800 200, 830 150 C 860 100, 905 95, 930 40 C 945 10, 960 0, 980 -10" stroke-width="2.6"/>
+    <path d="M830 150 C 870 160, 900 190, 950 196" stroke-width="1.3"/>
+    <path d="M1080 270 C 1100 230, 1130 215, 1150 180" stroke-width="1.4"/>
+    <path d="M470 -10 C 480 20, 500 34, 498 60" stroke-width="1"/>
+  </g>
+</svg>

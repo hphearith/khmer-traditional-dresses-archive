@@ -1,388 +1,338 @@
 ---
 version: alpha
-name: The Shopfront
-description: Apsara Mode Tailor's window seen from the street. A blue enamel sign with yellow Khmer lettering, a red-and-white awning, and a row of lit glass cabinets with one dress in each.
+name: Sign and Salon
+description: Inside Apsara Mode Tailor in Phnom Penh. The shop's white sign with raised wine Khmer and wide gold capitals, then the house dress in a gold-lined white frame on a plaster wall over a marble wainscot.
 colors:
-  blue: "#1D3A8F"
-  blue-deep: "#142B6E"
-  blue-tint: "#E6EAF5"
-  yellow: "#F4C531"
-  red: "#C8232C"
-  wall: "#E7EAEE"
-  bay: "#D5D9DF"
-  white: "#FFFFFF"
-  shop-ink: "#16181D"
-  shop-muted: "#464B57"
+  wine: "#8E1A24"
+  wine-deep: "#721219"
+  gold: "#A8803A"
+  gold-text: "#7E5F24"
+  gold-line: "#C9A866"
+  plaster: "#F3F2EF"
+  plaster-shade: "#E6E4DF"
+  mount: "#FFFFFF"
+  rail: "#FAFAF9"
+  stone: "#B9B4AA"
+  shop-ink: "#24211E"
+  shop-muted: "#5E5A55"
 typography:
   sign-khmer:
-    fontFamily: "'Noto Serif Khmer', 'Noto Sans Khmer', 'Khmer OS', serif"
-    fontSize: clamp(30px, 4.6vw, 60px)
-    fontWeight: 700
+    fontFamily: "'Noto Serif Khmer', 'Noto Sans Khmer', Arial, 'Khmer OS Battambang', sans-serif"
+    fontSize: clamp(30px, 6.4vw, 76px)
+    fontWeight: 800
     lineHeight: 1.6
     letterSpacing: 0em
   sign-display:
-    fontFamily: "'Big Shoulders', 'Arial Narrow', sans-serif"
-    fontSize: clamp(30px, 4.2vw, 56px)
+    fontFamily: "Archivo, Arial, sans-serif"
+    fontSize: clamp(16px, 3.6vw, 42px)
     fontWeight: 800
-    lineHeight: 0.95
-    letterSpacing: 0.01em
+    lineHeight: 1.1
+    letterSpacing: 0.02em
+    fontVariation: "'wdth' 125"
   headline:
-    fontFamily: "'Big Shoulders', 'Arial Narrow', sans-serif"
-    fontSize: clamp(32px, 3.6vw, 44px)
-    fontWeight: 800
-    lineHeight: 1.05
-    letterSpacing: 0.01em
-  title:
-    fontFamily: "'Big Shoulders', 'Arial Narrow', sans-serif"
-    fontSize: 24px
-    fontWeight: 700
-    lineHeight: 1.15
-    letterSpacing: 0.01em
-  title-khmer:
-    fontFamily: "'Noto Serif Khmer', 'Noto Sans Khmer', 'Khmer OS', serif"
-    fontSize: 21px
-    fontWeight: 700
-    lineHeight: 1.6
-    letterSpacing: 0em
-  subtitle:
-    fontFamily: "'Big Shoulders', 'Arial Narrow', sans-serif"
-    fontSize: 17px
-    fontWeight: 700
-    lineHeight: 1.3
-    letterSpacing: 0.04em
-  brand:
-    fontFamily: "'Big Shoulders', 'Arial Narrow', sans-serif"
-    fontSize: 16px
-    fontWeight: 700
-    lineHeight: 1.2
-    letterSpacing: 0.08em
-  statement:
-    fontFamily: "Arial, 'Noto Sans Khmer', sans-serif"
-    fontSize: 24px
+    fontFamily: "Marcellus, Georgia, serif"
+    fontSize: clamp(28px, 3vw, 38px)
     fontWeight: 400
-    lineHeight: 1.5
+    lineHeight: 1.3
+    letterSpacing: 0.06em
+  headline-khmer:
+    fontFamily: "'Noto Serif Khmer', 'Noto Sans Khmer', sans-serif"
+    fontSize: 0.92em
+    fontWeight: 700
+    lineHeight: 1.7
+    letterSpacing: 0em
+  title:
+    fontFamily: "Marcellus, Georgia, serif"
+    fontSize: 20px
+    fontWeight: 400
+    lineHeight: 1.4
+    letterSpacing: 0.08em
+  title-khmer:
+    fontFamily: "'Noto Serif Khmer', 'Noto Sans Khmer', sans-serif"
+    fontSize: 22px
+    fontWeight: 700
+    lineHeight: 1.7
+    letterSpacing: 0em
   lead:
     fontFamily: "Arial, 'Noto Sans Khmer', sans-serif"
-    fontSize: 17px
+    fontSize: 21px
     fontWeight: 400
-    lineHeight: 1.7
+    lineHeight: 1.6
   body:
     fontFamily: "Arial, 'Noto Sans Khmer', sans-serif"
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.7
-  khmer:
-    fontFamily: "'Noto Sans Khmer', 'Khmer OS', sans-serif"
+  label:
+    fontFamily: "Marcellus, Georgia, serif"
+    fontSize: 15px
     fontWeight: 400
-    lineHeight: 1.9
-    letterSpacing: 0em
-  nav:
+    lineHeight: 1.3
+    letterSpacing: 0.1em
+  caption:
     fontFamily: "Arial, 'Noto Sans Khmer', sans-serif"
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.7
-  label:
-    fontFamily: "Arial, 'Noto Sans Khmer', sans-serif"
-    fontSize: 13px
-    fontWeight: 700
-    lineHeight: 1.7
-    letterSpacing: 0.06em
 rounded:
   none: 0px
-  plaque: 2px
 spacing:
-  xxs: 4px
-  xs: 8px
-  sm: 12px
-  md: 16px
-  lg: 24px
-  xl: 40px
-  xxl: 48px
-  section-pad: 56px
+  xs: 4px
+  sm: 8px
+  md: 12px
+  lg: 16px
+  xl: 24px
+  2xl: 32px
+  3xl: 40px
+  4xl: 56px
+  5xl: 72px
   section: 96px
-  frame: 8px
-  gutter-mobile: 16px
+  gutter: 40px
   gutter-tablet: 24px
-  gutter-desktop: 40px
-  container: 1200px
+  gutter-phone: 16px
 components:
-  page:
-    backgroundColor: "{colors.wall}"
-    textColor: "{colors.shop-ink}"
-    typography: "{typography.body}"
-  signboard:
-    backgroundColor: "{colors.blue}"
-    textColor: "{colors.white}"
-  sign-panel:
-    backgroundColor: "{colors.blue}"
-    textColor: "{colors.yellow}"
-    rounded: "{rounded.none}"
-    padding: 24px 40px 28px
-  plaque:
-    backgroundColor: "{colors.white}"
-    textColor: "{colors.blue}"
-    rounded: "{rounded.plaque}"
-    height: 48px
-    padding: 8px 20px
-  plaque-hover:
-    backgroundColor: "{colors.blue-tint}"
-    textColor: "{colors.blue}"
-  plaque-selected:
-    backgroundColor: "{colors.blue}"
-    textColor: "{colors.yellow}"
-    rounded: "{rounded.plaque}"
   button-primary:
-    backgroundColor: "{colors.blue}"
-    textColor: "{colors.yellow}"
-    rounded: "{rounded.plaque}"
-    height: 48px
-    padding: 8px 20px
+    backgroundColor: "{colors.wine}"
+    textColor: "{colors.mount}"
+    rounded: "{rounded.none}"
+    padding: 10px 24px
+    height: 50px
   button-primary-hover:
-    backgroundColor: "{colors.blue-deep}"
-    textColor: "{colors.yellow}"
-  home-tab:
-    backgroundColor: "{colors.white}"
-    textColor: "{colors.blue}"
-    rounded: "{rounded.plaque}"
+    backgroundColor: "{colors.wine-deep}"
+    textColor: "{colors.mount}"
+  button-secondary:
+    backgroundColor: "{colors.mount}"
+    textColor: "{colors.shop-ink}"
+    rounded: "{rounded.none}"
+    padding: 10px 24px
+    height: 50px
+  button-secondary-hover:
+    backgroundColor: "{colors.plaster}"
+    textColor: "{colors.shop-ink}"
+  tab:
+    textColor: "{colors.shop-muted}"
+    rounded: "{rounded.none}"
+    padding: 8px 0
+    height: 48px
+  tab-selected:
+    textColor: "{colors.shop-ink}"
+  filter-selected:
+    textColor: "{colors.wine}"
+  input-search:
+    backgroundColor: "{colors.mount}"
+    textColor: "{colors.shop-ink}"
+    rounded: "{rounded.none}"
     height: 52px
-    padding: 8px 20px
-  home-tab-selected:
-    backgroundColor: "{colors.blue}"
-    textColor: "{colors.yellow}"
-  search:
-    backgroundColor: "{colors.white}"
-    textColor: "{colors.shop-ink}"
-    rounded: "{rounded.plaque}"
-    height: 52px
-  suggestion-active:
-    backgroundColor: "{colors.blue-tint}"
-    textColor: "{colors.shop-ink}"
-  cabinet:
-    backgroundColor: "{colors.white}"
+  photo-mount:
+    backgroundColor: "{colors.mount}"
+    rounded: "{rounded.none}"
+    padding: 8px
+  hero-frame:
+    backgroundColor: "{colors.mount}"
+    rounded: "{rounded.none}"
+    padding: 12px
+    width: 400px
+  status-tag-pending:
+    backgroundColor: "{colors.plaster}"
     textColor: "{colors.shop-ink}"
     rounded: "{rounded.none}"
-    padding: 0 0 8px
-  cabinet-bay:
-    backgroundColor: "{colors.bay}"
+    padding: 0 12px
+  status-tag-published:
+    backgroundColor: "{colors.mount}"
+    textColor: "{colors.shop-ink}"
     rounded: "{rounded.none}"
-  source-panel:
-    backgroundColor: "{colors.red}"
-    textColor: "{colors.white}"
+    padding: 0 12px
+  status-tag-returned:
+    backgroundColor: "{colors.wine}"
+    textColor: "{colors.mount}"
     rounded: "{rounded.none}"
-    padding: 40px 48px
-  kerb:
-    backgroundColor: "{colors.shop-ink}"
-    textColor: "{colors.white}"
-    padding: 40px 0 48px
+    padding: 0 12px
   empty-state:
-    backgroundColor: "{colors.white}"
+    backgroundColor: "{colors.mount}"
     textColor: "{colors.shop-ink}"
-    rounded: "{rounded.plaque}"
+    rounded: "{rounded.none}"
+  footer:
+    backgroundColor: "{colors.shop-ink}"
+    padding: 40px 0 48px
 ---
 
-# Design System: The Shopfront
+# Design System: Sign and Salon
 
 ## Overview
 
-**Creative North Star: "The Shopfront"**
+**Creative North Star: "Sign and Salon"**
 
-The archive is Apsara Mode Tailor's shop window seen from a Phnom Penh street. A blue enamel sign board runs full-bleed across the top, its Khmer name painted in yellow above the English. A red-and-white scalloped awning hangs under it, and the section tabs hang from the awning's edge as painted plaques. Below, on a cool tile wall, a row of glass cabinets framed in blue holds one dress each, lit by a yellow lamp strip. The shop's own statement about where its knowledge comes from is a red painted panel, and the page ends on a dark kerb. The look comes from the curator's real source (a family tailor shop, every dress photographed there), never from invented heritage. Nothing sells: no prices, carts or appointments.
+The archive is the inside of Apsara Mode Tailor in Phnom Penh, the curator's family shop, where every dress in the collection was photographed. The page opens under the shop's white sign: the Khmer name in raised wine-red lettering, the English below it in wide gold capitals, the drawn gold tape measure, scissors and chalk at its left, a perforated grey soffit strip beneath. Below the sign is the salon: a white plaster wall, a white dado rail, and a marble wainscot (white with grey and gold veins) along the foot of the wall. The house dress, Av Chang Pong, stands in a gold-lined white frame against it. The look comes from the curator's real source, never from invented heritage, and nothing sells: no prices, carts or appointments.
 
-The world refuses the museum collection page it replaced: cream ground, a serif headline beside a hero photo, a grid of matted cards. Density is a shop window's: the sign is bold and brief, the counter (heading, count, filters, search) is compact, and the cabinets carry the page. On phones the window becomes a row you swipe along.
+The world was pinned by the curator in their own words ("more in line with my mother's fancy tailor shop", "A's sign with B's Salon"). It rejects the museum collection page and the enamel shopfront that made the tailor shop "look like it's a barber shop". Density is a salon's: the sign is brief and large, the counter (heading, count, filters, search) is compact, and the dresses carry the page, each one on a white mount over a grey plinth. On phones the dresses become a row you swipe along.
 
-The tokens above are normative. In code they are custom properties declared on `body:has(.shop)` in `app/home.css` (`colors.blue` is `--blue`, `colors.shop-ink` is `--shop-ink`, `spacing.frame` is `--frame`), and every rule there is scoped under `.shop`. Archive identity is read from `collection.config.js`, records from `data/garments.js`, and Interface strings from `lib/uiText.js`. Today only the home page (`app/page.js`) wears this system; see **Pages still on The Tailor's Archive** below.
+The tokens above are normative. In code they are custom properties declared on `body:has(.shop)` in `app/home.css` (`colors.wine` is `--wine`, `colors.gold-line` is `--gold-line`), the two Latin faces are set on `.shop` through `next/font/google` in `app/page.js` (`--font-wide`, `--font-salon`), and every rule is scoped under `.shop`. **Scope today: only the home page (`app/page.js`) wears this system.** Every other page still renders on `app/globals.css`'s older styles; see **Pages not yet in the salon** under Components.
 
 **Key Characteristics:**
-- Three paints on a tile wall: enamel blue owns the sign, frames and plaques; yellow is lettering and lamplight; red is the awning, the category label and the source panel.
-- Big Shoulders condensed sign-writer caps for Latin display. Noto Serif Khmer bold for Khmer display, always above and larger on the sign.
-- Painted plaques with 2px corners and, when chosen, a fine yellow rule inside the edge. Square cabinets with an 8px blue frame.
-- Depth is light, not shadow: a glowing lamp strip and a warm spill over each photograph.
-- Photographs are shown whole on the cabinet's grey back wall, never cropped or recoloured.
+- A white sign face with raised wine Khmer above wide gold English, the Khmer always on top and larger.
+- White plaster, a white dado rail and a veined marble wainscot as the only surfaces; an ink footer closes the page.
+- Gold is line and lettering: frame lines, underlines, the sign's English, the drawn tools, the marble's veins.
+- Every photograph whole, on a white mount with a gold inner line, standing off the wall on a soft shadow.
+- Square everywhere. Selection is a wine underline and bold weight, never a pill or a fill.
+- One motion moment: the house dress rises into its frame once on load.
 
 ## Colors
 
-Enamel-sign paints on a cool tile wall: one blue, one yellow, one red, with ink and greys for reading.
+Warm white plaster and stone greys carry the room; wine and gold are the sign's two paints, and they stay in their roles.
 
 ### Primary
-- **Enamel Sign Blue** (`blue`): the whole sign board, the 8px cabinet frames and the bay's lower rule, every plaque border and its text, the filled (chosen) plaque, the search field and suggestion borders, the read link, the other-language suggestion, the Khmer or English card subtitle, the focus outline on light ground, and selected text on light ground.
-- **Deep Enamel** (`blue-deep`): hover for the primary plaque button only.
-- **Blue Wash** (`blue-tint`): hover fill for unchosen plaques and the active or hovered suggestion row.
+- **Av Chang Pong Wine** (`wine`): the silk of the house dress. The sign's Khmer lettering, the primary button, the selected underline on tabs, filters and views, the selected filter's text, the Returned tag, the focus outline, the caret, and link underlines on hover.
+- **Deep Wine** (`wine-deep`): the primary button's hover only.
 
 ### Secondary
-- **Sign Yellow** (`yellow`): the painted Khmer name on the sign, the brand line, the sign panel's heavy rule, the letters and inner rule of a chosen plaque, the selected language underline, the lamp strip on each cabinet, and the focus outline and selection on blue, red or ink ground. Yellow is never text on white or on the wall.
-
-### Tertiary
-- **Signal Red** (`red`): the awning stripe, the source panel, the card category label, the text caret in fields, link hover underlines on card titles, and the focus outline on a chosen (blue) plaque.
+- **Sign Gold** (`gold`): structural gold lines that mark state: the search field's focus border, the Pending tag's border, the chosen language's underline, the secondary button's hover border.
+- **Gold Lettering** (`gold-text`): gold that must be read as text. The sign's English, the brand in the nav, card subtitles, suggestion hints, and the drawn tools' stroke (`tools-gold.svg`). It holds about 5:1 on plaster and white.
+- **Frame Gold** (`gold-line`): the hairline gold. Frame and mount inner lines, the tab rule, link underlines at rest, the empty-state and suggestion borders, the text-selection highlight, and the phone scrollbar. Decorative and structural only; never text.
 
 ### Neutral
-- **Tile Wall** (`wall`): the page ground under everything below the sign.
-- **Cabinet Bay** (`bay`): the grey back wall each photograph stands on, and suggestion dividers.
-- **Glass White** (`white`): the cabinet body, unchosen plaques, fields, the empty state, the stripes between red, and text on blue and red.
-- **Shop Ink** (`shop-ink`): reading text, headings and card titles on light ground, and the kerb's background.
-- **Shop Grey** (`shop-muted`): counts, hints, provenance values, materials, credits and placeholders.
+- **White Plaster** (`plaster`): the wall, the page ground, and the hover fill for secondary buttons and suggestions.
+- **Plaster Shade** (`plaster-shade`): the cove's lower edge, the shadow line above the rail, dividers between suggestions.
+- **Mount White** (`mount`): photo mounts, the hero frame, inputs, the suggestion list, empty states, and text on wine.
+- **Dado Rail** (`rail`): the 8px white rail that caps every marble band.
+- **Stone** (`stone`): the hairline on fields and secondary buttons.
+- **Shop Ink** (`shop-ink`): body text, headings, and the footer ground.
+- **Shop Muted** (`shop-muted`): secondary text: notes, captions, counts, unselected tabs, the email in the nav.
+
+The marble itself is `public/images/salon/marble.svg` (a light grey field with grey and gold veins, `preserveAspectRatio="xMidYMid slice"`), drawn as `background: url(...) center / cover`, so it is cropped to fit and never stretched. Where words sit on it (the knowledge band, and the phone band behind the salon copy), a 40% plaster veil goes over it first so the veins sit back behind the text. The hero wainscot carries no words and has no veil.
 
 ### Named Rules
-**The Three Paints Rule.** Blue, yellow and red are the only paints. A fourth accent, a tinted photograph, or a gradient used as a control surface breaks the shop. The awning stripe and the lamp spill are the shop's own fittings, not UI gradients.
+**The Two Paints Rule.** Wine and gold are the sign's paints. Wine marks action and choice; gold draws lines and letters. Neither is ever a panel or a large fill.
 
-**The Yellow-on-Dark Rule.** Yellow appears only on blue, red or ink. On white or the wall it fails contrast and is not used.
+**The Gold Is a Line Rule.** Gold never fills a surface, button or tag. It is lettering, a hairline, an underline, a border or a vein. The text-selection highlight is the one gold field, and it is the browser's, not the page's.
 
-**The Words-First Rule.** Colour never carries meaning alone. A chosen plaque is filled blue with yellow letters and an inner yellow rule, and it also carries `aria-selected` or `aria-pressed`. The chosen language is also bold and underlined. A Status pill always shows its word. An error is always a sentence.
+**The Word Carries It Rule.** Colour never carries meaning alone. A chosen tab, filter or view is wine-underlined (3px) and set bold; a status tag always shows its word, and the paint only repeats it.
 
 ## Typography
 
-**Display Font:** Big Shoulders (with Arial Narrow, then sans-serif), Latin only
-**Body Font:** Arial (with Noto Sans Khmer, then sans-serif)
-**Khmer Fonts:** Self-hosted Noto Sans Khmer for interface text and form controls. The Shopfront uses installed Noto Serif Khmer for editorial display, with Noto Sans Khmer as its fallback.
+**Sign Display Font:** Archivo at 125% width (`font-stretch: 125%`), weight 800, with Arial. Only for the sign's English.
+**Salon Display Font:** Marcellus, weight 400, with Georgia. Every other English heading, name and small capital label.
+**Khmer Display Font:** Noto Serif Khmer, falling back to the self-hosted Noto Sans Khmer subset (`--khmer-sans`).
+**Body Font:** Arial with Noto Sans Khmer (`--sans` in `globals.css`).
 
-**Character:** Big Shoulders is condensed sign-writer capitals, set uppercase, so headings read as painted lettering on a shopfront. Arial keeps reading text and controls plain. Khmer follows the same split: serif bold where the sign or a heading speaks, sans in reading text.
-
-Big Shoulders is loaded in `app/page.js` through `next/font/google` with the Latin subset and the `opsz` axis. The Khmer subset of Noto Sans Khmer is served from `public/fonts/` with its SIL Open Font License. Both fonts are served from the archive.
+**Character:** A sign painter's wide gold capitals over a dressmaker's engraved Roman capitals, with Khmer in a serif that holds its own at display size beside both.
 
 ### Hierarchy
-- **Sign Khmer** (700, `clamp(30px, 4.6vw, 60px)`, 1.6): the archive's Khmer name in yellow on the sign, first line of the `h1`.
-- **Sign Display** (800, `clamp(30px, 4.2vw, 56px)`, 0.95, 0.01em, uppercase): the archive's English name in white, second line of the `h1`, 12px below the Khmer. Below 640px it is a fixed 26px with no tracking, 6px below the Khmer, so the name fits one line on a 390px phone.
-- **Headline** (800, `clamp(32px, 3.6vw, 44px)`, 1.05, 0.01em, uppercase): section `h2`, including the source panel. Khmer inside it is Noto Serif Khmer 700 at 0.72em with 1.6 line height and no case change.
-- **Title** (700, 24px, 1.15): cabinet `h3`. English garment titles are uppercase with 0.01em tracking. A Khmer title is Noto Serif Khmer 700 21px/1.6. Contributor entry titles use 1.7 line height to accommodate mixed scripts.
-- **Subtitle** (700, 17px, 1.3, 0.04em, uppercase): the other-language name under an English-led title, in blue. Under a Khmer-led title the subtitle is Noto Serif Khmer 400 16px/1.7.
-- **Statement** (400, 24px, 1.5, Arial; 20px on phones): the curator's source statement on the red panel, capped at 34ch. Khmer in it is Noto Serif Khmer 22px/1.8 (19px on phones).
-- **Lead** (400, 17px, 1.7; 15px/1.6 on phones): the description on the sign, white at 86%, capped at 72ch.
-- **Body** (400, 16px, 1.7): materials, provenance and reading text. Khmer pages use a 17px body and at least 1.6 line height. Long stories and notes use 1.9.
-- **Brand** (700, 16px, 1.2, 0.08em, uppercase): the archive brand at the sign's top left, in yellow. Its Khmer is 14px bold with no tracking. The kerb name uses the same voice at 18px/1.3 and 0.06em in white.
-- **Nav** (400, 14px): sign links and the signed-in email.
-- **Label** (700, 13px, 0.06em, uppercase): the card category in red, placed under the names. Khmer in it is 14px with no tracking and no case change.
+- **Sign Khmer** (800, `clamp(30px, 6.4vw, 76px)`, 1.6): the archive's Khmer name on the sign. Wine, raised by a hard 1–2px edge in a darker wine and a soft cast shadow.
+- **Sign Display** (800, `clamp(16px, 3.6vw, 42px)`, 1.1, 0.02em, uppercase, 125% width): the English name under it, in gold lettering with a dark-gold edge. Tracking drops to 0 on phones.
+- **Headline** (400, `clamp(28px, 3vw, 38px)`, 1.3, 0.06em, uppercase): section headings in Marcellus. Khmer inside a headline is Noto Serif Khmer 700 at 0.92em, line-height 1.7, no tracking.
+- **Title** (400, 20px, 1.4, 0.08em, uppercase): dress names on cards. A Khmer title is 700 22px/1.7. Community entry titles keep their own case (Marcellus with Khmer sans, 0.02em, 1.7).
+- **Lead** (400, 21px, 1.6, max 44ch): the salon description. Khmer 19px/1.9; 18px and 17px on phones.
+- **Body** (400, 16px, 1.7): everything else.
+- **Label** (400, 15px, 0.1em, uppercase, Marcellus): the brand in the nav, card subtitles (14px), the footer name (17px). Card category labels are Arial 13px, 0.06em, uppercase. Khmer inside any label drops the tracking and the case.
+- **Caption** (400, 14px): figure captions, nav links, card subtitles in Khmer (500 16px/1.8).
 
 ### Named Rules
-**The Khmer-Over-English Sign Rule.** On the sign the Khmer name always sits above the English and is set larger, whichever Interface language is active: 60px against 56px at the top of the range, 4.6vw against 4.2vw between, and the 30px Khmer floor against a 26px English below 640px. Between 640px and 652px both names sit on their 30px floors and are the same size; the Khmer leads from 652px up. This is how a Cambodian shop sign is painted, and it does not swap with the toggle.
+**The Khmer on Top Rule.** On the sign the Khmer name always sits above the English and is set larger, whichever interface language is chosen, like a Cambodian shop sign.
 
-**The Khmer-Is-Content Rule.** Anything Khmer carries `lang="km"`. Khmer is never uppercased, tracked, truncated, or given a fixed height. Uppercase and tracking on Latin display do not carry into it (every Khmer override resets `letter-spacing` to 0 and `text-transform` to none). Use at least 1.6 line height for Khmer, with more room for dense reading text. Keep normal word breaking, allow wrapping when needed, and disable hyphenation.
+**The Khmer Is Text Rule.** Anything Khmer carries `lang="km"`. Khmer is never decoration, never letter-spaced, never uppercased, never transliterated, and Khmer lines get the taller line-height (1.7–1.9) its marks need. No new Khmer copy is added without the curator's review.
 
-**The Optical-Size Rule.** Khmer glyphs look larger than Latin glyphs at the same size, so in a mixed heading the Khmer is set smaller than its English partner: 0.72em in a Shopfront `h2`, and 14px Khmer beside the 16px brand. The sign is the deliberate exception (see the Sign Rule): there Khmer leads.
+**The Whole Gloss Rule.** A Khmer gloss inside an English material line, such as (ក្រណាត់ប៉ាក់), is held on one line (`white-space: nowrap`), so the browser never splits a Khmer word where it cannot find a word break.
 
-**The Hanging-Marks Rule.** Khmer subscript consonants hang below the baseline, so Khmer links put their underline 0.55em below (`a:lang(km)` in `globals.css`). English links put it 5px below.
+**The Two Latin Faces Rule.** Archivo wide is the sign and nothing else. Marcellus is every other English display line. No third display face.
 
 ## Layout
 
-The page is one centred column: `min(1200px, calc(100% - 2 × gutter))`, with gutters of 40px on desktop, 24px on tablets and 16px on phones (the `.container` and `--gutter` from `globals.css`). The sign, awning, source panel and kerb run full-bleed with their content in that column.
+A centred container of `min(1200px, 100% - 2 × gutter)`, with the gutter at 40px, 24px below 1000px and 16px below 640px. The page reads top to bottom as a room: a 14px cove at the ceiling, the nav row (brand at left, links, the language toggle at the far right), the full-width sign and its 20px soffit, then the salon, the counter and the dresses, the marble band about the knowledge, and the ink footer.
 
-**Home page sequence:**
-1. **The sign board:** full-bleed blue. Its top row carries the yellow brand on the left and the sign links on the right; the language toggle sits on the same row, 8px from the top. Below it, the painted sign panel with the Khmer name, the English name and the lead. 24px of blue below.
-2. **The awning:** 36px high (28px on phones), hung directly under the sign.
-3. **The tabs:** two plaques with a 12px gap, pulled 14px up over the scallops (12px on phones), with 24px below.
-4. **The counter:** on wide screens a two-column grid with a 40px gap: heading, provenance and count with the filters under them on the left, search on the right. The filters keep 32px below. On phones it reads heading, filters, search, then the cabinets, so the first cabinet reaches the first screen; the search hint shows only while the field has focus.
-5. **The window:** cabinets with 40px between rows and 24px between columns. The Community tab's count closes with 32px before its cabinets.
-6. **The source panel:** full-bleed red, 96px below the window (56px on phones), 56px block padding (32px on phones). Inside, the framed panel splits heading and statement.
-7. **The kerb:** full-bleed shop ink, 40px/48px padding, a `1fr 1.6fr` split of the name and the course note (stacked below 1000px), the note capped at 640px.
-
-**Rhythm:** headings 24px before their content, related pairs 4–8px, adjacent controls 12px (tabs, filters) and at least 8px elsewhere. Cabinet content has 16px side padding; the photograph runs edge to edge inside the frame.
+- **Salon:** two columns, copy and a 400px frame (`1fr / 400px`, 96px gap), aligned to the bottom so the frame stands on the 210px marble wainscot while the copy sits on the plaster above it.
+- **Counter:** from 1000px the heading and filters share a row with the search (`head search / filters search`, 48px gap); below that it stacks.
+- **Dresses:** four columns (56px row gap, 32px column gap), three below 1000px.
+- **Rhythm:** 4/8/12/16/24/32/40/56/72/96px. Sections open with 72–96px; the marble band carries 88px of padding.
 
 ### Responsive behaviour
+- Below 1000px the nav links take their own row under the brand, clear of the toggle, and the footer stacks.
+- Below 900px the salon is one column: the frame first (up to 440px, centred), then the words and the button on a full-bleed marble band that rises 150px behind the frame's foot. That band and the knowledge band set `background-position: 0 0, 78% center` (veil, then marble), so the narrow window shows the part of the drawing where the gold and grey veins cross.
+- Below 640px the sign stacks (tools above the name, 64px), the filters become a horizontal scroll row, the counter reads heading, filters, search, and the dresses become a swipe row (76% wide cards, `scroll-snap-type: x mandatory`).
 
-| Width | Window | Everything else |
-| --- | --- | --- |
-| Below 640px | A single swipeable row. Each cabinet is 78% of the row wide and snaps to its start; the row bleeds to the screen edge with gutter padding and a thin blue scrollbar. | The filters become one unwrapped row that scrolls sideways the same way. Sign links wrap under the brand. Sign panel padding 16px/20px; the English sign name drops to 26px untracked. Tabs 15px with 8px side padding. |
-| 640–999px | Three columns. | Sign links take their own row under the brand. Sign panel padding 32px/36px. The kerb stacks. |
-| 1000px and up | Four columns, 1200px cap. A short last row starts at the left, like a window's last cabinets. | Counter in one row; the sign's top row keeps 200px clear on the right for the language toggle. |
-
-### Named Rules
-**The Window Rule.** Every dress is in its own cabinet in one row of the window: four, three, or a swipe row. Cabinets in a row match in structure; the last cabinet of a short row is not centred or stretched.
-
-**The No-Sideways-Page Rule.** The page never scrolls sideways. The only horizontal scrolling is inside the phone filter row and the phone cabinet row, each of which bleeds to the screen edge on purpose and scrolls on its own. Long Khmer wraps by the browser's word breaking, and controls never shrink below 44px.
+### Known issues
+- **Vein behind phone text (accepted).** On phones a gold vein in the marble runs behind the hero copy and the knowledge-section text. It stays readable but reads like a strike-through. The curator saw it and chose to ship it as it is. This is a known trade-off, not a rule: don't copy it on purpose, and don't treat a vein behind text as part of the look.
 
 ## Elevation & Depth
 
-The shop is lit, not lifted. Surfaces are flat colour; depth comes from the sign's blue mass, the 8px frames, the grey bay behind each photograph, and the cabinet lamps. Each cabinet has a 5px yellow lamp strip along its top edge that glows downward, and a warm spill over the top of the photograph: a normally blended amber wash, `linear-gradient(rgba(255, 190, 40, 0.34), rgba(255, 190, 40, 0.14) 40%, rgba(255, 190, 40, 0))`, at 0.85 opacity at rest and 1 when lit. Both brighten when the cabinet is hovered or holds focus. The one true drop shadow belongs to the floating search suggestions.
+Depth is the room's: the frame and the mounts stand off the wall, and the ceiling, rail and soffit are lit from above. Shadows are long, soft and warm (`rgba(40, 30, 20, …)`), always negative-spread so they sit under the object rather than around it. Nothing glows.
 
 ### Shadow Vocabulary
-- **Lamp glow at rest** (`box-shadow: 0 4px 14px rgba(244, 197, 49, 0.5)`): the lamp strip on every cabinet.
-- **Lamp glow lit** (`box-shadow: 0 6px 26px 4px rgba(244, 197, 49, 0.85)`): the lamp strip on a hovered or focused cabinet.
-- **Overlay** (`box-shadow: 0 8px 24px rgba(22, 24, 29, 0.16)`): the search suggestions list only.
+- **Hero frame** (`0 18px 40px -18px rgba(40, 30, 20, 0.45)`): the house dress's frame against the wall.
+- **Mount at rest** (`0 12px 26px -16px rgba(40, 30, 20, 0.5)`): each card's photo mount.
+- **Mount lifted** (`0 22px 36px -16px rgba(40, 30, 20, 0.6)`): the mount when its card is hovered or holds focus, over 0.4s.
+- **Suggestion list** (`0 10px 24px -8px rgba(40, 30, 20, 0.3)`): the search suggestions dropping over the dresses.
+- **Architecture:** the cove (`0 3px 6px -3px rgba(40, 30, 20, 0.2)`), the soffit's inset (`inset 0 6px 8px -4px rgba(40, 30, 20, 0.35)`), and a 2px plaster-shade line above each dado rail.
 
 ### Named Rules
-**The Lamplight Rule.** Only the cabinet lamp glows, and it glows yellow. Cards, plaques, panels and the sign cast no shadow. A shadow other than the lamp means "floating above the page", and only the suggestions list floats.
+**The Stands Off the Wall Rule.** Only framed and mounted things cast shadows, plus the floating suggestion list. Buttons, tabs, tags, inputs and text panels are flat.
+
+**The Raised Letters Rule.** The sign's lettering is the one place a hard text edge is used: 1–2px in a darker shade of the same paint, then a soft cast. It is the sign's material, and it stays on the sign.
 
 ## Shapes
 
-Painted and framed. Plaques (tabs, filters, entry views, buttons), fields, the suggestions list and the empty state have 2px corners and a 2px blue border. Cabinets, the bay, the sign panel, the source panel, the awning and the kerb are square. Cabinet frames are 8px (`frame`), and the bay closes with the same 8px rule under the photograph. Photographs sit in a 3:4 portrait bay.
-
-A painted panel is framed the way a sign writer frames lettering: a heavy 3px rule with a fine 1px rule inside it. The sign panel takes a yellow 3px border and a 55% yellow inner rule 12px in (7px on phones); the source panel takes a white 3px border and a 50% white inner rule 12px in (8px on phones). A chosen plaque repeats the idea at small scale with a 70% yellow inner rule 6px in.
-
-The awning is a red and white stripe, 24px per stripe (18px on phones), with one 12px-radius scallop per stripe (9px on phones), cut with a CSS mask.
-
-### Named Rules
-**The Painted-Edge Rule.** Nothing a hand presses is rounder than 2px. Categories and filters are plaques, never pills.
-
-**The Honest-Ornament Rule.** The awning, frames and lamps are a shop's fittings. No scalloped temple frames, faux Khmer motifs, or generic patterns labelled as authentic.
+Square. Every surface, button, field, tab, tag, frame and empty state has a 0px radius. Frames are drawn with an outline inset into the white: 1px `gold-line` at −6px on the hero frame and −4px on card mounts, so a gold line runs just inside the mount's edge. Photographs are 3:4, shown whole (`object-fit: contain`) inside 8px (cards) or 12px (hero) of white. Under each card mount sits a 10px grey plinth, inset 14px from each side. Bands of marble always start with an 8px white rail.
 
 ## Components
 
-### Sign board
-- **Character:** an enamel shop sign, read before anything else.
-- **Top row:** the yellow brand (link to the top), then the sign links in white, 14px with a 44px target, underlined at 45% white that turns yellow on hover. A signed-in visitor sees their email in 78% white and a Log out button styled as a link.
-- **Language toggle:** joins the sign's top row, positioned absolutely 8px from the top, so it takes no row of its own. Unchosen buttons are 78% white, chosen is white with a yellow 2px underline.
-- **Panel:** the framed `h1` (Khmer name, then English name), then the lead. Text selection on the sign flips to yellow with blue text, and the focus outline turns yellow.
+### Buttons
+- **Shape:** square (0px), 50px tall (52px beside the search field), 10px 24px padding, 12px gap to a 16px stroke arrow.
+- **Primary:** wine fill, white bold text, wine border. One per view: "Browse the collection" in the salon, "Write an entry" in the Community tab.
+- **Hover / Focus:** fill deepens to `wine-deep`; focus is a 2px wine outline at 3px offset.
+- **Secondary:** white fill, stone hairline, ink text at regular weight: the search reset beside the field, Edit on an entry card. Hover warms the fill to plaster and the border to gold.
 
-### Awning
-A decorative `aria-hidden` band under the sign (see Shapes). It holds nothing, and the tabs hang from it.
-
-### Plaques (tabs, filters, entry views, buttons)
-- **Shape:** 2px corners, 2px blue border, at least 48px high (tabs 52px at 17px), 8px/20px padding, bold blue text on white.
-- **Hover:** `blue-tint` fill.
-- **Chosen and primary:** blue fill, yellow letters, a fine yellow rule 6px inside the edge. Primary buttons deepen to `blue-deep` on hover. Their focus outline is 3px red, offset 3px, because a blue outline would vanish against them.
-- **Secondary buttons:** the unchosen plaque.
+### Tabs, filters and entry views
+- **Style:** text on the wall, no fill, 48px tall, a 3px transparent bottom border; muted at rest, ink on hover.
+- **Selected:** a 3px wine underline and bold weight. Tabs turn ink; filters and entry views turn wine. The tab row rests on a 1px `gold-line` rule.
 
 ### Search and suggestions
-- **Field:** a white field at least 52px high with a 2px blue border and 2px corners, ink text, a red caret, grey placeholder. The Reset plaque sits beside it at the same height. The clear control is blue.
-- **Suggestions:** a white list with a 2px blue border, 2px corners and the Overlay shadow. Rows divide with `bay` and fill with `blue-tint` on hover or `aria-selected`. A match in the other language is named in blue.
+- **Field:** white, 52px, stone hairline, square; focus turns the border gold and adds the wine focus outline; the caret is wine.
+- **Suggestions:** a white list in a gold hairline with the suggestion shadow; the hovered or active row fills with plaster.
 
-### Glass cabinet (garment card and Community entry card)
-- **Character:** one lit showcase per dress.
-- **Frame:** white body inside an 8px blue frame, square, with 8px padding at the bottom. Content takes 16px side padding; the photograph runs to the frame.
-- **Lamp:** the 5px yellow strip and the warm spill (see Elevation & Depth). A Community entry without a photograph keeps the lamp strip but has no spill.
-- **Bay:** a 3:4 `bay`-grey back wall, the photograph shown whole (`object-fit: contain`), closed by an 8px blue rule, 16px above the title.
-- **Text:** the title in the reader's language (a link, red underline on hover), the other-language name in blue, the category label in red, the material with a bold ink term, provenance, and a bold blue "Read entry" link pushed to the cabinet's foot. Owner actions on a Community entry sit below it.
-- **Motion:** on first load the lamps come on along the window: each cabinet's lamp fades in over 0.6s and its photograph brightens from 60% over 0.9s, staggered by 0.1s per cabinet up to 0.6s, on `cubic-bezier(0.16, 1, 0.3, 1)`. The photographs are visible from the first frame, only dimmer. Hover or focus brightens the lamp over 0.3s on the same curve. `prefers-reduced-motion` removes the switch-on.
+### Cards (garment card and Community entry card)
+- **Corner Style:** square.
+- **Mount:** white, 8px padding, gold inner line, mount shadow lifting on hover or focus-within. The photo inside is never cropped, recoloured or animated.
+- **Plinth:** a 10px grey step under the mount.
+- **Text:** centred. Title (Marcellus capitals or Khmer serif), subtitle in gold lettering, category label, material and provenance in muted text, then a bold wine "read" link at the foot.
 
-### Source panel
-- **Character:** the shop's own sign about where its knowledge comes from, presented as source information, not as a quotation.
-- **Style:** a full-bleed red band holding a framed panel (see Shapes) with 40px/48px padding (28px/20px on phones). The heading is a white Headline; the statement is the Statement style; the byline is 90% white. Selection flips to yellow with blue, and focus turns yellow.
+### Hero frame
+The house dress (Av Chang Pong, an Official record) in a white frame, 12px mount, gold inner line, hero shadow, with its caption in muted 14px under the photo. Under `prefers-reduced-motion: no-preference` it rises 16px into place once on load (1.1s, `cubic-bezier(0.16, 1, 0.3, 1)`, 0.1s delay) while its shadow grows. It is the page's only entrance motion.
 
-### Kerb (footer)
-- **Style:** full-bleed `shop-ink`, the archive name in the brand voice in white, and the course note in light grey. Selection is yellow with ink text, focus is yellow.
+### Status tags (My entries)
+Small square tags, 0 12px padding, the status word always on them. Pending: plaster with a gold border. Published: white with an ink border. Returned: wine with white text. The Return note is a plaster panel in a gold hairline; the delete confirmation is a white panel in a wine border.
 
-### Phone swipe row
-- **Style:** below 640px the window is a horizontal row with mandatory snap. Each cabinet is 78% of the row so the next one shows at the edge; the row bleeds to the screen edge and keeps gutter padding as scroll padding; `overscroll-behavior-x: contain` keeps a swipe from moving the page. The filter row uses the same bleed without snapping.
+### Empty states
+A white card in a gold hairline, centred, with a Marcellus 24px heading (Khmer 700 21px/1.8). Used for no results, an empty list, or a list that failed to load.
 
-### Interaction
-- **Transitions:** background, colour and border change over 150ms on controls (from `globals.css`); the lamp brightens over 0.3s. Nothing else moves: no parallax, no hover lift, no zoom.
-- **Focus:** 3px outline offset 3px: blue on light ground, yellow on blue, red or ink ground, red on a chosen plaque. Every hover state has a focus equivalent (`:focus-within` lights a cabinet).
-- **Reduced motion:** removes the switch-on animation, every transition and the smooth scroll.
+### Navigation
+- **Brand:** the archive's name in gold lettering, Marcellus capitals 15px with 0.1em tracking, Khmer in serif 700. Links are ink 14px, underlined in `gold-line`, turning wine on hover. Every target is at least 44px tall.
+- **Language toggle:** the flag-emoji toggle stays, by `docs/adr/0005`. It sits at the right of the nav row; the chosen language is ink with a gold underline, the other muted.
 
-### Pages still on The Tailor's Archive (legacy, not the target)
-The home page is the only Shopfront page. The record pages (`/garments/[id]`), entry pages (`/entries/[id]`), sign-in and sign-up, contribute and edit, review, choose and change username, and cookies still use the previous system, "The Tailor's Archive", defined on `:root` in `app/globals.css`. They move to The Shopfront in follow-up issues. Until then, keep work on those pages consistent with it, and do not bring its look onto the home page.
+### Footer
+Shop ink ground, warm off-white text (`#E9E5DD`), the archive's name in white Marcellus capitals; two columns, one below 1000px. Focus outlines here are `gold-line` so they show on the ink.
 
-- **Palette:** warm paper ground `#F7F3EB`, ivory surface `#FFFCF6` for inputs and panels, ink `#292620`, faded ink `#686057`, cotton fabric `#EAE1D3` for photo mats and notes, ruled line `#D5CABB`, seam line `#877A6B` for control outlines. One accent, oxblood `#702F36` (hover `#542229`), for primary buttons, selection, errors and the source banner. Brass `#967445` is decorative only; teal `#285F69` is the focus outline and the Published pill.
-- **Type:** Georgia with Noto Serif Khmer for titles (display `clamp(40px, 5.5vw, 72px)`/1.08, heading `clamp(32px, 3.5vw, 40px)`/1.2, title 26px/1.3); Arial with Noto Sans Khmer for everything else (16px/1.7 body, 14px captions, 12px bold tracked labels). Khmer in a heading is 0.75em in `h1` and 0.8em in `h2`.
-- **Shape and depth:** square editorial surfaces, 4px controls, the Status pill as the one 999px capsule. Flat, with the autocomplete as the only shadow.
-- **Rules that hold there:** oxblood is the only accent; errors are sentences in oxblood; photographs whole on a fabric mat; 4px spacing scale; no shadows on cards, buttons or banners.
-
-The Status pill, Return note, delete confirmation and draft toast are still drawn by these legacy rules wherever they appear, including My entries on the home page.
+### Pages not yet in the salon
+Only the home page uses Sign and Salon. The record pages (`/garments/[id]`), entry pages, sign-in and sign-up, contribute and edit, review, choose and change username, and cookies still render on `app/globals.css`'s older system: a cream ground, Georgia with Noto Serif Khmer headings, a fabric photo mat (`--fabric`), a different and darker wine (`--wine` #702F36 there, not the salon's #8E1A24), rounded 4px controls and a 999px status pill. They move to the salon in their own issues. Until then, keep work on those pages consistent with `globals.css`, and do not use these tokens there piecemeal.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** read every colour from a custom property whose name matches a token here (`var(--blue)`, never a hex) and scope Shopfront rules under `.shop` until the other pages move.
-- **Do** put the Khmer name above the English on the sign, larger, in yellow, in every Interface language.
-- **Do** mark every Khmer string with `lang="km"`, give Khmer at least 1.6 line height and dense body copy 1.9, and set Khmer in a mixed heading smaller than its English partner.
-- **Do** mark a choice with words and state as well as paint: blue fill, yellow letters, the inner rule, and `aria-pressed` or `aria-selected`.
-- **Do** show every photograph whole on the `bay` grey in a 3:4 bay, inside an 8px blue frame.
-- **Do** keep text contrast at 4.5:1 (3:1 for large text and control boundaries), and check the sign, swipe row and counter at 320, 390, 768, 1024 and 1440px and at 200% zoom.
-- **Do** implement in plain CSS or the existing inline objects, with plain JavaScript React components and no new dependencies.
+- **Do** set the Khmer name above the English on the sign and larger than it, in every interface language.
+- **Do** put `lang="km"` on anything Khmer, give Khmer lines 1.7–1.9 line-height, and drop tracking and uppercase on Khmer inside labels and headings.
+- **Do** show every dress photograph whole (`object-fit: contain`) on a white mount with a gold inner line.
+- **Do** show a choice with a 3px wine underline and bold weight, and keep the status word on every status tag.
+- **Do** keep everything square (0px radius) and keep shadows to framed and mounted things.
+- **Do** start every marble band with the 8px white dado rail, and veil the marble in plaster (40%) where text sits on it.
+- **Do** keep the marble cropped to fit (`slice`, `cover`), never stretched.
+- **Do** keep entrance motion to the hero frame's single rise, and only under `prefers-reduced-motion: no-preference`.
+- **Do** read the archive's name, description, curator and source from `collection.config.js`.
 
 ### Don't:
-- **Don't** put a small label or kicker above a heading. The category label sits under the names.
-- **Don't** add new Khmer strings without the curator's review. Interface copy comes from `src/locales/km.json` through `lib/uiText.js`. Archive identity and records keep their own sources.
-- **Don't** set yellow text on white or the wall, add a fourth accent, or tint a photograph.
-- **Don't** round a plaque, field or panel beyond 2px, or turn filters or categories into pills.
-- **Don't** add shadows to cabinets, plaques, panels or the sign. Only the lamp glows and only the suggestions list floats.
-- **Don't** crop, zoom or recolour a dress photograph, or animate it beyond the one switch-on.
-- **Don't** substitute a sales funnel, reduce Khmer to decoration, or invent cultural authority.
+- **Don't** crop, recolour, filter or animate a dress photograph.
+- **Don't** fill a surface, button or tag with gold, or set running text in `gold-line`.
+- **Don't** show a choice or a status by colour alone, or with a pill.
+- **Don't** use Archivo anywhere but the sign's English, or add a third display face.
+- **Don't** use Khmer as decoration, letter-space it, transliterate it, or add new Khmer copy without the curator's review.
+- **Don't** put kicker or eyebrow labels above headings.
+- **Don't** replace the flag-emoji language toggle (`docs/adr/0005`).
+- **Don't** bring back the museum collection page or the enamel shopfront: no cream-and-serif museum hero, no blue enamel sign, awning or glass cabinets.
+- **Don't** add prices, carts, appointments or anything that sells.

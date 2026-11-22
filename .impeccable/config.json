@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "app/home.css"
+        ],
+        "createdAt": "2026-11-22T14:52:32.047Z",
+        "reason": "Claude's triage: the flagged tabs/filters/views rule (app/home.css ~L332-341) sets border-radius: 0 in the same block, so there is no rounded corner; finish reviewer also judged it a false positive"
+      }
+    ]
+  }
+}
