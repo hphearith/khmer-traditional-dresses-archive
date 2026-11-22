@@ -3,7 +3,7 @@ import { pick } from "../lib/bilingual.js";
 import { garmentHref } from "../lib/garmentPages.js";
 import { garmentNames } from "../lib/garmentNames.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { TEXT } from "../lib/uiText.js";
+import { TEXT, readGarmentText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import MixedText from "./MixedText.js";
 
@@ -46,7 +46,7 @@ export default function GarmentCard({ garment }) {
         </dl>
       )}
       {/* The description lives on the record's own page (app/garments/[id]/page.js). */}
-      <Link className="read-link" href={href} aria-label={`${pick(TEXT.catalogue.readEntry, language)}: ${title.text}`}>
+      <Link className="read-link" href={href} aria-label={pick(readGarmentText(title.text), language)}>
         <Bilingual text={TEXT.catalogue.readEntry} inline />
       </Link>
     </article>

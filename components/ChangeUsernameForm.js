@@ -17,7 +17,7 @@ export default function ChangeUsernameForm() {
   }, [asking]);
 
   return (
-    <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
+    <form noValidate onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
       {/* Kept on screen but locked while confirming, so going back keeps what was typed. */}
       <UsernameField pending={pending || Boolean(asking)} error={usernameError} />
       {asking ? (

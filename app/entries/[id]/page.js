@@ -5,9 +5,10 @@ import collection from "../../../collection.config.js";
 import Bilingual from "../../../components/Bilingual.js";
 import EntryRecord from "../../../components/EntryRecord.js";
 import { isEntryId } from "../../../lib/entryPages.js";
+import { getLanguage } from "../../../lib/getLanguage.js";
 import { readEntry } from "../../../lib/readEntries.js";
 import { createClient } from "../../../lib/supabase/server.js";
-import { TEXT, submittedText } from "../../../lib/uiText.js";
+import { TEXT, archiveMetadataText, submittedText } from "../../../lib/uiText.js";
 import { readVisitor } from "../../../lib/visitor.js";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }) {
   const { id } = await params;
   if (!isEntryId(id)) return {};
   const { entry } = await loadEntry(id);
-  return entry ? { title: `${entry.title} — ${collection.name}` } : {};
+  return entry ? archiveMetadataText(collection, await getLanguage(), entry.title) : {};
 }
 
 // One page per Contributor entry, such as /entries/0b9c7a52-…. It reads with
@@ -36,7 +37,7 @@ export default async function EntryPage({ params }) {
   if (!entry && !error) notFound();
 
   return (
-    <main className="container record-page">
+    <main className="container record-page" data-record-title={entry?.title}>
       <Link className="back-link" href="/?tab=community"><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
       {error ? (
         <div className="empty" role="alert">

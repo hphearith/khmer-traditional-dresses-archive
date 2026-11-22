@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
 import collection from "../collection.config.js";
-import { bylineText, countText, emptyEntriesText, emptyGarmentsText, heroCaptionText, identityText } from "../lib/uiText.js";
+import { TEXT, archiveMetadataText, bylineText, countText, emptyEntriesText, emptyGarmentsText, heroCaptionText, identityText } from "../lib/uiText.js";
 
 const KHMER = /[ក-៿]/;
 
@@ -46,7 +46,7 @@ test("the entry empty state keeps today's English and carries a Khmer search thr
   const query = "សំពត់ហូល";
   const text = emptyEntriesText(` ${query} `);
   assert.equal(text.en, `No entries match “${query}”. Try a different word, or search in English or Khmer.`);
-  assert.equal(text.km.includes(`“${query}”`), true);
+  assert.equal(text.km.includes(`«${query}»`), true);
 });
 
 test("the source line names the curator in both languages", () => {
@@ -70,4 +70,28 @@ test("the home page has no labels above its headings", async () => {
   assert.equal(TEXT.home.aboutLabel, undefined);
   assert.equal(TEXT.catalogue.label, undefined);
   assert.ok(TEXT.tabs.community);
+});
+
+test("archive metadata follows the interface language and uses the configured identity", () => {
+  assert.deepEqual(archiveMetadataText(collection, "km"), {
+    title: `${collection.nameKm} — បណ្ណសារខ្មែរមានជីវិត`,
+    description: collection.descriptionKm,
+  });
+  assert.deepEqual(archiveMetadataText(collection, "en"), {
+    title: `${collection.name} — Khmer Living Archive`,
+    description: collection.description,
+  });
+});
+
+test("public counts and search examples pair plain Khmer with Latin digits and three dots", () => {
+  assert.equal(countText(0, 1).km, "បង្ហាញ 0 ក្នុងចំណោម 1 កំណត់ត្រា");
+  assert.equal(countText(1200, 3000).km, "បង្ហាញ 1,200 ក្នុងចំណោម 3,000 កំណត់ត្រា");
+  assert.equal(TEXT.catalogue.placeholder.km, "សំពត់ សូត្រ...");
+  assert.equal(TEXT.community.placeholder.km, "ចំណងជើង ទីកន្លែង...");
+});
+
+test("record metadata preserves the exact title supplied by its author", () => {
+  const title = "រឿងរ៉ាវ {{title}}";
+  assert.equal(archiveMetadataText(collection, "km", title).title, `${title} — ${collection.nameKm}`);
+  assert.equal(archiveMetadataText(collection, "en", title).title, `${title} — ${collection.name}`);
 });
