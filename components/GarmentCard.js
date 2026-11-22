@@ -34,9 +34,9 @@ export default function GarmentCard({ garment }) {
           loading="lazy"
         />
       </div>
-      <div className="card-top label"><span>{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</span></div>
       <h3 lang={title.lang}><Link className="card-link" href={href}>{title.text}</Link></h3>
       <p className="card-subtitle" lang={subtitle.lang}>{subtitle.text}</p>
+      <p className="card-category">{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</p>
       <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <MixedText text={garment.material} /></p>
       {provenance.length > 0 && (
         <dl className="provenance">

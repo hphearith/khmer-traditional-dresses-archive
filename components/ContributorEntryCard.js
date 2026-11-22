@@ -23,8 +23,8 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
       {entry.photo_url && (
         <img className="entry-photo" src={entry.photo_url} alt={`${pick(TEXT.card.photoFor, language)}: ${entry.title}`} loading="lazy" />
       )}
-      {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
       <h3><Link className="card-link" href={entryHref(entry.id)}>{entry.title}</Link></h3>
+      {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
       {showStatus && (
         <div className="entry-status">
           <StatusPill status={entry.status} />

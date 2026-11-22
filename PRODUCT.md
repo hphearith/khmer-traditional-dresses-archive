@@ -28,7 +28,7 @@ Its knowledge comes first-hand from one working tailor shop, not from general re
 ## Operating Context
 
 - The interface loads in Khmer. A toggle on every page switches to English, and the choice is kept in a `lang` cookie read on the server (`docs/adr/0005`). Official record names show in both languages (`docs/adr/0003`).
-- Phones first, on slow connections. There are no web fonts: Khmer uses the device's Noto Khmer fonts. Photos load lazily. Uploads are JPEG, PNG or WebP under 5 MB.
+- Phones first, on slow connections. Khmer uses the device's Noto Khmer fonts, never a web font. The one web font is a Latin display face for the home page's sign lettering (Big Shoulders), self-hosted through `next/font` (#130). Photos load lazily. Uploads are JPEG, PNG or WebP under 5 MB.
 - An entry being written is kept as a Local draft in the browser, so a dropped connection doesn't lose it.
 - Contributor flow: write → Pending → a Reviewer Publishes it or Returns it with a Return note → edit and resubmit. Every edit, even of a Published entry, goes back to Pending. A Reviewer's own entries publish on save (`docs/adr/0004`).
 - Built in sprints, one GitHub issue per branch, with AI coding agents working under `AGENTS.md`.
