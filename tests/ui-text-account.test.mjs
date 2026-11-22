@@ -80,7 +80,7 @@ test("the resend countdown shows the seconds left in both languages", () => {
 });
 
 test("sign-in controls and validation use the standard Khmer phrases", () => {
-  assert.equal(TEXT.auth.logIn.km, "ចូល");
+  assert.equal(TEXT.auth.logIn.km, "ចូលគណនី");
   assert.equal(TEXT.auth.email.km, "អ៊ីមែល");
   assert.equal(TEXT.auth.password.km, "ពាក្យសម្ងាត់");
   assert.equal(credentialIssueText({ valueMissing: true }).km, "តម្រូវឱ្យបំពេញ");
