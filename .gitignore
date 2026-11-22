@@ -13,3 +13,6 @@ skills-lock.json
 
 # Playwright browser-check output (screenshots, snapshots, console logs)
 .playwright-mcp/
+
+# Curator reference photos for design work; not part of the archive
+.impeccable/reference/
