@@ -211,7 +211,7 @@ The marble itself is `public/images/salon/marble.svg` (a light grey field with g
 
 **Sign Display Font:** Archivo at 125% width (`font-stretch: 125%`), weight 800, with Arial. Only for the sign's English.
 **Salon Display Font:** Marcellus, weight 400, with Georgia. Every other English heading, name and small capital label.
-**Khmer Display Font:** Noto Serif Khmer, falling back to the self-hosted Noto Sans Khmer subset (`--khmer-sans`).
+**Khmer Display Font:** Noto Serif Khmer at 700 and 800, Khmer letters only, served from the site through `next/font` in `app/fonts.js` (`--font-serif-khmer`, one variable file of about 81 KB), so every phone shows the same serif. It falls back to the self-hosted Noto Sans Khmer subset (`--khmer-sans`) while it loads.
 **Body Font:** Arial with Noto Sans Khmer (`--sans` in `globals.css`).
 
 **Character:** A sign painter's wide gold capitals over a dressmaker's engraved Roman capitals, with Khmer in a serif that holds its own at display size beside both.
