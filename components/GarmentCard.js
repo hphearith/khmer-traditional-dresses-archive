@@ -1,5 +1,6 @@
 import { pick } from "../lib/bilingual.js";
 import { garmentNames } from "../lib/garmentNames.js";
+import { scriptRuns } from "../lib/scriptRuns.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -33,7 +34,10 @@ export default function GarmentCard({ garment }) {
       <div className="card-top label"><span>{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</span></div>
       <h3 lang={title.lang}>{title.text}</h3>
       <p className="card-subtitle" lang={subtitle.lang}>{subtitle.text}</p>
-      <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <span lang="en">{garment.material}</span></p>
+      <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <span lang="en">
+        {/* The Khmer gloss in brackets is Khmer, so it gets its own lang. */}
+        {scriptRuns(garment.material).map((run, index) => (run.lang === "km" ? <span key={index} lang="km">{run.text}</span> : run.text))}
+      </span></p>
       {provenance.length > 0 && (
         <dl className="provenance">
           {provenance.map(([field, label]) => (
