@@ -1,5 +1,6 @@
 import collection from "../collection.config.js";
 import Bilingual from "../components/Bilingual.js";
+import HeroImage from "../components/HeroImage.js";
 import HomeNav from "../components/HomeNav.js";
 import HomeTabs from "../components/HomeTabs.js";
 import garments from "../data/garments.js";
@@ -75,7 +76,6 @@ export default async function Home() {
       <main id="top">
         <section className="container hero" aria-labelledby="archive-name">
           <div className="hero-copy">
-            <p className="label"><Bilingual text={TEXT.home.heroLabel} /></p>
             <h1 id="archive-name"><Bilingual text={identity.name} /></h1>
             <p className="lead"><Bilingual text={identity.description} /></p>
             <a className="button" href="#collection"><Bilingual text={TEXT.home.browse} inline /> <span aria-hidden="true">↓</span></a>
@@ -83,7 +83,7 @@ export default async function Home() {
           </div>
           <figure>
             <div className="hero-art">
-              <img className="hero-image" src={heroGarment.imageUrl} alt={`${heroGarment.nameEn} (${heroGarment.nameKh})`} lang="en" width="3" height="4" />
+              <HeroImage garment={heroGarment} />
             </div>
             <figcaption><Bilingual text={heroCaptionText(heroGarment)} /></figcaption>
           </figure>
@@ -96,10 +96,7 @@ export default async function Home() {
 
         <section className="source" id="about" aria-labelledby="source-heading">
           <div className="container source-inner">
-            <div>
-              <p className="label"><Bilingual text={TEXT.home.aboutLabel} inline /></p>
-              <h2 id="source-heading"><Bilingual text={TEXT.home.aboutHeading} /></h2>
-            </div>
+            <h2 id="source-heading"><Bilingual text={TEXT.home.aboutHeading} /></h2>
             <div>
               <p className="source-copy"><Bilingual text={identity.source} /></p>
               <p className="byline"><Bilingual text={bylineText(collection.curator)} /></p>

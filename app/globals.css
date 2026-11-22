@@ -81,6 +81,17 @@ summary {
   outline-offset: 3px;
 }
 
+/* Selected text and the text cursor take the archive's colours, not the browser's. */
+::selection {
+  background: var(--wine);
+  color: var(--surface);
+}
+
+input,
+textarea {
+  caret-color: var(--wine);
+}
+
 .container {
   width: min(1200px, calc(100% - var(--gutter) * 2));
   margin-inline: auto;
@@ -207,11 +218,6 @@ nav [lang="km"],
 .hero > *,
 .source-inner > * {
   min-width: 0;
-}
-
-.hero-copy > .label {
-  margin-bottom: 24px;
-  color: var(--wine);
 }
 
 h1 {
@@ -349,14 +355,17 @@ h2 [lang="km"] {
   line-height: 1.5;
 }
 
-.section-head .label {
-  margin-bottom: 12px;
-  color: var(--wine);
-}
-
 .count {
   color: var(--muted);
   font-size: 14px;
+}
+
+/* The Community count closes its search controls with the same rule and gap as
+   the Official tab's filters, so the first card never touches it. */
+.community > .count {
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+  padding-block: 8px 24px;
 }
 
 /* The label, the input and the hint are cells of this grid (.search-field has no box of
@@ -541,15 +550,16 @@ input[type="search"]::-webkit-search-cancel-button {
   line-height: 1.7;
 }
 
-/* The one photo of the dress. Every photo gets the same 4:5 frame so the cards line up; a photo of another
-   shape is scaled to fill it and the overflow is cropped, centred. */
+/* The one photo of the dress. Every photo gets the same 4:5 frame so the cards line up. Like an
+   Official record's photo (.swatch-image), it is shown whole on the fabric mat, never cropped. */
 .entry-photo {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 5;
   margin-bottom: 16px;
+  padding: 16px;
   background: var(--fabric);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .entry-credit {
@@ -909,10 +919,6 @@ details p {
   gap: 48px;
 }
 
-.source h2 {
-  margin-top: 16px;
-}
-
 .source-copy {
   max-width: 640px;
   font: 400 26px / 1.5 var(--serif);
@@ -927,6 +933,12 @@ details p {
   outline-color: var(--surface);
 }
 
+/* Wine on the wine banner would hide the selection, so it flips there. */
+.source ::selection {
+  background: var(--surface);
+  color: var(--wine);
+}
+
 footer {
   display: flex;
   justify-content: space-between;
@@ -935,6 +947,11 @@ footer {
   padding-block: 24px 32px;
   color: var(--muted);
   font-size: 14px;
+}
+
+/* The course note keeps to the reading width instead of one long line. */
+footer p:last-child {
+  max-width: 640px;
 }
 
 @media (max-width: 999px) {
