@@ -26,9 +26,7 @@ export default async function GarmentPage({ params }) {
 
   return (
     <main className="container record-page">
-      <Link className="back-link" href="/#collection">
-        <span aria-hidden="true">←</span> <Bilingual text={TEXT.home.navCollection} inline />
-      </Link>
+      <Link className="back-link" href="/#collection"><Bilingual text={TEXT.username.backToArchive} inline /></Link>
       <GarmentRecord garment={garment} source={identity.source} byline={bylineText(collection.curator)} />
     </main>
   );

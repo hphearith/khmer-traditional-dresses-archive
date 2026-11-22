@@ -37,9 +37,7 @@ export default async function EntryPage({ params }) {
 
   return (
     <main className="container record-page">
-      <Link className="back-link" href="/?tab=community">
-        <span aria-hidden="true">←</span> <Bilingual text={TEXT.tabs.community} inline />
-      </Link>
+      <Link className="back-link" href="/?tab=community"><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
       {error ? (
         <div className="empty" role="alert">
           <h1 className="record-title"><Bilingual text={TEXT.community.loadFailed} /></h1>
