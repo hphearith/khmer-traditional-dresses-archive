@@ -19,9 +19,15 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
   const language = useLanguage();
   return (
     <article className="entry-card">
-      {/* A plain img, like GarmentCard. The photo is public, so a guest needs no cookie to see it. */}
+      {/* A plain img, like GarmentCard. The photo is public, so a guest needs no cookie to see it.
+          It stands on a plinth and opens the entry, like an Official record's photo (GarmentCard). */}
       {entry.photo_url && (
-        <img className="entry-photo" src={entry.photo_url} alt={pick(entryPhotoText(entry.title), language)} loading="lazy" />
+        <>
+          <Link className="entry-photo-link" href={entryHref(entry.id)} tabIndex={-1}>
+            <img className="entry-photo" src={entry.photo_url} alt={pick(entryPhotoText(entry.title), language)} loading="lazy" />
+          </Link>
+          <div className="plinth" aria-hidden="true" />
+        </>
       )}
       <h3><Link className="card-link" href={entryHref(entry.id)}>{entry.title}</Link></h3>
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
