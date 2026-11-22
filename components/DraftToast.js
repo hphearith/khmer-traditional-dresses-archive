@@ -39,11 +39,8 @@ export default function DraftToast() {
   }, []);
 
   return (
-    <p role="status" style={{
-      position: "fixed", left: "50%", bottom: 24, transform: "translateX(-50%)", margin: 0,
-      padding: "12px 24px", borderRadius: 4, background: "var(--ink)", color: "var(--paper)",
-      opacity: phase === "in" ? 1 : 0, transition: `opacity ${FADE_MS}ms ease`, pointerEvents: "none",
-    }}>
+    <p role="status" className="draft-toast"
+      style={{ opacity: phase === "in" ? 1 : 0, transition: `opacity ${FADE_MS}ms ease` }}>
       {phase !== "off" && <Bilingual text={TEXT.home.draftSaved} inline />}
     </p>
   );

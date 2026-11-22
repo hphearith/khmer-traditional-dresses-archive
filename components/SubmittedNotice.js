@@ -6,7 +6,7 @@ import Bilingual from "./Bilingual.js";
 // for review, so it is not in All entries yet; the Community's My entries view lists it.
 export default function SubmittedNotice() {
   return (
-    <div role="status" style={{ display: "grid", gap: 24, justifyItems: "start" }}>
+    <div role="status" className="submitted-notice">
       <p><Bilingual text={TEXT.review.submitted} /></p>
       <a className="button" href={getHomeTabHref("community", "mine")}><Bilingual text={TEXT.community.myEntries} inline /></a>
     </div>

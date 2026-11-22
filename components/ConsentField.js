@@ -6,9 +6,9 @@ import Bilingual from "./Bilingual.js";
 export default function ConsentField({ error, onlyWithNewPhoto = false }) {
   return (
     <div>
-      <label htmlFor="consent" style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+      <label htmlFor="consent" className="consent">
         <input id="consent" name="consent" type="checkbox"
-          style={{ flexShrink: 0, width: 24, height: 24, marginTop: 4 }}
+          className="consent-box"
           aria-required={onlyWithNewPhoto ? undefined : "true"} aria-invalid={error ? true : undefined}
           aria-describedby={error ? "consent-error" : undefined} />
         <span>
@@ -16,7 +16,7 @@ export default function ConsentField({ error, onlyWithNewPhoto = false }) {
             note={onlyWithNewPhoto ? TEXT.photo.consentWithNewPhoto : TEXT.form.required} />
         </span>
       </label>
-      {error && <p id="consent-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
+      {error && <p id="consent-error" className="field-error"><Bilingual text={error} /></p>}
     </div>
   );
 }

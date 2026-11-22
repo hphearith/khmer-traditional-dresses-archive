@@ -551,6 +551,12 @@ body:has(.shop) ::selection {
   margin-inline: auto;
 }
 
+/* The entry form is longer and wider than an account form. */
+.shop .sheet-form,
+.shop .sheet-page-form > .back-link {
+  width: min(100%, 720px);
+}
+
 .shop .sheet-title {
   margin-bottom: 12px;
   color: var(--shop-ink);
@@ -706,6 +712,185 @@ body:has(.shop) ::selection {
 
 .shop .text-button:hover {
   text-decoration-color: var(--wine);
+}
+
+/* ---------- The entry form ---------- */
+
+/* The story box and the year list look like the salon's fields. */
+.shop .field-control,
+.shop .return-note-form textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--stone);
+  border-radius: 0;
+  padding: 12px 16px;
+  background: var(--mount);
+  color: var(--shop-ink);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.shop textarea.field-control,
+.shop .return-note-form textarea {
+  resize: vertical;
+}
+
+.shop select.field-control {
+  min-height: 52px;
+}
+
+.shop .field-control:focus,
+.shop .return-note-form textarea:focus {
+  border-color: var(--gold);
+}
+
+/* Provenance, the optional fields, in one gold-lined group. */
+.shop .field-group {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--gold-line);
+  padding: 16px 24px 24px;
+}
+
+.shop .field-group-legend {
+  padding: 0 8px;
+  font-weight: 700;
+}
+
+.shop .field-group-intro {
+  margin: 0 0 24px;
+}
+
+.shop .consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.shop .consent-box {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  min-height: 0;
+  margin: 4px 0 0;
+  accent-color: var(--wine);
+}
+
+/* The chosen or current photo, on a small mount like the cards'. */
+.shop .photo-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 240px;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: var(--mount);
+  box-shadow: 0 12px 26px -16px rgba(40, 30, 20, 0.5);
+  outline: 1px solid var(--gold-line);
+  outline-offset: -4px;
+}
+
+/* globals.css outlines the picker at all times (a broken focus rule there);
+   in the salon the outline shows only when the hidden file input has focus. */
+.shop .photo-picker {
+  outline: none;
+}
+
+.shop .photo-input:focus-visible + .photo-picker {
+  outline: 2px solid var(--wine);
+  outline-offset: 3px;
+}
+
+.shop .restored-notice {
+  font-weight: 700;
+}
+
+.shop .subtle,
+.shop .entry-status-hint,
+.shop .return-note-hint {
+  color: var(--shop-muted);
+}
+
+.shop .submitted-notice {
+  display: grid;
+  justify-items: start;
+  gap: 24px;
+}
+
+.shop .sheet .return-note {
+  margin-block: 0 24px;
+}
+
+/* ---------- The Review queue ---------- */
+
+.shop .review-title {
+  margin-bottom: 32px;
+}
+
+.shop .review-page > .empty {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* The queue is a grid of cards to read, never the home page's swipe row, even
+   when home.css is still loaded after moving here from the home page. */
+.shop .review-page .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 56px 40px;
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  scroll-snap-type: none;
+}
+
+/* A card to read in full, so its text is set flush left. */
+.shop .review-page .entry-card {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 0;
+  padding: 0;
+  text-align: start;
+}
+
+.shop .review-page .entry-photo {
+  margin-bottom: 16px;
+}
+
+.shop .review-page .entry-card h3 {
+  margin-block: 16px 4px;
+  font-family: var(--salon-face), var(--khmer-sans);
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  text-transform: none;
+}
+
+.shop .review-page .entry-card .provenance div {
+  justify-content: flex-start;
+}
+
+.shop .review-page .entry-actions {
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+/* ---------- Draft saved ---------- */
+
+/* The small note that floats up when a Local draft is kept. It is drawn by
+   the root layout, outside .shop, so it is styled through the body. */
+body:has(.shop) .draft-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 10;
+  margin: 0;
+  padding: 12px 24px;
+  background: var(--shop-ink);
+  box-shadow: 0 10px 24px -8px rgba(40, 30, 20, 0.3);
+  color: var(--plaster);
+  pointer-events: none;
+  transform: translateX(-50%);
 }
 
 /* ---------- The footer ---------- */

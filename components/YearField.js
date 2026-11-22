@@ -5,11 +5,6 @@ import { yearOptions } from "../lib/entry.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 
-const CONTROL = {
-  width: "100%", minWidth: 0, height: 56, border: "1px solid var(--control)", borderRadius: 4,
-  padding: "12px 16px", background: "var(--surface)", color: "var(--ink)", font: "inherit", fontSize: 16,
-};
-
 // The year is picked from a list, not typed: the current year down to
 // EARLIEST_YEAR (plus the entry's own year if that is outside it), with a
 // blank first choice. The pure rules and the database still check it,
@@ -21,15 +16,15 @@ export default function YearField({ error, initialYear = "" }) {
 
   return (
     <div>
-      <label htmlFor="year" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
+      <label htmlFor="year" className="field-label">
         <Bilingual text={TEXT.provenance.year} note={TEXT.form.optional} />
       </label>
-      <select id="year" name="year" defaultValue={initialYear} style={CONTROL}
+      <select id="year" name="year" defaultValue={initialYear} className="field-control"
         aria-invalid={error ? true : undefined} aria-describedby={error ? "year-error" : undefined}>
         <option value="">{pick(TEXT.provenance.notSure, language)}</option>
         {years.map((year) => <option key={year} value={year}>{formatYear(year)}</option>)}
       </select>
-      {error && <p id="year-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
+      {error && <p id="year-error" className="field-error"><Bilingual text={error} /></p>}
     </div>
   );
 }

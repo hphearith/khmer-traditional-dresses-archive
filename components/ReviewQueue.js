@@ -28,7 +28,7 @@ export default function ReviewQueue({ entries }) {
   return (
     <>
       <div role="status" aria-live="polite">
-        {done && <p key={done.key} style={{ marginBottom: 24 }}><Bilingual text={done.text} /></p>}
+        {done && <p key={done.key} className="form-status"><Bilingual text={done.text} /></p>}
       </div>
       {waiting.length === 0 ? (
         <div className="empty">

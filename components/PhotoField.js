@@ -18,14 +18,14 @@ export default function PhotoField({ error, current = null }) {
 
   return (
     <div>
-      <label id="photo-label" htmlFor="photo" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
+      <label id="photo-label" htmlFor="photo" className="field-label">
         <Bilingual text={current ? TEXT.photo.replaceLabel : TEXT.photo.label}
           note={current ? TEXT.form.optional : TEXT.form.required} noteHidden />
       </label>
       {(preview || current) && (
         <img src={preview ?? current.url}
           alt={preview ? pick(TEXT.photo.chosenAlt, language) : pick(entryPhotoText(current.title, true), language)}
-          style={{ display: "block", maxWidth: "100%", maxHeight: 240, marginBottom: 12, borderRadius: 4 }} />
+          className="photo-preview" />
       )}
       <div className="photo-control">
         <input id="photo" name="photo" type="file" accept={Object.keys(PHOTO_EXTENSIONS).join(",")}
@@ -37,10 +37,10 @@ export default function PhotoField({ error, current = null }) {
         </label>
         <span aria-hidden="true">{fileName || <Bilingual text={TEXT.photo.nothingChosen} inline />}</span>
       </div>
-      <p id="photo-hint" style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>
+      <p id="photo-hint" className="field-hint">
         <Bilingual text={photoHintText(Boolean(current))} />
       </p>
-      {error && <p id="photo-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
+      {error && <p id="photo-error" className="field-error"><Bilingual text={error} /></p>}
     </div>
   );
 }
