@@ -3,7 +3,7 @@ import test from "node:test";
 import { getConfirmationResendMessage } from "../lib/authConfirmation.js";
 import { isPair } from "../lib/bilingual.js";
 import {
-  allowedAtText, changeMessageText, confirmText, resendMessageText, retryInText, usernameHintText, usernameMessageText,
+  TEXT, allowedAtText, changeMessageText, confirmText, credentialIssueText, resendMessageText, retryInText, usernameHintText, usernameMessageText,
   yourUsernameText,
 } from "../lib/uiText.js";
 import { getUsernameMessage } from "../lib/username.js";
@@ -77,4 +77,13 @@ test("the resend countdown shows the seconds left in both languages", () => {
   const text = retryInText(42);
   assert.match(text.en, /42s/);
   assert.match(text.km, /42/);
+});
+
+test("sign-in controls and validation use the standard Khmer phrases", () => {
+  assert.equal(TEXT.auth.logIn.km, "ចូល");
+  assert.equal(TEXT.auth.email.km, "អ៊ីមែល");
+  assert.equal(TEXT.auth.password.km, "ពាក្យសម្ងាត់");
+  assert.equal(credentialIssueText({ valueMissing: true }).km, "តម្រូវឱ្យបំពេញ");
+  assert.equal(credentialIssueText({ typeMismatch: true }).km, "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូវ");
+  assert.equal(credentialIssueText({}), null);
 });

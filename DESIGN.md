@@ -18,7 +18,7 @@ typography:
     fontFamily: "'Noto Serif Khmer', 'Noto Sans Khmer', 'Khmer OS', serif"
     fontSize: clamp(30px, 4.6vw, 60px)
     fontWeight: 700
-    lineHeight: 1.4
+    lineHeight: 1.6
     letterSpacing: 0em
   sign-display:
     fontFamily: "'Big Shoulders', 'Arial Narrow', sans-serif"
@@ -232,21 +232,21 @@ Enamel-sign paints on a cool tile wall: one blue, one yellow, one red, with ink 
 
 **Display Font:** Big Shoulders (with Arial Narrow, then sans-serif), Latin only
 **Body Font:** Arial (with Noto Sans Khmer, then sans-serif)
-**Khmer Fonts:** Noto Serif Khmer bold for sign and headings, Noto Sans Khmer or Khmer OS for everything else, all from the device
+**Khmer Fonts:** Self-hosted Noto Sans Khmer for interface text and form controls. The Shopfront uses installed Noto Serif Khmer for editorial display, with Noto Sans Khmer as its fallback.
 
 **Character:** Big Shoulders is condensed sign-writer capitals, set uppercase, so headings read as painted lettering on a shopfront. Arial keeps reading text and controls plain. Khmer follows the same split: serif bold where the sign or a heading speaks, sans in reading text.
 
-Big Shoulders is the one web font. It is loaded in `app/page.js` through `next/font/google` with the Latin subset and the `opsz` axis, served from this site, and exposed as the CSS variable `--font-sign` on the `.shop` element (`.shop` then names it as `--sign-face`). No Khmer font is fetched: Khmer uses the device's Noto Serif Khmer and Noto Sans Khmer.
+Big Shoulders is loaded in `app/page.js` through `next/font/google` with the Latin subset and the `opsz` axis. The Khmer subset of Noto Sans Khmer is served from `public/fonts/` with its SIL Open Font License. Both fonts are served from the archive.
 
 ### Hierarchy
-- **Sign Khmer** (700, `clamp(30px, 4.6vw, 60px)`, 1.4): the archive's Khmer name in yellow on the sign, first line of the `h1`.
+- **Sign Khmer** (700, `clamp(30px, 4.6vw, 60px)`, 1.6): the archive's Khmer name in yellow on the sign, first line of the `h1`.
 - **Sign Display** (800, `clamp(30px, 4.2vw, 56px)`, 0.95, 0.01em, uppercase): the archive's English name in white, second line of the `h1`, 12px below the Khmer. Below 640px it is a fixed 26px with no tracking, 6px below the Khmer, so the name fits one line on a 390px phone.
 - **Headline** (800, `clamp(32px, 3.6vw, 44px)`, 1.05, 0.01em, uppercase): section `h2`, including the source panel. Khmer inside it is Noto Serif Khmer 700 at 0.72em with 1.6 line height and no case change.
-- **Title** (700, 24px, 1.15): cabinet `h3`. English garment titles are uppercase with 0.01em tracking. A Khmer title is Noto Serif Khmer 700 21px/1.6. Contributor entry titles mix both faces at 1.5 line height.
+- **Title** (700, 24px, 1.15): cabinet `h3`. English garment titles are uppercase with 0.01em tracking. A Khmer title is Noto Serif Khmer 700 21px/1.6. Contributor entry titles use 1.7 line height to accommodate mixed scripts.
 - **Subtitle** (700, 17px, 1.3, 0.04em, uppercase): the other-language name under an English-led title, in blue. Under a Khmer-led title the subtitle is Noto Serif Khmer 400 16px/1.7.
 - **Statement** (400, 24px, 1.5, Arial; 20px on phones): the curator's source statement on the red panel, capped at 34ch. Khmer in it is Noto Serif Khmer 22px/1.8 (19px on phones).
 - **Lead** (400, 17px, 1.7; 15px/1.6 on phones): the description on the sign, white at 86%, capped at 72ch.
-- **Body** (400, 16px, 1.7): materials, provenance and reading text. Body Khmer takes 1.9 line height.
+- **Body** (400, 16px, 1.7): materials, provenance and reading text. Khmer pages use a 17px body and at least 1.6 line height. Long stories and notes use 1.9.
 - **Brand** (700, 16px, 1.2, 0.08em, uppercase): the archive brand at the sign's top left, in yellow. Its Khmer is 14px bold with no tracking. The kerb name uses the same voice at 18px/1.3 and 0.06em in white.
 - **Nav** (400, 14px): sign links and the signed-in email.
 - **Label** (700, 13px, 0.06em, uppercase): the card category in red, placed under the names. Khmer in it is 14px with no tracking and no case change.
@@ -254,13 +254,11 @@ Big Shoulders is the one web font. It is loaded in `app/page.js` through `next/f
 ### Named Rules
 **The Khmer-Over-English Sign Rule.** On the sign the Khmer name always sits above the English and is set larger, whichever Interface language is active: 60px against 56px at the top of the range, 4.6vw against 4.2vw between, and the 30px Khmer floor against a 26px English below 640px. Between 640px and 652px both names sit on their 30px floors and are the same size; the Khmer leads from 652px up. This is how a Cambodian shop sign is painted, and it does not swap with the toggle.
 
-**The Khmer-Is-Content Rule.** Anything Khmer carries `lang="km"`. Khmer is never uppercased, tracked, truncated, or given a fixed height. Uppercase and tracking on Latin display do not carry into it (every Khmer override resets `letter-spacing` to 0 and `text-transform` to none). Body Khmer uses 1.9 line height, and Khmer in headings 1.5 to 1.6.
+**The Khmer-Is-Content Rule.** Anything Khmer carries `lang="km"`. Khmer is never uppercased, tracked, truncated, or given a fixed height. Uppercase and tracking on Latin display do not carry into it (every Khmer override resets `letter-spacing` to 0 and `text-transform` to none). Use at least 1.6 line height for Khmer, with more room for dense reading text. Keep normal word breaking, allow wrapping when needed, and disable hyphenation.
 
 **The Optical-Size Rule.** Khmer glyphs look larger than Latin glyphs at the same size, so in a mixed heading the Khmer is set smaller than its English partner: 0.72em in a Shopfront `h2`, and 14px Khmer beside the 16px brand. The sign is the deliberate exception (see the Sign Rule): there Khmer leads.
 
 **The Hanging-Marks Rule.** Khmer subscript consonants hang below the baseline, so Khmer links put their underline 0.55em below (`a:lang(km)` in `globals.css`). English links put it 5px below.
-
-**The One-Web-Font Rule.** Big Shoulders, Latin, through `next/font`, is the only font fetched. A second web font, or a web Khmer font, is a system change.
 
 ## Layout
 
@@ -333,7 +331,7 @@ A decorative `aria-hidden` band under the sign (see Shapes). It holds nothing, a
 - **Secondary buttons:** the unchosen plaque.
 
 ### Search and suggestions
-- **Field:** a 52px white field with a 2px blue border and 2px corners, ink text, a red caret, grey placeholder. The Reset plaque sits beside it at the same 52px height. The clear control is blue.
+- **Field:** a white field at least 52px high with a 2px blue border and 2px corners, ink text, a red caret, grey placeholder. The Reset plaque sits beside it at the same height. The clear control is blue.
 - **Suggestions:** a white list with a 2px blue border, 2px corners and the Overlay shadow. Rows divide with `bay` and fill with `blue-tint` on hover or `aria-selected`. A match in the other language is named in blue.
 
 ### Glass cabinet (garment card and Community entry card)
@@ -374,7 +372,7 @@ The Status pill, Return note, delete confirmation and draft toast are still draw
 ### Do:
 - **Do** read every colour from a custom property whose name matches a token here (`var(--blue)`, never a hex) and scope Shopfront rules under `.shop` until the other pages move.
 - **Do** put the Khmer name above the English on the sign, larger, in yellow, in every Interface language.
-- **Do** mark every Khmer string with `lang="km"`, give body Khmer 1.9 line height, and set Khmer in a mixed heading smaller than its English partner.
+- **Do** mark every Khmer string with `lang="km"`, give Khmer at least 1.6 line height and dense body copy 1.9, and set Khmer in a mixed heading smaller than its English partner.
 - **Do** mark a choice with words and state as well as paint: blue fill, yellow letters, the inner rule, and `aria-pressed` or `aria-selected`.
 - **Do** show every photograph whole on the `bay` grey in a 3:4 bay, inside an 8px blue frame.
 - **Do** keep text contrast at 4.5:1 (3:1 for large text and control boundaries), and check the sign, swipe row and counter at 320, 390, 768, 1024 and 1440px and at 200% zoom.
@@ -382,10 +380,9 @@ The Status pill, Return note, delete confirmation and draft toast are still draw
 
 ### Don't:
 - **Don't** put a small label or kicker above a heading. The category label sits under the names.
-- **Don't** add new Khmer strings without the curator's review. Khmer comes from `lib/uiText.js`, `collection.config.js` and `data/garments.js` as written.
+- **Don't** add new Khmer strings without the curator's review. Interface copy comes from `src/locales/km.json` through `lib/uiText.js`. Archive identity and records keep their own sources.
 - **Don't** set yellow text on white or the wall, add a fourth accent, or tint a photograph.
 - **Don't** round a plaque, field or panel beyond 2px, or turn filters or categories into pills.
 - **Don't** add shadows to cabinets, plaques, panels or the sign. Only the lamp glows and only the suggestions list floats.
-- **Don't** fetch a second web font or a web Khmer font.
 - **Don't** crop, zoom or recolour a dress photograph, or animate it beyond the one switch-on.
 - **Don't** substitute a sales funnel, reduce Khmer to decoration, or invent cultural authority.
