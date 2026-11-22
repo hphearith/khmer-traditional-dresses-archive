@@ -143,3 +143,13 @@ test("a credit written in Khmer is carried through unchanged", () => {
   assert.equal(sharedByText(credit).km.includes(credit), true);
   assert.equal(sharedByText(credit).en.includes(credit), true);
 });
+
+test("the Khmer maker limit applies to the maker or tailor's name", () => {
+  assert.equal(entryMessageText("maker", "too-long").km, "សូមកុំឱ្យឈ្មោះអ្នកធ្វើ ឬជាងដេរលើស 100 តួអក្សរ។");
+});
+
+test("permission recovery tells Khmer readers to sign out before signing in again", () => {
+  assert.match(saveFailureText({ code: "42501" }).km, /ចាកចេញ រួចចូលគណនីវិញ/);
+  assert.match(saveFailureText({ code: "42501" }).km, /ជ្រើសរើសឈ្មោះអ្នកប្រើប្រាស់/);
+  assert.match(photoFailureText({ statusCode: "403" }).km, /ចាកចេញ រួចចូលគណនីវិញ/);
+});
