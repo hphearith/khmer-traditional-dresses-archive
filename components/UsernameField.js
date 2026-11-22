@@ -12,7 +12,7 @@ export default function UsernameField({ pending, error }) {
       <p id="username-hint" style={{ marginTop: 8, fontSize: 14 }}>
         <Bilingual text={usernameHintText()} />
       </p>
-      {error && <p id="username-error" role="alert" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
+      {error && <p id="username-error" role="alert" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

@@ -50,9 +50,9 @@ export default async function EditEntryPage({ params }) {
         </p>
         <h1 id="edit-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.page.editTitle} /></h1>
         {error ? (
-          <p role="alert" style={{ color: "red" }}><Bilingual text={TEXT.page.editLoadFailed} /></p>
+          <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.editLoadFailed} /></p>
         ) : !isOwnedBy(entry.owner, user.id) ? (
-          <p role="alert" style={{ color: "red" }}><Bilingual text={TEXT.page.editNotOwner} /></p>
+          <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.editNotOwner} /></p>
         ) : (
           <>
             {/* The intro is all about going back to review, which a Reviewer's own
