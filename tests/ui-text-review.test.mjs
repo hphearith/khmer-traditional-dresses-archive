@@ -152,7 +152,7 @@ test("the Return note hint names the same limit review_entry keeps, in both lang
 test("the entry form labels distinguish review submission, direct publishing, and editing", () => {
   assert.deepEqual(entrySaveActionText(), { en: "Submit for review", km: "ដាក់ស្នើឱ្យពិនិត្យ" });
   assert.deepEqual(entrySaveActionText({ isReviewer: true }), { en: "Publish", km: "ផ្សាយ" });
-  assert.deepEqual(entrySaveActionText({ editing: true }), { en: "Save changes", km: "រក្សាទុកការផ្លាស់ប្តូរ" });
+  assert.deepEqual(entrySaveActionText({ editing: true }), { en: "Save changes", km: "រក្សាទុកការផ្លាស់ប្ដូរ" });
   assert.equal(entrySaveActionText({ pending: true }).km, "កំពុងដាក់ស្នើ...");
   assert.equal(entrySaveActionText({ isReviewer: true, pending: true }).km, "កំពុងផ្សាយ...");
 });

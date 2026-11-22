@@ -4,7 +4,7 @@ import { filterGarments } from "../lib/garmentSearch.js";
 
 // Official records in the shape of data/garments.js.
 const garments = [
-  { id: "hol", nameEn: "Sampot Hol", nameKh: "សំពត់ហូល", category: "lower", material: "Chong Kiet Tie-Dyed Silk (សូត្រចងគៀត)", description: "A renowned wrap skirt." },
+  { id: "hol", nameEn: "Sampot Hol", nameKh: "សំពត់ហូល", category: "lower", material: "Chong Kiet Tie-Dyed Silk (សូត្រចងគាត)", description: "A renowned wrap skirt." },
   { id: "chang", nameEn: "Sampot Chang Kben", nameKh: "សំពត់ចងក្បិន", category: "lower", material: "Khmer Golden Silk (សូត្រមាស)", description: "Twisted between the legs." },
   { id: "pak", nameEn: "Av Pak", nameKh: "អាវផាក", category: "upper", material: "Cotton", description: "A fitted blouse." },
 ];
@@ -21,6 +21,7 @@ test("the Official search reads English name, Khmer name, material and descripti
   assert.deepEqual(search("av pak"), ["pak"]);
   assert.deepEqual(search("សំពត់ហូល"), ["hol"]);
   assert.deepEqual(search("cotton"), ["pak"]);
+  assert.deepEqual(search("សូត្រចងគាត"), ["hol"]);
   assert.deepEqual(search("blouse"), ["pak"]);
 });
 
