@@ -62,10 +62,10 @@ test("the category tab narrows the keyword results", () => {
 
 test("a chosen suggestion keeps the script the reader typed", async () => {
   const { suggestionValue } = await import("../lib/garmentSearch.js");
-  const sbai = { nameEn: "Sbui / Sbai", nameKh: "ស្បៃ" };
+  const sbai = { nameEn: "Sbai", nameKh: "ស្បៃ" };
   assert.equal(suggestionValue(sbai, "ស្បៃ"), "ស្បៃ");
   assert.equal(suggestionValue(sbai, "ស"), "ស្បៃ");
-  assert.equal(suggestionValue(sbai, "sbai"), "Sbui / Sbai");
+  assert.equal(suggestionValue(sbai, "sbai"), "Sbai");
   assert.equal(suggestionValue(sbai, "silk ស"), "ស្បៃ");
-  assert.equal(suggestionValue(sbai, ""), "Sbui / Sbai");
+  assert.equal(suggestionValue(sbai, ""), "Sbai");
 });

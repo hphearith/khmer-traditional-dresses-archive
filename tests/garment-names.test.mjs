@@ -19,6 +19,6 @@ test("in the English interface the English name leads, then the Khmer", () => {
 });
 
 test("the Khmer name is returned exactly as written", () => {
-  const tricky = { nameEn: "Sbui / Sbai", nameKh: "ស្បៃ​" };
+  const tricky = { nameEn: "Sbai", nameKh: "ស្បៃ​" };
   assert.equal(garmentNames(tricky, "km")[0].text, "ស្បៃ​");
 });
