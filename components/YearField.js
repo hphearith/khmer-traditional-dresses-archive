@@ -28,7 +28,7 @@ export default function YearField({ error, initialYear = "" }) {
         <option value="">{pick(TEXT.provenance.notSure, language)}</option>
         {years.map((year) => <option key={year} value={year}>{year}</option>)}
       </select>
-      {error && <p id="year-error" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
+      {error && <p id="year-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

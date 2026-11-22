@@ -39,7 +39,7 @@ export default function EntryForm({ userId, entryId = null, initial = {}, photo 
       <EntryField key={`credited_as-${restoreKey}`} name="credited_as" label={TEXT.form.creditedAs} error={errors.credited_as} initialValue={values.credited_as}
         hint={TEXT.form.creditedAsHint} />
       <ProvenanceFields key={`provenance-${restoreKey}`} errors={errors} initial={values} />
-      {formError && <p role="alert" style={{ color: "red" }}><Bilingual text={formError} /></p>}
+      {formError && <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={formError} /></p>}
       <button className="button" type="submit" disabled={pending}
         style={{ opacity: pending ? 0.7 : 1, cursor: pending ? "wait" : "pointer" }}>
         <Bilingual text={pending ? TEXT.form.saving : saveLabel} inline />

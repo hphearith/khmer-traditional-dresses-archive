@@ -35,7 +35,7 @@ export default function AuthForm({ signup = false }) {
     <div>
       <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 20 }}>
         <AuthCredentialFields signup={signup} pending={pending} usernameError={usernameError} />
-        {error && <p role="alert" style={{ color: "red" }}><Bilingual text={error} /></p>}
+        {error && <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={error} /></p>}
         <button type="submit" disabled={pending} style={{
           minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
           background: "var(--wine)", color: "var(--surface)", opacity: pending ? 0.7 : 1,

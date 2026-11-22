@@ -44,7 +44,7 @@ export default function EntryField({ name, label, hint, error, required = false,
         <Bilingual text={characterCountText(count, limit)} />
         {full && <span role="status"><Bilingual text={TEXT.form.limitReached} /></span>}
       </p>
-      {error && <p id={`${name}-error`} style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
+      {error && <p id={`${name}-error`} style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

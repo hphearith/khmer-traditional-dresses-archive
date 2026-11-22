@@ -38,7 +38,7 @@ export default function PhotoField({ error, current = null }) {
       <p id="photo-hint" style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>
         <Bilingual text={photoHintText(Boolean(current))} />
       </p>
-      {error && <p id="photo-error" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
+      {error && <p id="photo-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
     </div>
   );
 }

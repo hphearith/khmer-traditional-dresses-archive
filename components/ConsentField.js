@@ -16,7 +16,7 @@ export default function ConsentField({ error, onlyWithNewPhoto = false }) {
             note={onlyWithNewPhoto ? TEXT.photo.consentWithNewPhoto : TEXT.form.required} />
         </span>
       </label>
-      {error && <p id="consent-error" style={{ marginTop: 8, color: "red" }}><Bilingual text={error} /></p>}
+      {error && <p id="consent-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
     </div>
   );
 }
