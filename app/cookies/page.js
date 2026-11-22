@@ -8,7 +8,7 @@ export default function CookieInformationPage() {
           even when the reader has chosen Khmer. */}
       <article lang="en" style={{ width: "100%", maxWidth: 680, margin: "0 auto" }}>
         <h1 style={{ marginBottom: 24 }}>Our use of cookies</h1>
-        <p style={{ color: "var(--muted)", marginBottom: 28 }}>
+        <p style={{ color: "var(--muted)", marginBottom: 32 }}>
           We keep our use of cookies limited and purposeful.
         </p>
 
