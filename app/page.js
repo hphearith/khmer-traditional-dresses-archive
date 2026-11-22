@@ -3,6 +3,7 @@ import Bilingual from "../components/Bilingual.js";
 import HeroImage from "../components/HeroImage.js";
 import HomeNav from "../components/HomeNav.js";
 import HomeTabs from "../components/HomeTabs.js";
+import Shop from "../components/Shop.js";
 import garments from "../data/garments.js";
 import { logout } from "../lib/logoutAction.js";
 import { readCommunityEntries, readMyEntries } from "../lib/readEntries.js";
@@ -12,7 +13,8 @@ import { createClient } from "../lib/supabase/server.js";
 import { TEXT, bylineText, heroCaptionText, identityText } from "../lib/uiText.js";
 import { readVisitor } from "../lib/visitor.js";
 import { redirect } from "next/navigation";
-import { fontVariables } from "./fonts.js";
+// home.css comes after Shop, which brings app/salon.css, so the home
+// page's own rules sit on top of the shared ones.
 import "./home.css";
 
 // The hero shows this Official record's photo: Apsara Mode Tailor's sign is behind it.
@@ -44,7 +46,7 @@ export default async function Home() {
   if (mine.error) console.error("Reading My entries failed:", mine.error);
 
   return (
-    <div className={`shop ${fontVariables}`}>
+    <Shop header={false}>
       <a className="skip" href="#collection"><Bilingual text={TEXT.home.skip} inline /></a>
       <div className="cove" aria-hidden="true" />
       <div className="container shop-top" id="top">
@@ -123,12 +125,6 @@ export default async function Home() {
           }
         />
       </main>
-      <footer className="shop-footer">
-        <div className="container">
-          <p className="shop-footer-name"><Bilingual text={identity.name} /></p>
-          <p><Bilingual text={TEXT.home.footer} /></p>
-        </div>
-      </footer>
-    </div>
+    </Shop>
   );
 }
