@@ -1,0 +1,860 @@
+/* The home page's shopfront (DESIGN.md, "The Shopfront"). Every rule is scoped
+   to .shop, or to a body that holds one, so the other pages keep globals.css
+   exactly as it was until they move to this look in their own issues. */
+
+body:has(.shop) {
+  --blue: #1D3A8F;
+  --blue-deep: #142B6E;
+  --blue-tint: #E6EAF5;
+  --yellow: #F4C531;
+  --red: #C8232C;
+  --wall: #E7EAEE;
+  --bay: #D5D9DF;
+  --white: #FFFFFF;
+  --shop-ink: #16181D;
+  --shop-muted: #464B57;
+  --frame: 8px;
+  --khmer-sign: "Noto Serif Khmer", "Noto Sans Khmer", "Khmer OS", serif;
+  background: var(--wall);
+  color: var(--shop-ink);
+}
+
+/* next/font sets --font-sign on .shop itself, so the face is named there. */
+.shop {
+  --sign-face: var(--font-sign), "Arial Narrow", sans-serif;
+}
+
+/* The language toggle joins the sign's brand row instead of taking a row of
+   its own. The bar is as wide as the row, so it lets clicks through to the
+   brand and links under it; only the toggle itself takes them. */
+body:has(.shop) .language-bar {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+body:has(.shop) .language-toggle {
+  pointer-events: auto;
+}
+
+body:has(.shop) .language-toggle button {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+body:has(.shop) .language-toggle button:hover {
+  color: var(--white);
+}
+
+body:has(.shop) .language-toggle button[aria-pressed="true"] {
+  border-bottom-color: var(--yellow);
+  color: var(--white);
+}
+
+body:has(.shop) .language-bar :focus-visible,
+.shop .signboard :focus-visible,
+.shop .source :focus-visible {
+  outline-color: var(--yellow);
+}
+
+.shop ::selection {
+  background: var(--blue);
+  color: var(--yellow);
+}
+
+.shop .signboard ::selection,
+.shop .source ::selection {
+  background: var(--yellow);
+  color: var(--blue);
+}
+
+.shop :focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.shop input,
+.shop textarea {
+  caret-color: var(--red);
+}
+
+.shop ::placeholder {
+  color: var(--shop-muted);
+}
+
+/* ---------- The sign board ---------- */
+
+.shop .signboard {
+  padding-bottom: 24px;
+  background: var(--blue);
+  color: var(--white);
+}
+
+.shop .sign-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-block: 8px 16px;
+}
+
+.shop .sign-brand {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--yellow);
+  font: 700 16px / 1.2 var(--sign-face);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.shop .sign-brand [lang="km"] {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.shop nav {
+  gap: 4px 24px;
+}
+
+.shop nav a,
+.shop .sign-logout button {
+  color: var(--white);
+  font-size: 14px;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+
+.shop nav a:hover,
+.shop .sign-logout button:hover {
+  text-decoration-color: var(--yellow);
+}
+
+.shop .sign-email {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+}
+
+.shop .sign-logout {
+  display: flex;
+}
+
+.shop .sign-logout button {
+  min-height: 44px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  text-decoration-line: underline;
+  text-underline-offset: 5px;
+}
+
+/* The painted panel: a heavy yellow rule with a fine one inside it, as a sign
+   writer frames the lettering. */
+.shop .sign-panel {
+  border: 3px solid var(--yellow);
+  outline: 1px solid rgba(244, 197, 49, 0.55);
+  outline-offset: -12px;
+  padding: 24px 40px 28px;
+}
+
+.shop .signboard h1 {
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.shop .sign-km {
+  display: block;
+  color: var(--yellow);
+  font: 700 clamp(30px, 4.6vw, 60px) / 1.4 var(--khmer-sign);
+  text-wrap: balance;
+}
+
+.shop .sign-en {
+  display: block;
+  margin-top: 12px;
+  color: var(--white);
+  font: 800 clamp(30px, 4.2vw, 56px) / 0.95 var(--sign-face);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.shop .sign-lead {
+  max-width: 72ch;
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* The awning under the sign: red and white stripes, one scallop per stripe. */
+.shop .awning {
+  height: 36px;
+  background: repeating-linear-gradient(90deg, var(--red) 0 24px, var(--white) 24px 48px);
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% 24px no-repeat,
+    radial-gradient(circle 12px at 12px 24px, #000 98%, transparent) 0 0 / 24px 36px repeat-x;
+  mask:
+    linear-gradient(#000 0 0) top / 100% 24px no-repeat,
+    radial-gradient(circle 12px at 12px 24px, #000 98%, transparent) 0 0 / 24px 36px repeat-x;
+}
+
+/* ---------- Painted plaques: tabs, filters, buttons ---------- */
+
+/* The section tabs hang from the awning: pulled up over its scallops. */
+.shop .home-tabs-wrap {
+  padding-top: 0;
+}
+
+.shop .home-tabs {
+  position: relative;
+  z-index: 1;
+  gap: 12px;
+  margin-top: -14px;
+  margin-bottom: 24px;
+  border-bottom: 0;
+}
+
+.shop .home-tab,
+.shop .filter,
+.shop .entry-views button,
+.shop .button {
+  min-height: 48px;
+  border: 2px solid var(--blue);
+  border-radius: 2px;
+  padding: 8px 20px;
+  background: var(--white);
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.shop .home-tab {
+  min-height: 52px;
+  margin: 0;
+  font-size: 17px;
+}
+
+.shop .home-tab:hover,
+.shop .filter:hover,
+.shop .entry-views button:hover,
+.shop .button.secondary:hover {
+  background: var(--blue-tint);
+}
+
+/* The chosen plaque is painted in: blue ground, yellow letters, and a fine
+   yellow rule inside the edge. The words stay the same, and the fill and rule
+   mark the choice, not the colour alone. */
+.shop .home-tab[aria-selected="true"],
+.shop .filter[aria-pressed="true"],
+.shop .entry-views button[aria-pressed="true"],
+.shop .button:not(.secondary) {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--yellow);
+  outline: 1px solid rgba(244, 197, 49, 0.7);
+  outline-offset: -6px;
+}
+
+.shop .button:not(.secondary):hover {
+  background: var(--blue-deep);
+}
+
+.shop .home-tab[aria-selected="true"]:focus-visible,
+.shop .filter[aria-pressed="true"]:focus-visible,
+.shop .entry-views button[aria-pressed="true"]:focus-visible,
+.shop .button:not(.secondary):focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 3px;
+}
+
+/* ---------- The counter: heading, count, filters and search ---------- */
+
+.shop .section-head {
+  align-items: end;
+  margin-bottom: 24px;
+}
+
+.shop h2 {
+  color: var(--shop-ink);
+  font: 800 clamp(32px, 3.6vw, 44px) / 1.05 var(--sign-face);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.shop h2 [lang="km"] {
+  font: 700 0.72em / 1.6 var(--khmer-sign);
+  text-transform: none;
+}
+
+.shop .count {
+  color: var(--shop-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.shop .provenance,
+.shop .material,
+.shop .search-hint {
+  color: var(--shop-muted);
+}
+
+.shop .provenance dt,
+.shop .material strong {
+  color: var(--shop-ink);
+}
+
+.shop .catalogue .provenance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+  margin-top: 8px;
+}
+
+.shop .search-label {
+  color: var(--shop-ink);
+}
+
+.shop input {
+  height: 52px;
+  border: 2px solid var(--blue);
+  border-radius: 2px;
+  background: var(--white);
+  color: var(--shop-ink);
+}
+
+.shop .search-row > .button {
+  align-self: start;
+  height: 52px;
+  min-height: 0;
+}
+
+.shop .search-clear {
+  color: var(--blue);
+}
+
+.shop .suggestions {
+  border: 2px solid var(--blue);
+  border-radius: 2px;
+  background: var(--white);
+  box-shadow: 0 8px 24px rgba(22, 24, 29, 0.16);
+}
+
+.shop .suggestion {
+  border-bottom-color: var(--bay);
+  color: var(--shop-ink);
+}
+
+.shop .suggestion:hover,
+.shop .suggestion[aria-selected="true"] {
+  background: var(--blue-tint);
+}
+
+.shop .suggestion-other {
+  color: var(--blue);
+}
+
+.shop .filters {
+  margin-bottom: 40px;
+  border-bottom: 0;
+  padding-block: 20px 0;
+}
+
+.shop .community > .count {
+  margin-bottom: 32px;
+  border-bottom: 0;
+  padding-block: 8px 0;
+}
+
+.shop .entry-views {
+  margin-bottom: 32px;
+}
+
+.shop .empty {
+  border: 2px solid var(--blue);
+  border-radius: 2px;
+  background: var(--white);
+}
+
+/* ---------- The showcase: one lit glass cabinet per dress ---------- */
+
+.shop .grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 40px 24px;
+}
+
+.shop .grid > .garment-card:last-child {
+  grid-column: auto;
+  justify-self: stretch;
+  width: auto;
+}
+
+.shop .garment-card,
+.shop .entry-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: var(--frame) solid var(--blue);
+  padding: 0 0 8px;
+  background: var(--white);
+}
+
+.shop .garment-card > :not(.swatch),
+.shop .entry-card > :not(.entry-photo) {
+  padding-inline: 16px;
+}
+
+/* The lamp strip along the top of each cabinet. */
+.shop .garment-card::before,
+.shop .entry-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 5px;
+  background: var(--yellow);
+  box-shadow: 0 4px 14px rgba(244, 197, 49, 0.5);
+  content: "";
+  transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The lamp's light falling into the bay: a warm wash over the top of the
+   photo, visible at rest and brighter when the cabinet is pointed at. Its
+   height follows the cabinet's width, so it always covers the top of the
+   3:4 photo. A cabinet with no photo has nothing to light. */
+.shop .garment-card::after,
+.shop .entry-card:has(.entry-photo)::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  aspect-ratio: 5 / 2;
+  background: linear-gradient(rgba(255, 190, 40, 0.34), rgba(255, 190, 40, 0.14) 40%, rgba(255, 190, 40, 0));
+  content: "";
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.85;
+}
+
+.shop .garment-card:hover::after,
+.shop .garment-card:focus-within::after,
+.shop .entry-card:hover::after,
+.shop .entry-card:focus-within::after {
+  opacity: 1;
+}
+
+.shop .garment-card:hover::before,
+.shop .garment-card:focus-within::before,
+.shop .entry-card:hover::before,
+.shop .entry-card:focus-within::before {
+  box-shadow: 0 6px 26px 4px rgba(244, 197, 49, 0.85);
+}
+
+/* The bay: the whole photo on the cabinet's grey back wall, never cropped. */
+.shop .swatch {
+  aspect-ratio: 3 / 4;
+  margin: 0 0 16px;
+  border-bottom: var(--frame) solid var(--blue);
+  padding: 0;
+  background: var(--bay);
+}
+
+.shop .swatch-image {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.shop .entry-photo {
+  aspect-ratio: 3 / 4;
+  margin-bottom: 16px;
+  border-bottom: var(--frame) solid var(--blue);
+  padding: 0;
+  background: var(--bay);
+}
+
+.shop h3 {
+  color: var(--shop-ink);
+  font: 700 24px / 1.15 var(--sign-face);
+}
+
+.shop .garment-card h3[lang="en"] {
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.shop h3[lang="km"] {
+  font: 700 21px / 1.6 var(--khmer-sign);
+}
+
+.shop .entry-card h3 {
+  font-family: var(--sign-face), var(--khmer-sign);
+  line-height: 1.5;
+}
+
+.shop .card-subtitle {
+  margin-block: 4px 12px;
+  color: var(--blue);
+  font-size: 16px;
+}
+
+.shop .card-subtitle[lang="en"] {
+  font: 700 17px / 1.3 var(--sign-face);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.shop .card-subtitle[lang="km"] {
+  font: 400 16px / 1.7 var(--khmer-sign);
+}
+
+.shop .card-category {
+  margin-bottom: 8px;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.shop .card-category [lang="km"] {
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.shop .entry-credit {
+  margin-block: 4px 0;
+  color: var(--shop-muted);
+}
+
+.shop .read-link {
+  margin-top: auto;
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration-color: rgba(29, 58, 143, 0.4);
+}
+
+.shop .read-link:hover {
+  text-decoration-color: var(--blue);
+}
+
+.shop .card-link:hover {
+  text-decoration-color: var(--red);
+}
+
+.shop .entry-actions {
+  padding-bottom: 8px;
+}
+
+/* The lights come on along the window, cabinet by cabinet, once, when the
+   page opens. The photos are visible from the first frame, only dimmer. */
+@keyframes shop-lamp-on {
+  from { opacity: 0; }
+}
+
+@keyframes shop-bay-lit {
+  from { filter: brightness(0.6) saturate(0.7); }
+}
+
+.shop .grid > ::before,
+.shop .grid > ::after {
+  animation: shop-lamp-on 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.shop .grid > * .swatch-image,
+.shop .grid > * .entry-photo {
+  animation: shop-bay-lit 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.shop .grid > :nth-child(2)::before, .shop .grid > :nth-child(2)::after, .shop .grid > :nth-child(2) :is(.swatch-image, .entry-photo) { animation-delay: 0.1s; }
+.shop .grid > :nth-child(3)::before, .shop .grid > :nth-child(3)::after, .shop .grid > :nth-child(3) :is(.swatch-image, .entry-photo) { animation-delay: 0.2s; }
+.shop .grid > :nth-child(4)::before, .shop .grid > :nth-child(4)::after, .shop .grid > :nth-child(4) :is(.swatch-image, .entry-photo) { animation-delay: 0.3s; }
+.shop .grid > :nth-child(5)::before, .shop .grid > :nth-child(5)::after, .shop .grid > :nth-child(5) :is(.swatch-image, .entry-photo) { animation-delay: 0.4s; }
+.shop .grid > :nth-child(6)::before, .shop .grid > :nth-child(6)::after, .shop .grid > :nth-child(6) :is(.swatch-image, .entry-photo) { animation-delay: 0.5s; }
+.shop .grid > :nth-child(n + 7)::before, .shop .grid > :nth-child(n + 7)::after, .shop .grid > :nth-child(n + 7) :is(.swatch-image, .entry-photo) { animation-delay: 0.6s; }
+
+/* ---------- The shop's own sign about its knowledge ---------- */
+
+.shop .source {
+  margin-block: 96px 0;
+  padding-block: 56px;
+  background: var(--red);
+  color: var(--white);
+}
+
+.shop .source-inner {
+  border: 3px solid var(--white);
+  outline: 1px solid rgba(255, 255, 255, 0.5);
+  outline-offset: -12px;
+  padding: 40px 48px;
+}
+
+.shop .source h2 {
+  color: var(--white);
+}
+
+.shop .source-copy {
+  max-width: 34ch;
+  font: 400 24px / 1.5 var(--sans);
+}
+
+.shop .source-copy [lang="km"] {
+  font: 400 22px / 1.8 var(--khmer-sign);
+}
+
+.shop .byline {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.shop .home-panel-community {
+  margin-bottom: 96px;
+}
+
+/* ---------- The kerb: the footer ---------- */
+
+.shop .kerb {
+  display: block;
+  border-top: 0;
+  padding-block: 40px 48px;
+  background: var(--shop-ink);
+  color: #C9CBD1;
+}
+
+.shop .kerb .container {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 24px 48px;
+}
+
+.shop .kerb-name {
+  color: var(--white);
+  font: 700 18px / 1.3 var(--sign-face);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.shop .kerb-name [lang="km"] {
+  font: 700 16px / 1.7 var(--khmer-sign);
+}
+
+.shop .kerb p:last-child {
+  max-width: 640px;
+}
+
+.shop .kerb ::selection {
+  background: var(--yellow);
+  color: var(--shop-ink);
+}
+
+.shop .kerb :focus-visible {
+  outline-color: var(--yellow);
+}
+
+/* ---------- Wide screens: the counter sits in one row ---------- */
+
+@media (min-width: 1000px) {
+  .shop .sign-top {
+    padding-right: 200px;
+  }
+
+  .shop .catalogue {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "head search"
+      "filters search"
+      "list list";
+    column-gap: 40px;
+  }
+
+  .shop .catalogue > .section-head {
+    grid-area: head;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 4px;
+    margin-bottom: 0;
+  }
+
+  .shop .catalogue > .search-row {
+    grid-area: search;
+    align-self: start;
+    padding-top: 12px;
+  }
+  .shop .catalogue > .grid,
+  .shop .catalogue > .empty { grid-area: list; }
+  .shop .catalogue > .filters {
+    grid-area: filters;
+    align-self: end;
+    margin-bottom: 32px;
+    padding-top: 16px;
+  }
+}
+
+@media (max-width: 999px) {
+  /* Below the wide layout the links take their own row under the brand, so
+     they never run under the language toggle. */
+  .shop .sign-top nav {
+    flex-basis: 100%;
+  }
+
+  .shop .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .shop .kerb .container {
+    grid-template-columns: 1fr;
+  }
+
+  .shop .sign-panel {
+    padding: 32px 32px 36px;
+  }
+}
+
+/* ---------- Phones: the showcase becomes a row you swipe along ---------- */
+
+@media (max-width: 639px) {
+  .shop .signboard {
+    padding-bottom: 24px;
+  }
+
+  .shop .sign-top {
+    gap: 0 16px;
+    padding-bottom: 8px;
+  }
+
+  .shop .section-head {
+    align-items: start;
+    gap: 4px;
+    margin-bottom: 0;
+  }
+
+  /* On a phone the counter reads heading, filters, search, so the first
+     cabinet reaches the first screen. */
+  .shop .catalogue {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shop .catalogue > .filters { order: 1; margin-bottom: 12px; }
+  .shop .catalogue > .search-row { order: 2; margin-bottom: 20px; }
+
+  /* The two-line search hint shows while the search box is in use. It is
+     still the box's description (aria-describedby), so a screen reader
+     hears it either way. */
+  .shop .search-row:not(:focus-within) .search-hint {
+    display: none;
+  }
+  .shop .catalogue > .grid,
+  .shop .catalogue > .empty { order: 3; }
+
+  .shop nav {
+    gap: 0 16px;
+  }
+
+  .shop .sign-panel {
+    padding: 16px 16px 20px;
+    outline-offset: -7px;
+  }
+
+  /* Small enough that "TRADITIONAL DRESSES" stays on one line at 390px. */
+  .shop .sign-en {
+    margin-top: 6px;
+    font-size: 26px;
+    letter-spacing: 0;
+  }
+
+  .shop .sign-lead {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .shop .awning {
+    height: 28px;
+    background-size: auto;
+    background-image: repeating-linear-gradient(90deg, var(--red) 0 18px, var(--white) 18px 36px);
+    -webkit-mask:
+      linear-gradient(#000 0 0) top / 100% 19px no-repeat,
+      radial-gradient(circle 9px at 9px 19px, #000 98%, transparent) 0 0 / 18px 28px repeat-x;
+    mask:
+      linear-gradient(#000 0 0) top / 100% 19px no-repeat,
+      radial-gradient(circle 9px at 9px 19px, #000 98%, transparent) 0 0 / 18px 28px repeat-x;
+  }
+
+  .shop .home-tabs {
+    margin-top: -12px;
+    margin-bottom: 16px;
+  }
+
+  .shop .home-tab {
+    padding-inline: 8px;
+    font-size: 15px;
+  }
+
+  .shop .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 12px var(--gutter) 4px;
+    scrollbar-width: none;
+  }
+
+  .shop .filter {
+    flex: 0 0 auto;
+  }
+
+  .shop .grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 0 var(--gutter) 16px;
+    scroll-padding-inline: var(--gutter);
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-color: var(--blue) transparent;
+    scrollbar-width: thin;
+  }
+
+  .shop .grid > * {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  .shop .source {
+    margin-top: 56px;
+    padding-block: 32px;
+  }
+
+  .shop .source-inner {
+    padding: 28px 20px;
+    outline-offset: -8px;
+  }
+
+  .shop .source-copy {
+    font-size: 20px;
+  }
+
+  .shop .source-copy [lang="km"] {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop .grid > ::before,
+  .shop .grid > ::after,
+  .shop .grid > * .swatch-image,
+  .shop .grid > * .entry-photo {
+    animation: none;
+  }
+}

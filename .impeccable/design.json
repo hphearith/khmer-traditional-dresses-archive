@@ -1,250 +1,276 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-22T09:12:35.472Z",
-  "title": "Design System: The Tailor’s Archive",
+  "generatedAt": "2026-11-22T12:08:23Z",
+  "title": "Design System: The Shopfront",
   "extensions": {
     "colorMeta": {
-      "wine": {
+      "blue": {
         "role": "primary",
-        "displayName": "Oxblood Wine",
-        "cssVar": "--wine",
-        "canonical": "oklch(39.7% 0.092 15)",
+        "displayName": "Enamel Sign Blue",
+        "cssVar": "--blue",
+        "canonical": "oklch(38.3% 0.145 266)",
         "tonalRamp": [
-          "#1B0305",
-          "#401218",
-          "#652A30",
-          "#8A464C",
-          "#AF6A6E",
-          "#CF9295",
-          "#E9BEC0",
-          "#FAEAEA"
+          "#070B14",
+          "#19243F",
+          "#2B3F71",
+          "#3E5DA9",
+          "#5E7FCE",
+          "#8AA4DE",
+          "#B9C9ED",
+          "#E7EFFE"
         ]
       },
-      "wine-hover": {
+      "blue-deep": {
         "role": "primary",
-        "displayName": "Deep Wine",
-        "cssVar": "--wine-hover",
-        "canonical": "oklch(32.6% 0.075 13)",
+        "displayName": "Deep Enamel",
+        "cssVar": "--blue-deep",
+        "canonical": "oklch(31.7% 0.120 265)",
         "tonalRamp": [
-          "#180407",
-          "#3B171C",
-          "#5F2F35",
-          "#824B51",
-          "#A76E74",
-          "#C79699",
-          "#E4C0C3",
-          "#F8EBEC"
+          "#080B13",
+          "#1B243A",
+          "#2F4069",
+          "#445E9D",
+          "#6480C1",
+          "#8FA5D4",
+          "#BCC9E7",
+          "#E9EFFB"
         ]
       },
-      "gold": {
+      "blue-tint": {
+        "role": "primary",
+        "displayName": "Blue Wash",
+        "cssVar": "--blue-tint",
+        "canonical": "oklch(93.7% 0.015 270)",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#242528",
+          "#404247",
+          "#5E6169",
+          "#7F828B",
+          "#A2A5AB",
+          "#C8C9CD",
+          "#EEEEF0"
+        ]
+      },
+      "yellow": {
+        "role": "secondary",
+        "displayName": "Sign Yellow",
+        "cssVar": "--yellow",
+        "canonical": "oklch(84.2% 0.160 90)",
+        "tonalRamp": [
+          "#0F0B02",
+          "#302300",
+          "#573E00",
+          "#805B00",
+          "#A37C00",
+          "#BDA258",
+          "#D8C89E",
+          "#F5EEDD"
+        ]
+      },
+      "red": {
         "role": "tertiary",
-        "displayName": "Brass Thread",
-        "cssVar": "--gold",
-        "canonical": "oklch(58.2% 0.077 74)",
+        "displayName": "Signal Red",
+        "cssVar": "--red",
+        "canonical": "oklch(53.9% 0.198 25)",
         "tonalRamp": [
-          "#150800",
-          "#351F00",
-          "#56390A",
-          "#775728",
-          "#9B7A4D",
-          "#BC9F79",
-          "#DBC7AD",
-          "#F4EDE4"
+          "#160605",
+          "#421312",
+          "#761D1E",
+          "#AE2529",
+          "#D64D4A",
+          "#E8857E",
+          "#F5B7B2",
+          "#FFE7E5"
         ]
       },
-      "focus": {
-        "role": "tertiary",
-        "displayName": "Worktable Teal",
-        "cssVar": "--focus",
-        "canonical": "oklch(45.3% 0.060 211)",
-        "tonalRamp": [
-          "#000E12",
-          "#002A31",
-          "#134750",
-          "#306771",
-          "#568A94",
-          "#82ADB6",
-          "#B4D1D6",
-          "#E6F1F3"
-        ]
-      },
-      "paper": {
+      "wall": {
         "role": "neutral",
-        "displayName": "Warm Paper",
-        "cssVar": "--paper",
-        "canonical": "oklch(96.5% 0.011 84)",
+        "displayName": "Tile Wall",
+        "cssVar": "--wall",
+        "canonical": "oklch(93.6% 0.006 255)",
         "tonalRamp": [
-          "#0C0B08",
-          "#26241F",
-          "#423F39",
-          "#615D56",
-          "#838079",
-          "#A7A49E",
-          "#CCCAC6",
-          "#EFEEED"
+          "#0B0B0C",
+          "#242526",
+          "#414244",
+          "#5F6164",
+          "#808286",
+          "#A3A5A7",
+          "#C8C9CA",
+          "#EEEEEF"
         ]
       },
-      "surface": {
+      "bay": {
         "role": "neutral",
-        "displayName": "Ivory Surface",
-        "cssVar": "--surface",
-        "canonical": "oklch(99.2% 0.009 84)",
+        "displayName": "Cabinet Bay",
+        "cssVar": "--bay",
+        "canonical": "oklch(88.4% 0.009 258)",
         "tonalRamp": [
-          "#0C0B09",
-          "#252420",
-          "#423F3B",
-          "#605D58",
-          "#82807B",
-          "#A6A4A0",
-          "#CCCAC7",
-          "#EFEEED"
+          "#0B0B0C",
+          "#242527",
+          "#404245",
+          "#5E6166",
+          "#7F8287",
+          "#A3A5A9",
+          "#C8C9CB",
+          "#EEEEEF"
         ]
       },
-      "ink": {
+      "white": {
         "role": "neutral",
-        "displayName": "Pressed Ink",
-        "cssVar": "--ink",
-        "canonical": "oklch(27.0% 0.012 84)",
+        "displayName": "Glass White",
+        "cssVar": "--white",
+        "canonical": "oklch(100.0% 0.000 90)",
         "tonalRamp": [
-          "#0C0B08",
-          "#26241F",
-          "#423F39",
-          "#615D56",
-          "#838079",
-          "#A7A49E",
-          "#CCCAC6",
-          "#EFEEED"
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
         ]
       },
-      "muted": {
+      "shop-ink": {
         "role": "neutral",
-        "displayName": "Faded Ink",
-        "cssVar": "--muted",
-        "canonical": "oklch(49.4% 0.017 70)",
+        "displayName": "Shop Ink",
+        "cssVar": "--shop-ink",
+        "canonical": "oklch(20.9% 0.010 268)",
         "tonalRamp": [
-          "#0E0B07",
-          "#28231D",
-          "#453E37",
-          "#645C53",
-          "#877F76",
-          "#AAA39B",
-          "#CECAC4",
-          "#F0EEEC"
+          "#0B0B0C",
+          "#242527",
+          "#404245",
+          "#5F6167",
+          "#808288",
+          "#A3A5A9",
+          "#C8C9CC",
+          "#EEEEEF"
         ]
       },
-      "fabric": {
+      "shop-muted": {
         "role": "neutral",
-        "displayName": "Cotton Fabric",
-        "cssVar": "--fabric",
-        "canonical": "oklch(91.3% 0.021 79)",
+        "displayName": "Shop Grey",
+        "cssVar": "--shop-muted",
+        "canonical": "oklch(41.3% 0.021 268)",
         "tonalRamp": [
-          "#0E0B06",
-          "#28231B",
-          "#453F34",
-          "#645C50",
-          "#877F73",
-          "#AAA499",
-          "#CECAC2",
-          "#F0EEEB"
-        ]
-      },
-      "line": {
-        "role": "neutral",
-        "displayName": "Ruled Line",
-        "cssVar": "--line",
-        "canonical": "oklch(84.4% 0.024 75)",
-        "tonalRamp": [
-          "#0E0A06",
-          "#29231A",
-          "#473E33",
-          "#665C4F",
-          "#887F71",
-          "#ACA398",
-          "#CFCAC2",
-          "#F0EEEB"
-        ]
-      },
-      "control": {
-        "role": "neutral",
-        "displayName": "Seam Line",
-        "cssVar": "--control",
-        "canonical": "oklch(58.7% 0.027 71)",
-        "tonalRamp": [
-          "#0F0A05",
-          "#2B2219",
-          "#483E31",
-          "#685B4D",
-          "#8A7E6F",
-          "#AEA396",
-          "#D1C9C0",
-          "#F1EEEB"
+          "#0B0B0D",
+          "#232529",
+          "#3F4249",
+          "#5D616C",
+          "#7D828E",
+          "#A1A5AE",
+          "#C7C9CE",
+          "#EDEEF1"
         ]
       }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "The home hero h1, clamp(40px, 5.5vw, 72px). Khmer inside at 0.75em/1.5."
+      "sign-khmer": {
+        "displayName": "Sign Khmer",
+        "purpose": "The archive's Khmer name in yellow on the sign; always above and larger than the English."
       },
-      "heading": {
-        "displayName": "Heading",
-        "purpose": "Section h2, clamp(32px, 3.5vw, 40px); the h1 on form and auth pages at 40px. Khmer inside at 0.8em/1.5."
+      "sign-display": {
+        "displayName": "Sign Display",
+        "purpose": "The archive's English name on the sign, uppercase, under the Khmer."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2, uppercase; Khmer inside at 0.72em Noto Serif Khmer."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Card and entry h3, the empty-state heading, and the source statement."
+        "purpose": "Cabinet h3; English garment titles uppercase."
       },
-      "khmer-heading": {
-        "displayName": "Khmer Heading",
-        "purpose": "Khmer inside h1–h3: Noto Serif Khmer keeps the heading's serif voice."
+      "title-khmer": {
+        "displayName": "Khmer Title",
+        "purpose": "A Khmer-led cabinet title."
       },
-      "body": {
-        "displayName": "Body",
-        "purpose": "Reading text, capped at 640px. Stories and Return notes use 1.9 line height."
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "The other-language name under an English-led title, in blue, uppercase."
+      },
+      "brand": {
+        "displayName": "Brand",
+        "purpose": "The yellow archive brand on the sign; the kerb name at 18px."
+      },
+      "statement": {
+        "displayName": "Statement",
+        "purpose": "The curator's source statement on the red panel."
       },
       "lead": {
         "displayName": "Lead",
-        "purpose": "The hero description in muted, capped at 42ch; the Khmer card subtitle in wine."
+        "purpose": "The description on the sign."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Materials, provenance and reading text."
       },
       "khmer": {
-        "displayName": "Khmer",
-        "purpose": "Base rule for every lang=\"km\" element: no tracking, 1.9 line height."
+        "displayName": "Khmer Body",
+        "purpose": "Khmer reading text; 1.9 line height for hanging marks."
       },
       "nav": {
         "displayName": "Nav",
-        "purpose": "Masthead links and the language toggle. Khmer header text at 13px/1.5."
+        "purpose": "Sign links and the signed-in email."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "English card categories and the brand line, uppercase and tracked. Khmer inside takes 14px."
-      },
-      "caption": {
-        "displayName": "Caption",
-        "purpose": "Counts, hints, materials, bylines, figure captions, summary links, suggestions, footer."
+        "purpose": "The red card category label, under the names; Khmer at 14px untracked."
       }
     },
     "shadows": [
       {
+        "name": "lamp-rest",
+        "value": "0 4px 14px rgba(244, 197, 49, 0.5)",
+        "purpose": "The yellow lamp strip on every cabinet."
+      },
+      {
+        "name": "lamp-lit",
+        "value": "0 6px 26px 4px rgba(244, 197, 49, 0.85)",
+        "purpose": "The lamp strip on a hovered or focused cabinet."
+      },
+      {
+        "name": "lamp-spill",
+        "value": "linear-gradient(rgba(255, 190, 40, 0.34), rgba(255, 190, 40, 0.14) 40%, rgba(255, 190, 40, 0)); normal blending; aspect-ratio 5/2; opacity 0.85 at rest, 1 on hover and focus-within",
+        "purpose": "Warm light falling over the top of the photograph in each cabinet."
+      },
+      {
         "name": "overlay",
-        "value": "0 8px 24px rgba(41, 38, 32, 0.12)",
-        "purpose": "The search suggestions list only, at z-index 20, with a 1px line border and 4px radius."
+        "value": "0 8px 24px rgba(22, 24, 29, 0.16)",
+        "purpose": "The search suggestions list only."
       }
     ],
     "motion": [
       {
+        "name": "ease-lamp",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Every lamp transition and the switch-on."
+      },
+      {
+        "name": "lamp-on",
+        "value": "opacity 0 to rest over 0.6s, staggered 0.1s per cabinet up to 0.6s",
+        "purpose": "The lamps coming on along the window on first load."
+      },
+      {
+        "name": "bay-lit",
+        "value": "filter brightness(0.6) saturate(0.7) to none over 0.9s, same stagger",
+        "purpose": "Photographs brightening as their lamp comes on; visible from the first frame."
+      },
+      {
+        "name": "lamp-hover",
+        "value": "box-shadow and opacity over 0.3s",
+        "purpose": "A cabinet's lamp brightening on hover or focus-within."
+      },
+      {
         "name": "state-change",
         "value": "150ms (background-color, color, border-color)",
-        "purpose": "Hover and selection colour changes on buttons, links, inputs and summaries."
+        "purpose": "Hover and selection changes on controls, from globals.css."
       },
       {
-        "name": "toast-fade",
-        "value": "opacity 600ms ease after 2500ms shown",
-        "purpose": "The Draft saved toast fading out."
-      },
-      {
-        "name": "smooth-scroll",
-        "value": "scroll-behavior: smooth",
-        "purpose": "In-page links; removed under prefers-reduced-motion with every transition."
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Removes the switch-on, every transition and the smooth scroll."
       }
     ],
     "breakpoints": [
@@ -254,179 +280,183 @@
       },
       {
         "name": "tablet",
-        "value": "640px–999px"
+        "value": "640px to 999px"
       },
       {
-        "name": "desktop",
+        "name": "wide",
         "value": "min-width: 1000px"
       }
     ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Primary Plaque Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one oxblood action per view: browse, submit, publish.",
-      "html": "<button class=\"ds-btn-primary\">Browse the collection <span aria-hidden=\"true\">↓</span></button>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-btn-primary{display:inline-flex;min-height:48px;align-items:center;gap:24px;border:1px solid var(--wine);border-radius:4px;padding:8px 16px;background:var(--wine);color:var(--surface);font:16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s}.ds-btn-primary:hover{background:var(--wine-hover)}.ds-btn-primary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}"
+      "description": "The painted-in plaque: blue ground, yellow letters, a fine yellow rule inside the edge.",
+      "html": "<button class=\"ds-plaque ds-plaque-on\">Reset</button>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-plaque{display:inline-flex;min-height:48px;align-items:center;border:2px solid var(--blue);border-radius:2px;padding:8px 20px;background:var(--white);color:var(--blue);font:700 16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}.ds-plaque:hover{background:var(--blue-tint)}.ds-plaque:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.ds-plaque-on{background:var(--blue);color:var(--yellow);outline:1px solid rgba(244,197,49,.7);outline-offset:-6px}.ds-plaque-on:hover{background:var(--blue-deep)}.ds-plaque-on:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
     },
     {
-      "name": "Secondary Button",
+      "name": "Secondary Plaque Button",
       "kind": "button",
-      "refersTo": "button-secondary",
-      "description": "Outlined companion action: Reset, Edit, Delete, Continue as guest.",
-      "html": "<button class=\"ds-btn-secondary\">Reset</button>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-btn-secondary{display:inline-flex;min-height:48px;align-items:center;border:1px solid var(--control);border-radius:4px;padding:8px 16px;background:transparent;color:var(--ink);font:16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s}.ds-btn-secondary:hover{background:var(--fabric)}.ds-btn-secondary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}"
+      "refersTo": "plaque",
+      "description": "An unchosen plaque: white with a 2px blue border and blue letters.",
+      "html": "<button class=\"ds-plaque\">Edit</button>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-plaque{display:inline-flex;min-height:48px;align-items:center;border:2px solid var(--blue);border-radius:2px;padding:8px 20px;background:var(--white);color:var(--blue);font:700 16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}.ds-plaque:hover{background:var(--blue-tint)}.ds-plaque:focus-visible{outline:3px solid var(--blue);outline-offset:3px}"
+    },
+    {
+      "name": "Filter Plaques",
+      "kind": "chip",
+      "refersTo": "plaque-selected",
+      "description": "Category filters as a row of plaques; the chosen one is painted in and aria-pressed.",
+      "html": "<div class=\"ds-row\"><button class=\"ds-plaque ds-plaque-on\" aria-pressed=\"true\">All garments</button><button class=\"ds-plaque\" aria-pressed=\"false\">Lower body</button><button class=\"ds-plaque\" aria-pressed=\"false\">Upper body</button></div>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-row{display:flex;flex-wrap:wrap;gap:12px;padding:16px;background:var(--wall)}.ds-plaque{display:inline-flex;min-height:48px;align-items:center;border:2px solid var(--blue);border-radius:2px;padding:8px 20px;background:var(--white);color:var(--blue);font:700 16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}.ds-plaque:hover{background:var(--blue-tint)}.ds-plaque:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.ds-plaque-on{background:var(--blue);color:var(--yellow);outline:1px solid rgba(244,197,49,.7);outline-offset:-6px}.ds-plaque-on:hover{background:var(--blue-deep)}.ds-plaque-on:focus-visible{outline:3px solid var(--red);outline-offset:3px}"
     },
     {
       "name": "Search Field",
       "kind": "input",
       "refersTo": "search",
-      "description": "Labelled 56px ivory search with its hint; English and Khmer both match.",
-      "html": "<label class=\"ds-search\"><span class=\"ds-search-label\">Search the archive</span><input class=\"ds-search-input\" type=\"search\" placeholder=\"sampot, silk…\"><span class=\"ds-search-hint\">Search English or Khmer names, materials, and descriptions. Use quotes for an exact phrase.</span></label>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-search{display:grid;gap:8px;font:16px/1.7 var(--sans);color:var(--ink)}.ds-search-label{font-size:14px;font-weight:700}.ds-search-input{height:56px;border:1px solid var(--control);border-radius:4px;padding:12px 16px;background:var(--surface);color:var(--ink);font:inherit;caret-color:var(--wine);transition:border-color .15s}.ds-search-input::placeholder{color:var(--muted);opacity:1}.ds-search-input:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}.ds-search-hint{color:var(--muted);font-size:14px}"
+      "description": "A 52px white field with a 2px blue border, red caret and a visible label.",
+      "html": "<label class=\"ds-search\"><span class=\"ds-search-label\">Search the archive</span><input class=\"ds-search-input\" placeholder=\"sampot, silk…\"></label>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-search{display:grid;gap:8px;padding:16px;background:var(--wall);font:16px/1.7 var(--sans)}.ds-search-label{color:var(--shop-ink);font-weight:700;font-size:14px}.ds-search-input{height:52px;border:2px solid var(--blue);border-radius:2px;padding:0 16px;background:var(--white);color:var(--shop-ink);font:inherit;caret-color:var(--red)}.ds-search-input::placeholder{color:var(--shop-muted)}.ds-search-input:focus-visible{outline:3px solid var(--blue);outline-offset:3px}"
     },
     {
-      "name": "Category Filters",
-      "kind": "chip",
-      "refersTo": "filter",
-      "description": "Rectangular pressed-state filters; the selected one fills with wine and goes bold.",
-      "html": "<div class=\"ds-filters\"><button class=\"ds-filter\" aria-pressed=\"true\">All garments</button><button class=\"ds-filter\" aria-pressed=\"false\">Lower body</button><button class=\"ds-filter\" aria-pressed=\"false\">Upper body</button><button class=\"ds-filter\" aria-pressed=\"false\">Ensembles</button></div>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-filters{display:flex;flex-wrap:wrap;gap:8px}.ds-filter{min-height:48px;border:1px solid var(--control);border-radius:4px;padding:8px 16px;background:transparent;color:var(--muted);font:16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s,color .15s}.ds-filter:hover{background:var(--fabric)}.ds-filter[aria-pressed=\"true\"]{border-color:var(--wine);background:var(--wine);color:var(--surface);font-weight:700}.ds-filter:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}"
-    },
-    {
-      "name": "Home Tabs",
+      "name": "Sign Board",
       "kind": "nav",
-      "refersTo": "home-tab",
-      "description": "Official / Community tabs on a shared rule; the selected tab carries a 3px wine rule.",
-      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Official collection</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Community</button></div>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-tabs{display:flex;gap:8px;border-bottom:1px solid var(--line)}.ds-tab{min-height:48px;margin-bottom:-1px;border:0;border-bottom:3px solid transparent;padding:8px 16px;background:transparent;color:var(--muted);font:16px/1.7 var(--sans);cursor:pointer;transition:background-color .15s}.ds-tab:hover{background:var(--fabric)}.ds-tab[aria-selected=\"true\"]{border-bottom-color:var(--wine);color:var(--ink);font-weight:700}.ds-tab:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}"
+      "refersTo": "signboard",
+      "description": "The full-bleed blue sign: yellow brand and white links on top, then the framed panel with the Khmer name above and larger than the English.",
+      "html": "<header class=\"ds-sign\"><div class=\"ds-sign-top\"><a class=\"ds-brand\" href=\"#\">Khmer Living Archive</a><nav class=\"ds-nav\"><a href=\"#\">Collection</a><a href=\"#\">About the archive</a><a href=\"#\">Log in</a></nav></div><div class=\"ds-panel\"><h1 class=\"ds-h1\"><span class=\"ds-km\" lang=\"km\">សម្លៀកបំពាក់ប្រពៃណីខ្មែរ</span><span class=\"ds-en\" lang=\"en\">Khmer Traditional Dresses</span></h1></div></header>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-sign{padding:8px 24px 24px;background:var(--blue);color:var(--white);font:16px/1.7 var(--sans)}.ds-sign-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;padding-bottom:16px}.ds-brand{color:var(--yellow);font:700 16px/1.2 var(--sign-face);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}.ds-nav{display:flex;flex-wrap:wrap;gap:4px 24px}.ds-nav a{color:var(--white);font-size:14px;text-underline-offset:5px;text-decoration-color:rgba(255,255,255,.45)}.ds-nav a:hover{text-decoration-color:var(--yellow)}.ds-sign a:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}.ds-panel{border:3px solid var(--yellow);outline:1px solid rgba(244,197,49,.55);outline-offset:-12px;padding:24px 40px 28px}.ds-h1{margin:0;font:inherit}.ds-km{display:block;color:var(--yellow);font:700 clamp(30px,4.6vw,60px)/1.4 var(--khmer-sign)}.ds-en{display:block;margin-top:12px;color:var(--white);font:800 clamp(30px,4.2vw,56px)/.95 var(--sign-face);letter-spacing:.01em;text-transform:uppercase}@media (max-width:639px){.ds-en{margin-top:6px;font-size:26px;letter-spacing:0}}"
     },
     {
-      "name": "Language Toggle",
-      "kind": "nav",
-      "refersTo": "language-toggle",
-      "description": "Each language named in its own script; the chosen one is bold with a 2px wine underline.",
-      "html": "<div class=\"ds-lang\" role=\"group\" aria-label=\"Language\"><button aria-pressed=\"true\" lang=\"km\"><span aria-hidden=\"true\">🇰🇭</span> ខ្មែរ</button><button aria-pressed=\"false\" lang=\"en\"><span aria-hidden=\"true\">🇬🇧</span> English</button></div>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-lang{display:flex;gap:8px}.ds-lang button{min-height:44px;border:0;border-bottom:2px solid transparent;padding:0 8px;background:transparent;color:var(--muted);font:14px/1.7 var(--sans);cursor:pointer}.ds-lang button[lang=\"km\"]{font-family:\"Noto Sans Khmer\",\"Khmer OS\",sans-serif;line-height:1.9}.ds-lang span{display:inline-block}.ds-lang button[aria-pressed=\"true\"]{border-bottom-color:var(--wine);color:var(--ink);font-weight:700}.ds-lang button:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}"
+      "name": "Awning",
+      "kind": "custom",
+      "refersTo": "signboard",
+      "description": "The red-and-white scalloped awning hung under the sign; decorative and aria-hidden.",
+      "html": "<div class=\"ds-awning-wrap\"><div class=\"ds-awning\" aria-hidden=\"true\"></div></div>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-awning-wrap{background:var(--wall)}.ds-awning{height:36px;background:repeating-linear-gradient(90deg,var(--red) 0 24px,var(--white) 24px 48px);-webkit-mask:linear-gradient(#000 0 0) top/100% 24px no-repeat,radial-gradient(circle 12px at 12px 24px,#000 98%,transparent) 0 0/24px 36px repeat-x;mask:linear-gradient(#000 0 0) top/100% 24px no-repeat,radial-gradient(circle 12px at 12px 24px,#000 98%,transparent) 0 0/24px 36px repeat-x}"
     },
     {
-      "name": "Garment Card",
+      "name": "Glass Cabinet",
       "kind": "card",
-      "refersTo": "garment-card",
-      "description": "Open catalogue entry: matted 4:5 well, category, serif title, other-language name in wine, material, Read entry.",
-      "html": "<article class=\"ds-card\"><div class=\"ds-well\" aria-hidden=\"true\"></div><p class=\"ds-card-cat\">Lower body</p><h3 class=\"ds-card-title\">Sampot Hol</h3><p class=\"ds-card-sub\" lang=\"km\">សំពត់ហូល</p><p class=\"ds-card-mat\"><strong>Material</strong> Chong Kiet Tie-Dyed Silk (សូត្រចងគៀត)</p><details><summary>Read entry</summary><p>A renowned traditional wrap skirt woven using the intricate Chong Kiet (ikat) resist-dyeing method, distinguished by geometric motifs and natural pigments.</p></details></article>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-card{max-width:320px;border-bottom:1px solid var(--line);padding-bottom:24px;color:var(--ink);font:16px/1.7 var(--sans)}.ds-well{position:relative;aspect-ratio:4/5;margin-bottom:16px;background:var(--fabric);overflow:hidden}.ds-well::before{content:\"\";position:absolute;inset:12% 21% 22%;background:repeating-linear-gradient(90deg,transparent 0 12px,#ffffff1c 13px 14px),linear-gradient(100deg,#542229,#9c5b60 50%,#702f36);transform:rotate(-6deg)}.ds-card-cat{margin:0 0 8px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.12em;line-height:1.5;text-transform:uppercase}.ds-card-title{margin:0;font:400 26px/1.3 var(--serif)}.ds-card-sub{margin:4px 0 12px;color:var(--wine);font:18px/1.5 \"Noto Serif Khmer\",\"Noto Sans Khmer\",serif}.ds-card-mat{margin:0;color:var(--muted);font-size:14px}.ds-card-mat strong{color:var(--ink)}.ds-card summary{min-height:44px;padding-block:12px;cursor:pointer;font-size:14px;text-decoration:underline;text-underline-offset:5px}.ds-card summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;}"
+      "refersTo": "cabinet",
+      "description": "One lit showcase per dress: 8px blue frame, yellow lamp strip and warm spill, the photo whole on the grey bay.",
+      "html": "<div class=\"ds-wall\"><article class=\"ds-cab\"><div class=\"ds-bay\"></div><h3 class=\"ds-h3\"><a href=\"#\">Sampot Hol</a></h3><p class=\"ds-sub\" lang=\"km\">សំពត់ហូល</p><p class=\"ds-cat\">Lower body</p><a class=\"ds-read\" href=\"#\">Read entry</a></article></div>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-wall{padding:24px;background:var(--wall);font:16px/1.7 var(--sans)}.ds-cab{position:relative;display:flex;flex-direction:column;width:240px;border:8px solid var(--blue);padding:0 0 8px;background:var(--white);color:var(--shop-ink)}.ds-cab>:not(.ds-bay){margin:0;padding-inline:16px}.ds-cab::before{content:\"\";position:absolute;top:0;left:0;right:0;z-index:2;height:5px;background:var(--yellow);box-shadow:0 4px 14px rgba(244,197,49,.5);transition:box-shadow .3s cubic-bezier(.16,1,.3,1)}.ds-cab::after{content:\"\";position:absolute;top:0;left:0;right:0;z-index:2;aspect-ratio:5/2;background:linear-gradient(rgba(255,190,40,.34),rgba(255,190,40,.14) 40%,rgba(255,190,40,0));pointer-events:none;opacity:.85;transition:opacity .3s cubic-bezier(.16,1,.3,1)}.ds-cab:hover::before,.ds-cab:focus-within::before{box-shadow:0 6px 26px 4px rgba(244,197,49,.85)}.ds-cab:hover::after,.ds-cab:focus-within::after{opacity:1}.ds-bay{aspect-ratio:3/4;margin-bottom:16px;border-bottom:8px solid var(--blue);background:var(--bay)}.ds-h3{font:700 24px/1.15 var(--sign-face);letter-spacing:.01em;text-transform:uppercase}.ds-h3 a{color:inherit;text-underline-offset:5px}.ds-h3 a:hover{text-decoration-color:var(--red)}.ds-sub{margin-block:4px 12px!important;color:var(--blue);font:400 16px/1.7 var(--khmer-sign)}.ds-cat{margin-bottom:8px!important;color:var(--red);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}.ds-read{color:var(--blue);font-weight:700;text-underline-offset:5px;text-decoration-color:rgba(29,58,143,.4)}.ds-read:hover{text-decoration-color:var(--blue)}.ds-cab a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}"
     },
     {
-      "name": "Status Pill",
+      "name": "Source Panel",
       "kind": "custom",
-      "refersTo": "status-pill-pending",
-      "description": "The one capsule: where a Contributor entry stands. The word is always on it.",
-      "html": "<p class=\"ds-pills\"><span class=\"ds-pill ds-pill-pending\">Pending</span><span class=\"ds-pill ds-pill-published\">Published</span><span class=\"ds-pill ds-pill-returned\">Returned</span></p>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-pills{display:flex;flex-wrap:wrap;gap:8px;margin:0}.ds-pill{display:inline-block;border:1px solid var(--control);border-radius:999px;padding:2px 14px;font:700 14px/1.9 var(--sans)}.ds-pill-pending{border-color:var(--gold);background:var(--fabric);color:var(--ink)}.ds-pill-published{border-color:var(--focus);background:var(--surface);color:var(--focus)}.ds-pill-returned{border-color:var(--wine);background:var(--wine);color:var(--surface)}"
+      "refersTo": "source-panel",
+      "description": "The shop's own red sign about where its knowledge comes from, framed with a heavy and a fine white rule.",
+      "html": "<section class=\"ds-source\"><div class=\"ds-source-inner\"><h2 class=\"ds-h2\">Knowledge from a tailor’s practice.</h2><p class=\"ds-copy\">My mother, owner of a tailor shop, has been making traditional Khmer dresses for over 20 years.</p></div></section>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-source{padding:56px 24px;background:var(--red);color:var(--white)}.ds-source-inner{border:3px solid var(--white);outline:1px solid rgba(255,255,255,.5);outline-offset:-12px;padding:40px 48px}.ds-h2{margin:0 0 24px;font:800 clamp(32px,3.6vw,44px)/1.05 var(--sign-face);letter-spacing:.01em;text-transform:uppercase}.ds-copy{margin:0;max-width:34ch;font:400 24px/1.5 var(--sans)}"
     },
     {
-      "name": "Source Banner",
+      "name": "Kerb Footer",
       "kind": "custom",
-      "refersTo": "source-banner",
-      "description": "Full-bleed oxblood band presenting the curator's source statement as source information.",
-      "html": "<section class=\"ds-source\"><p class=\"ds-source-copy\">The curator's source statement from collection.config.js appears here.</p><p class=\"ds-source-by\">The curator’s name and the archive’s source, from collection.config.js.</p></section>",
-      "css": ":host{--paper:#F7F3EB;--surface:#FFFCF6;--ink:#292620;--muted:#686057;--wine:#702F36;--wine-hover:#542229;--fabric:#EAE1D3;--line:#D5CABB;--control:#877A6B;--gold:#967445;--focus:#285F69;--serif:Georgia,\"Noto Serif Khmer\",serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif} .ds-source{padding:48px 40px;background:var(--wine);color:var(--surface)}.ds-source-copy{max-width:640px;margin:0;font:400 26px/1.5 var(--serif)}.ds-source-by{margin:24px 0 0;font:14px/1.7 var(--sans)}.ds-source ::selection{background:var(--surface);color:var(--wine)}"
+      "refersTo": "kerb",
+      "description": "The dark kerb that ends the page: the name in the brand voice and the course note.",
+      "html": "<footer class=\"ds-kerb\"><p class=\"ds-kerb-name\">Khmer Traditional Dresses</p><p class=\"ds-kerb-note\">Built in ICT 340, American University of Phnom Penh.</p></footer>",
+      "css": ":host{--blue:#1D3A8F;--blue-deep:#142B6E;--blue-tint:#E6EAF5;--yellow:#F4C531;--red:#C8232C;--wall:#E7EAEE;--bay:#D5D9DF;--white:#FFFFFF;--shop-ink:#16181D;--shop-muted:#464B57;--frame:8px;--sign-face:\"Big Shoulders\",\"Arial Narrow\",sans-serif;--sans:Arial,\"Noto Sans Khmer\",sans-serif;--khmer-sign:\"Noto Serif Khmer\",\"Noto Sans Khmer\",\"Khmer OS\",serif} .ds-kerb{display:grid;grid-template-columns:1fr 1.6fr;gap:24px 48px;padding:40px 24px 48px;background:var(--shop-ink);color:#C9CBD1;font:16px/1.7 var(--sans)}.ds-kerb p{margin:0}.ds-kerb-name{color:var(--white);font:700 18px/1.3 var(--sign-face);letter-spacing:.06em;text-transform:uppercase}"
     }
   ],
   "narrative": {
-    "northStar": "The Tailor’s Archive",
-    "overview": "The site is a personal textile collection laid out like a tailor’s reference book. It uses warm paper, fine ink rules, large literary titles, cloth set on fabric mats, and bilingual catalogue labels. The tailor-shop connection comes from the curator’s own source statement in `collection.config.js`, never from invented heritage. The archive’s job is educational: browsing, searching, reading, and understanding where each dress comes from. Nothing sells. There are no prices, carts, appointments, or testimonials.\n\nDensity is calm rather than sparse. The hero and the source banner are given room. The catalogue is medium density, so records can be compared. Entry cards and forms are compact and practical. Variety comes from section format: an asymmetric introduction, a regular grid, and one full-bleed oxblood banner. Consistency comes from the type, the 4px-based spacing scale, and predictable controls. Khmer and English are equal content. Every string can appear in either language, and Khmer is never decoration.\n\nThis file is the source of truth for visual styling. The frontmatter tokens are normative, and their names match the custom properties on `:root` in `app/globals.css` (`colors.wine` is `--wine`, `colors.paper` is `--paper`, and so on). Change this document before introducing a new visual value. Archive identity is read from `collection.config.js`, records come from `data/garments.js`, and Interface strings come from `lib/uiText.js`. “The Tailor’s Archive” names the visual system, not the collection.",
+    "northStar": "The Shopfront",
+    "overview": "The archive is Apsara Mode Tailor's shop window seen from a Phnom Penh street. A blue enamel sign board runs full-bleed across the top, its Khmer name painted in yellow above the English. A red-and-white scalloped awning hangs under it, and the section tabs hang from the awning's edge as painted plaques. Below, on a cool tile wall, a row of glass cabinets framed in blue holds one dress each, lit by a yellow lamp strip. The shop's own statement about where its knowledge comes from is a red painted panel, and the page ends on a dark kerb. The look comes from the curator's real source (a family tailor shop, every dress photographed there), never from invented heritage. Nothing sells: no prices, carts or appointments.\n\nThe world refuses the museum collection page it replaced: cream ground, a serif headline beside a hero photo, a grid of matted cards. Density is a shop window's: the sign is bold and brief, the counter (heading, count, filters, search) is compact, and the cabinets carry the page. On phones the window becomes a row you swipe along.\n\nThe tokens above are normative. In code they are custom properties declared on `body:has(.shop)` in `app/home.css` (`colors.blue` is `--blue`, `colors.shop-ink` is `--shop-ink`, `spacing.frame` is `--frame`), and every rule there is scoped under `.shop`. Archive identity is read from `collection.config.js`, records from `data/garments.js`, and Interface strings from `lib/uiText.js`. Today only the home page (`app/page.js`) wears this system; see **Pages still on The Tailor's Archive** below.",
     "keyCharacteristics": [
-      "Warm paper ground, ink text, and a single oxblood voice for actions, selection, and the source banner.",
-      "Georgia for English titles and Noto Serif Khmer for Khmer titles. Arial and Noto Sans Khmer for everything practical.",
-      "Square editorial surfaces and image wells, with 4px controls. The Status pill is the one capsule.",
-      "Flat throughout. Hierarchy comes from rules, spacing, and fabric matting. The only shadow is on the autocomplete.",
-      "Photographs are shown whole on a fabric mat, never cropped or recoloured."
+      "Three paints on a tile wall: enamel blue owns the sign, frames and plaques; yellow is lettering and lamplight; red is the awning, the category label and the source panel.",
+      "Big Shoulders condensed sign-writer caps for Latin display. Noto Serif Khmer bold for Khmer display, always above and larger on the sign.",
+      "Painted plaques with 2px corners and, when chosen, a fine yellow rule inside the edge. Square cabinets with an 8px blue frame.",
+      "Depth is light, not shadow: a glowing lamp strip and a warm spill over each photograph.",
+      "Photographs are shown whole on the cabinet's grey back wall, never cropped or recoloured."
     ],
     "rules": [
       {
-        "name": "The One Voice Rule",
-        "body": "Oxblood is the only accent. A second accent colour, a gradient UI surface, or a tinted photograph breaks the system.",
+        "name": "The Three Paints Rule",
+        "body": "Blue, yellow and red are the only paints. A fourth accent, a tinted photograph, or a gradient used as a control surface breaks the shop. The awning stripe and the lamp spill are the shop's own fittings, not UI gradients.",
+        "section": "colors"
+      },
+      {
+        "name": "The Yellow-on-Dark Rule",
+        "body": "Yellow appears only on blue, red or ink. On white or the wall it fails contrast and is not used.",
         "section": "colors"
       },
       {
         "name": "The Words-First Rule",
-        "body": "Colour never carries meaning alone. A selected filter is also bold and aria-pressed. The active tab and language are also bold and underlined. A Status pill always shows its word. An error is always a sentence.",
+        "body": "Colour never carries meaning alone. A chosen plaque is filled blue with yellow letters and an inner yellow rule, and it also carries `aria-selected` or `aria-pressed`. The chosen language is also bold and underlined. A Status pill always shows its word. An error is always a sentence.",
         "section": "colors"
       },
       {
-        "name": "The Errors-in-Wine Rule",
-        "body": "Error and alert text uses wine, as .entry-confirm-error and the sign-in verification alert already do. The browser’s red (3.6:1 on paper) fails AA and is not a token.",
-        "section": "colors"
+        "name": "The Khmer-Over-English Sign Rule",
+        "body": "On the sign the Khmer name always sits above the English and is set larger, whichever Interface language is active: 60px against 56px at the top of the range, 4.6vw against 4.2vw between, and the 30px Khmer floor against a 26px English below 640px. Between 640px and 652px both names sit on their 30px floors and are the same size; the Khmer leads from 652px up. This is how a Cambodian shop sign is painted, and it does not swap with the toggle.",
+        "section": "typography"
       },
       {
         "name": "The Khmer-Is-Content Rule",
-        "body": "Anything Khmer carries lang=\"km\". Khmer is never uppercased, tracked, truncated, or given a fixed height. English display tracking does not carry into it (the base rule resets letter-spacing to 0). Body Khmer uses 1.9 line height, and Khmer in headings uses 1.5.",
+        "body": "Anything Khmer carries `lang=\"km\"`. Khmer is never uppercased, tracked, truncated, or given a fixed height. Uppercase and tracking on Latin display do not carry into it (every Khmer override resets `letter-spacing` to 0 and `text-transform` to none). Body Khmer uses 1.9 line height, and Khmer in headings 1.5 to 1.6.",
         "section": "typography"
       },
       {
         "name": "The Optical-Size Rule",
-        "body": "Khmer glyphs look larger than Latin glyphs at the same size, so Khmer inside headings and the header is set smaller than its English partner: 0.75em in h1, 0.8em in h2, 13px in the masthead and nav. This is the one place a 13px size is allowed.",
+        "body": "Khmer glyphs look larger than Latin glyphs at the same size, so in a mixed heading the Khmer is set smaller than its English partner: 0.72em in a Shopfront `h2`, and 14px Khmer beside the 16px brand. The sign is the deliberate exception (see the Sign Rule): there Khmer leads.",
         "section": "typography"
       },
       {
         "name": "The Hanging-Marks Rule",
-        "body": "Khmer subscript consonants hang below the baseline, so Khmer links and summary text put their underline 0.55em below. English links put it 5px below.",
+        "body": "Khmer subscript consonants hang below the baseline, so Khmer links put their underline 0.55em below (`a:lang(km)` in `globals.css`). English links put it 5px below.",
         "section": "typography"
       },
       {
-        "name": "The Cascade-Order Rule",
-        "body": "body [lang=\"km\"] comes before the role rules in globals.css, so that same-specificity rules for nav, h1, h2 and labels win by coming later. Do not wrap it in :where(). That lets button { font: inherit } pull the Khmer language toggle into Arial.",
+        "name": "The One-Web-Font Rule",
+        "body": "Big Shoulders, Latin, through `next/font`, is the only font fetched. A second web font, or a web Khmer font, is a system change.",
         "section": "typography"
       },
       {
-        "name": "The Lone-Card Rule",
-        "body": "A last card alone in its row is centred under the others, never stranded at the start of the row.",
+        "name": "The Window Rule",
+        "body": "Every dress is in its own cabinet in one row of the window: four, three, or a swipe row. Cabinets in a row match in structure; the last cabinet of a short row is not centred or stretched.",
         "section": "layout"
       },
       {
-        "name": "The No-Sideways Rule",
-        "body": "Nothing scrolls horizontally. Categories wrap, long Khmer wraps by the browser’s own word breaking (overflow-wrap: anywhere only for unbreakable runs), and controls never shrink below 44px.",
+        "name": "The No-Sideways-Page Rule",
+        "body": "The page never scrolls sideways. The only horizontal scrolling is inside the phone filter row and the phone cabinet row, each of which bleeds to the screen edge on purpose and scrolls on its own. Long Khmer wraps by the browser's word breaking, and controls never shrink below 44px.",
         "section": "layout"
       },
       {
-        "name": "The Flat-By-Default Rule",
-        "body": "A shadow means “this is temporary and floating above the page”. Only the autocomplete qualifies. The toast is ink on paper, not shadowed.",
+        "name": "The Lamplight Rule",
+        "body": "Only the cabinet lamp glows, and it glows yellow. Cards, plaques, panels and the sign cast no shadow. A shadow other than the lamp means \"floating above the page\", and only the suggestions list floats.",
         "section": "elevation"
       },
       {
-        "name": "The One-Capsule Rule",
-        "body": "The Status pill in My entries is the only fully rounded shape (999px). It labels a state and is not a control. Categories and filters are rectangles, never pills.",
+        "name": "The Painted-Edge Rule",
+        "body": "Nothing a hand presses is rounder than 2px. Categories and filters are plaques, never pills.",
         "section": "shapes"
       },
       {
         "name": "The Honest-Ornament Rule",
-        "body": "No scalloped frames, faux temple ornaments, or generic motifs labelled as authentic Khmer patterns. The cloth studies are abstract stripes. Wherever one appears, it is captioned as illustrative and never stands in for a particular garment.",
+        "body": "The awning, frames and lamps are a shop's fittings. No scalloped temple frames, faux Khmer motifs, or generic patterns labelled as authentic.",
         "section": "shapes"
       }
     ],
     "dos": [
-      "Do preserve the student’s exact bilingual records and configured identity, and visibly distinguish documentary content (photographs, records, entries) from illustrative composition (cloth studies).",
-      "Do read every colour from a globals.css custom property whose name matches a token here, both in CSS and in inline style objects (var(--wine), never a hex or a named colour).",
-      "Do put error and alert text in wine, worded as a sentence, never colour alone.",
-      "Do show photographs whole on a fabric mat with 16px of matting, in a 4:5 frame on cards.",
-      "Do mark every Khmer string with lang=\"km\", give body Khmer 1.9 line height, and let it wrap by the browser’s own word breaking.",
-      "Do prioritise finding entries before decorative storytelling, keep familiar search and navigation conventions, and group closely related captions.",
-      "Do vary section format (split hero, regular grid, full-bleed banner) while keeping repeated catalogue entries identical in structure.",
-      "Do check text contrast (4.5:1 text, 3:1 large text and control boundaries), keyboard access, focus, image fallbacks, long Khmer text, filtering, empty states, and reflow at 320, 390, 768, 1024 and 1440px and at 200% zoom.",
-      "Do implement styling in plain CSS or existing inline objects, with plain JavaScript React components and no dependencies."
+      "**Do** read every colour from a custom property whose name matches a token here (`var(--blue)`, never a hex) and scope Shopfront rules under `.shop` until the other pages move.",
+      "**Do** put the Khmer name above the English on the sign, larger, in yellow, in every Interface language.",
+      "**Do** mark every Khmer string with `lang=\"km\"`, give body Khmer 1.9 line height, and set Khmer in a mixed heading smaller than its English partner.",
+      "**Do** mark a choice with words and state as well as paint: blue fill, yellow letters, the inner rule, and `aria-pressed` or `aria-selected`.",
+      "**Do** show every photograph whole on the `bay` grey in a 3:4 bay, inside an 8px blue frame.",
+      "**Do** keep text contrast at 4.5:1 (3:1 for large text and control boundaries), and check the sign, swipe row and counter at 320, 390, 768, 1024 and 1440px and at 200% zoom.",
+      "**Do** implement in plain CSS or the existing inline objects, with plain JavaScript React components and no new dependencies."
     ],
     "donts": [
-      "Don't put a small label or kicker above a heading. The four on the home page were removed in #100. Labels belong to card categories and the brand.",
-      "Don't add a second accent colour, tint a photograph, or use a gradient as a UI surface.",
-      "Don't round anything beyond 4px except the Status pill, and don't turn categories or filters into pills.",
-      "Don't add shadows to cards, buttons, banners or the toast. Only the autocomplete floats.",
-      "Don't use sizes or gaps off the scale (such as 20px, 22px or 28px) in new work. Pick the nearest step.",
-      "Don't build contributor accounts, ownership, or publishing flows ahead of their assigned sprint.",
-      "Don't substitute a sales funnel, reduce Khmer to decoration, invent cultural authority, or scatter competing styling values across files."
+      "**Don't** put a small label or kicker above a heading. The category label sits under the names.",
+      "**Don't** add new Khmer strings without the curator's review. Khmer comes from `lib/uiText.js`, `collection.config.js` and `data/garments.js` as written.",
+      "**Don't** set yellow text on white or the wall, add a fourth accent, or tint a photograph.",
+      "**Don't** round a plaque, field or panel beyond 2px, or turn filters or categories into pills.",
+      "**Don't** add shadows to cabinets, plaques, panels or the sign. Only the lamp glows and only the suggestions list floats.",
+      "**Don't** fetch a second web font or a web Khmer font.",
+      "**Don't** crop, zoom or recolour a dress photograph, or animate it beyond the one switch-on.",
+      "**Don't** substitute a sales funnel, reduce Khmer to decoration, or invent cultural authority."
     ]
   }
 }

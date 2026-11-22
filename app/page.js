@@ -1,20 +1,22 @@
+import { Big_Shoulders } from "next/font/google";
 import collection from "../collection.config.js";
 import Bilingual from "../components/Bilingual.js";
-import HeroImage from "../components/HeroImage.js";
 import HomeNav from "../components/HomeNav.js";
 import HomeTabs from "../components/HomeTabs.js";
-import garments from "../data/garments.js";
 import { logout } from "../lib/logoutAction.js";
 import { readCommunityEntries, readMyEntries } from "../lib/readEntries.js";
 import { readUsername } from "../lib/readUsername.js";
 import { readIsReviewer } from "../lib/review.js";
 import { createClient } from "../lib/supabase/server.js";
-import { TEXT, bylineText, heroCaptionText, identityText } from "../lib/uiText.js";
+import { TEXT, bylineText, identityText } from "../lib/uiText.js";
 import { readVisitor } from "../lib/visitor.js";
 import { redirect } from "next/navigation";
+import "./home.css";
 
-// The hero shows this Official record's photo: Apsara Mode Tailor's sign is behind it.
-const heroGarment = garments.find((garment) => garment.id === "av-chang-pong");
+// The shop sign's lettering (DESIGN.md). Latin only: Khmer keeps the device's
+// Noto Khmer fonts. next/font serves the file from this site, so no request
+// goes to Google when a page loads.
+const sign = Big_Shoulders({ subsets: ["latin"], axes: ["opsz"], variable: "--font-sign", display: "swap" });
 
 export default async function Home() {
   const supabase = await createClient();
@@ -42,53 +44,46 @@ export default async function Home() {
   if (mine.error) console.error("Reading My entries failed:", mine.error);
 
   return (
-    <>
+    <div className={`shop ${sign.variable}`}>
       <a className="skip" href="#collection"><Bilingual text={TEXT.home.skip} inline /></a>
-      <header className="container masthead">
-        <a className="brand" href="#top">
-          <span className="mark" aria-hidden="true">✳</span>
-          <span className="label"><Bilingual text={TEXT.home.brand} inline /></span>
-        </a>
-        <HomeNav>
-          <a href="#collection"><Bilingual text={TEXT.home.navCollection} inline /></a>
-          <a href="/#about"><Bilingual text={TEXT.home.navAbout} inline /></a>
-          {user ? (
-            <>
-              <span style={{ display: "flex", minHeight: 44, alignItems: "center", color: "var(--muted)", fontSize: 14 }}>
-                {user.email}
-              </span>
-              {isReviewer && <a href="/review"><Bilingual text={TEXT.review.queue.title} inline /></a>}
-              <a href="/change-username"><Bilingual text={TEXT.username.change} inline /></a>
-              <form action={logout} style={{ display: "flex" }}>
-                <button type="submit" style={{ border: 0, padding: 0, background: "transparent", color: "inherit", fontSize: 14, textDecoration: "underline", textUnderlineOffset: 5 }}>
-                  <Bilingual text={TEXT.home.logOut} inline />
-                </button>
-              </form>
-            </>
-          ) : (
-            <>
-              <a href="/login"><Bilingual text={TEXT.auth.logIn} inline /></a>
-              <a href="/signup"><Bilingual text={TEXT.auth.signUp} inline /></a>
-            </>
-          )}
-        </HomeNav>
-      </header>
-      <main id="top">
-        <section className="container hero" aria-labelledby="archive-name">
-          <div className="hero-copy">
-            <h1 id="archive-name"><Bilingual text={identity.name} /></h1>
-            <p className="lead"><Bilingual text={identity.description} /></p>
-            <a className="button" href="#collection"><Bilingual text={TEXT.home.browse} inline /> <span aria-hidden="true">↓</span></a>
-            <p className="hero-note"><Bilingual text={TEXT.home.heroNote} /></p>
+      {/* The sign board. Like a Cambodian shop sign, the Khmer name is always
+          on top and larger, whichever language the page is in. */}
+      <header className="signboard" id="top">
+        <div className="container sign-top">
+          <a className="sign-brand" href="#top"><Bilingual text={TEXT.home.brand} inline /></a>
+          <HomeNav>
+            <a href="#collection"><Bilingual text={TEXT.home.navCollection} inline /></a>
+            <a href="/#about"><Bilingual text={TEXT.home.navAbout} inline /></a>
+            {user ? (
+              <>
+                <span className="sign-email">{user.email}</span>
+                {isReviewer && <a href="/review"><Bilingual text={TEXT.review.queue.title} inline /></a>}
+                <a href="/change-username"><Bilingual text={TEXT.username.change} inline /></a>
+                <form action={logout} className="sign-logout">
+                  <button type="submit"><Bilingual text={TEXT.home.logOut} inline /></button>
+                </form>
+              </>
+            ) : (
+              <>
+                <a href="/login"><Bilingual text={TEXT.auth.logIn} inline /></a>
+                <a href="/signup"><Bilingual text={TEXT.auth.signUp} inline /></a>
+              </>
+            )}
+          </HomeNav>
+        </div>
+        <div className="container">
+          <div className="sign-panel">
+            <h1>
+              <span className="sign-km" lang="km">{collection.nameKm}</span>
+              <span className="sign-en" lang="en">{collection.name}</span>
+            </h1>
+            <p className="sign-lead"><Bilingual text={identity.description} /></p>
           </div>
-          <figure>
-            <div className="hero-art">
-              <HeroImage garment={heroGarment} />
-            </div>
-            <figcaption><Bilingual text={heroCaptionText(heroGarment)} /></figcaption>
-          </figure>
-        </section>
+        </div>
+      </header>
+      <div className="awning" aria-hidden="true" />
 
+      <main>
         {/* The source statement describes the Official records only, so it
             goes inside that tab: Community entries come from their Contributors. */}
         <HomeTabs
@@ -109,10 +104,12 @@ export default async function Home() {
           }
         />
       </main>
-      <footer className="container">
-        <p><Bilingual text={identity.name} /></p>
-        <p><Bilingual text={TEXT.home.footer} /></p>
+      <footer className="kerb">
+        <div className="container">
+          <p className="kerb-name"><Bilingual text={identity.name} /></p>
+          <p><Bilingual text={TEXT.home.footer} /></p>
+        </div>
       </footer>
-    </>
+    </div>
   );
 }
