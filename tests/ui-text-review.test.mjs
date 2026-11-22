@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { isPair } from "../lib/bilingual.js";
 import { RETURN_NOTE_LIMIT } from "../lib/returnNote.js";
-import { TEXT, decisionDoneText, submittedText } from "../lib/uiText.js";
+import { TEXT, decisionDoneText, entrySaveActionText, submittedText } from "../lib/uiText.js";
 
 test("a new entry's confirmation keeps the curator's English word for word", () => {
   assert.equal(
@@ -147,4 +147,24 @@ test("the Return note hint names the same limit review_entry keeps, in both lang
   assert.equal(RETURN_NOTE_LIMIT, 500);
   assert.match(TEXT.review.note.hint.en, /\b500 characters\b/);
   assert.match(TEXT.review.note.hint.km, /500 តួអក្សរ/);
+});
+
+test("the entry form labels distinguish review submission, direct publishing, and editing", () => {
+  assert.deepEqual(entrySaveActionText(), { en: "Submit for review", km: "ដាក់ស្នើឱ្យពិនិត្យ" });
+  assert.deepEqual(entrySaveActionText({ isReviewer: true }), { en: "Publish", km: "ផ្សាយ" });
+  assert.deepEqual(entrySaveActionText({ editing: true }), { en: "Save changes", km: "រក្សាទុកការផ្លាស់ប្តូរ" });
+  assert.equal(entrySaveActionText({ pending: true }).km, "កំពុងដាក់ស្នើ...");
+  assert.equal(entrySaveActionText({ isReviewer: true, pending: true }).km, "កំពុងផ្សាយ...");
+});
+
+test("expiry recovery tells contributors that they were signed out", () => {
+  assert.match(TEXT.form.signedOut.km, /^អ្នកបានចាកចេញពីគណនីហើយ។/);
+  assert.match(TEXT.card.signedOut.km, /^អ្នកបានចាកចេញពីគណនីហើយ។/);
+});
+
+test("editing and restoring a draft keep the public listing and photo choices clear", () => {
+  assert.match(TEXT.page.editIntro.en, /still find it in My entries/);
+  assert.ok(TEXT.page.editIntro.km.includes(TEXT.community.myEntries.km));
+  assert.match(TEXT.form.restoredEdit.en, /To replace the current photo/);
+  assert.match(TEXT.form.restoredEdit.km, /បើចង់ជំនួសរូបថតបច្ចុប្បន្ន/);
 });

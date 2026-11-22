@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { TEXT } from "../lib/uiText.js";
+import { TEXT, namedEntryText } from "../lib/uiText.js";
 import { useReviewDecision } from "../lib/useReviewDecision.js";
 import Bilingual from "./Bilingual.js";
 import ReturnNoteForm from "./ReturnNoteForm.js";
@@ -34,11 +34,11 @@ export default function ReviewDecisionButtons({ entry, onDecided }) {
       ) : (
         <div className="entry-actions">
           <button type="button" className="button" disabled={sending} onClick={() => decide("published")}
-            aria-label={`${pick(TEXT.review.queue.publish, language)}: ${entry.title}`}>
+            aria-label={pick(namedEntryText(TEXT.review.queue.publish, entry.title), language)}>
             <Bilingual text={TEXT.review.queue.publish} inline />
           </button>
           <button ref={returnButton} type="button" className="button secondary" disabled={sending} onClick={() => setWriting(true)}
-            aria-label={`${pick(TEXT.review.queue.return, language)}: ${entry.title}`}>
+            aria-label={pick(namedEntryText(TEXT.review.queue.return, entry.title), language)}>
             <Bilingual text={TEXT.review.queue.return} inline />
           </button>
         </div>

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { TEXT } from "../lib/uiText.js";
+import { TEXT, namedEntryText } from "../lib/uiText.js";
 import { useDeleteEntry } from "../lib/useDeleteEntry.js";
 import Bilingual from "./Bilingual.js";
 
@@ -31,14 +31,14 @@ export default function DeleteEntryButton({ entryId, title }) {
   if (!confirming) {
     return (
       <button ref={deleteButton} type="button" className="button secondary"
-        aria-label={`${pick(TEXT.card.delete, language)}: ${title}`} onClick={() => setConfirming(true)}>
+        aria-label={pick(namedEntryText(TEXT.card.delete, title), language)} onClick={() => setConfirming(true)}>
         <Bilingual text={TEXT.card.delete} inline />
       </button>
     );
   }
 
   return (
-    <div className="entry-confirm" role="group" aria-label={`${pick(TEXT.card.confirmGroup, language)}: ${title}`}>
+    <div className="entry-confirm" role="group" aria-label={pick(namedEntryText(TEXT.card.confirmGroup, title), language)}>
       <p><Bilingual text={TEXT.card.confirmQuestion} /></p>
       <div className="entry-confirm-actions">
         <button type="button" className="button" onClick={deleteEntry} disabled={pending}>

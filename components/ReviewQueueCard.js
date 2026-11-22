@@ -1,6 +1,6 @@
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { TEXT, sharedByText } from "../lib/uiText.js";
+import { TEXT, sharedByText, entryPhotoText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import ProvenanceList from "./ProvenanceList.js";
 import ReturnNote from "./ReturnNote.js";
@@ -20,7 +20,7 @@ export default function ReviewQueueCard({ entry, submitted, onDecided }) {
     <article className="entry-card">
       {/* A plain img, like the Contributor entry card: the photo is public. */}
       {entry.photo_url && (
-        <img className="entry-photo" src={entry.photo_url} alt={`${pick(TEXT.card.photoFor, language)}: ${entry.title}`} loading="lazy" />
+        <img className="entry-photo" src={entry.photo_url} alt={pick(entryPhotoText(entry.title), language)} loading="lazy" />
       )}
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
       <h3>{entry.title}</h3>

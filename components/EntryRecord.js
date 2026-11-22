@@ -2,8 +2,9 @@
 
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { TEXT, sharedByText } from "../lib/uiText.js";
+import { sharedByText, entryPhotoText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
+import MixedText from "./MixedText.js";
 import ProvenanceList from "./ProvenanceList.js";
 import StatusPill from "./StatusPill.js";
 
@@ -17,11 +18,11 @@ export default function EntryRecord({ entry, submitted }) {
   return (
     <article className="record" aria-labelledby="record-title">
       {entry.photo_url && (
-        <img className="record-photo entry-record-photo" src={entry.photo_url} alt={`${pick(TEXT.card.photoFor, language)}: ${entry.title}`} />
+        <img className="record-photo entry-record-photo" src={entry.photo_url} alt={pick(entryPhotoText(entry.title), language)} />
       )}
       <div className="record-text entry-record">
         {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
-        <h1 id="record-title" className="record-title">{entry.title}</h1>
+        <h1 id="record-title" className="record-title"><MixedText text={entry.title} /></h1>
         {entry.status !== "published" && <div className="entry-status"><StatusPill status={entry.status} /></div>}
         <ProvenanceList entry={entry} />
         <p className="record-description entry-story">{entry.story}</p>

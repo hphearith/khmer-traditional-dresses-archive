@@ -2,7 +2,7 @@ import Link from "next/link";
 import { pick } from "../lib/bilingual.js";
 import { entryHref } from "../lib/entryPages.js";
 import { useLanguage } from "../lib/useLanguage.js";
-import { TEXT, sharedByText } from "../lib/uiText.js";
+import { TEXT, sharedByText, entryPhotoText, namedEntryText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 import DeleteEntryButton from "./DeleteEntryButton.js";
 import ProvenanceList from "./ProvenanceList.js";
@@ -21,7 +21,7 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
     <article className="entry-card">
       {/* A plain img, like GarmentCard. The photo is public, so a guest needs no cookie to see it. */}
       {entry.photo_url && (
-        <img className="entry-photo" src={entry.photo_url} alt={`${pick(TEXT.card.photoFor, language)}: ${entry.title}`} loading="lazy" />
+        <img className="entry-photo" src={entry.photo_url} alt={pick(entryPhotoText(entry.title), language)} loading="lazy" />
       )}
       <h3><Link className="card-link" href={entryHref(entry.id)}>{entry.title}</Link></h3>
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
@@ -38,13 +38,13 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
       )}
       <ProvenanceList entry={entry} />
       {/* The story is read on the entry's own page (app/entries/[id]/page.js). */}
-      <Link className="read-link" href={entryHref(entry.id)} aria-label={`${pick(TEXT.card.readStory, language)}: ${entry.title}`}>
+      <Link className="read-link" href={entryHref(entry.id)} aria-label={pick(namedEntryText(TEXT.card.readStory, entry.title), language)}>
         <Bilingual text={TEXT.card.readStory} inline />
       </Link>
       {/* Offered only on the signed-in owner's own entries. The database refuses any other change or delete. */}
       {entry.mine && (
         <div className="entry-actions">
-          <a className="button secondary" href={`/contribute/${entry.id}/edit`} aria-label={`${pick(TEXT.card.edit, language)}: ${entry.title}`}>
+          <a className="button secondary" href={`/contribute/${entry.id}/edit`} aria-label={pick(namedEntryText(TEXT.card.edit, entry.title), language)}>
             <Bilingual text={TEXT.card.edit} inline />
           </a>
           <DeleteEntryButton entryId={entry.id} title={entry.title} />

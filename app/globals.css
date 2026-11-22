@@ -97,6 +97,44 @@ button:lang(km) {
   padding-block: 8px;
 }
 
+.photo-control {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  overflow-wrap: break-word;
+}
+
+.photo-control .photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  clip-path: inset(50%);
+}
+
+.photo-control > span {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.photo-picker {
+  cursor: pointer;
+}
+
+.photo-input:focus-visible + .photo-control > span {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.photo-picker {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
 .credential-error {
   margin-top: 8px;
   color: var(--wine);
@@ -995,6 +1033,10 @@ a:lang(km) {
    pasted address, so it may break anywhere rather than overflow a phone. */
 .entry-record {
   overflow-wrap: break-word;
+}
+
+.entry-record .record-title:has([lang="km"]) {
+  line-height: 1.7;
 }
 
 .record-source .byline {
