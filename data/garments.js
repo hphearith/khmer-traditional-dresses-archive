@@ -37,7 +37,7 @@ export const garments = [
   },
   {
     id: "sbai",
-    nameEn: "Sbui / Sbai",
+    nameEn: "Sbai",
     nameKh: "ស្បៃ",
     category: "upper",
     material: "Pleated Silk with Gold Thread & Sequins (ស្បៃជីបប៉ាក់ឌិនខ្សែសយ)",

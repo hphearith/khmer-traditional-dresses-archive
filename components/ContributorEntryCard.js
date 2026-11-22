@@ -20,7 +20,8 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
   return (
     <article className="entry-card">
       {/* A plain img, like GarmentCard. The photo is public, so a guest needs no cookie to see it.
-          It stands on a plinth and opens the entry, like an Official record's photo (GarmentCard). */}
+          It stands on a plinth and opens the entry's own page (app/entries/[id]/page.js), where the
+          story is read. It is skipped by Tab because the title below is the same link. */}
       {entry.photo_url && (
         <>
           <Link className="entry-photo-link" href={entryHref(entry.id)} tabIndex={-1}>
@@ -43,11 +44,9 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
         </div>
       )}
       <ProvenanceList entry={entry} />
-      {/* The story is read on the entry's own page (app/entries/[id]/page.js). */}
-      <Link className="read-link" href={entryHref(entry.id)} aria-label={pick(namedEntryText(TEXT.card.readStory, entry.title), language)}>
-        <Bilingual text={TEXT.card.readStory} inline />
-      </Link>
-      {/* Offered only on the signed-in owner's own entries. The database refuses any other change or delete. */}
+      {/* Offered only on the signed-in owner's own entries. The database refuses any other change or delete.
+          The row follows the card's text rather than sitting at the card's foot, so when one card's delete
+          question makes the grid row taller, the buttons on the other cards in that row stay where they are. */}
       {entry.mine && (
         <div className="entry-actions">
           <a className="button secondary" href={`/contribute/${entry.id}/edit`} aria-label={pick(namedEntryText(TEXT.card.edit, entry.title), language)}>

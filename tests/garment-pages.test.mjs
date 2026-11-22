@@ -14,7 +14,7 @@ test("a record's page lives at /garments/<id>", () => {
 });
 
 test("a record is found by its id", () => {
-  assert.equal(findGarment(garments, "sbai")?.nameEn, "Sbui / Sbai");
+  assert.equal(findGarment(garments, "sbai")?.nameEn, "Sbai");
 });
 
 test("an unknown or missing id finds no record", () => {
