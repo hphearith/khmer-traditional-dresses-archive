@@ -5,7 +5,7 @@ import { createClient } from "../lib/supabase/client.js";
 import {
   getConfirmationRedirectUrl,
 } from "../lib/authConfirmation.js";
-import { TEXT, resendMessageText, retryInText } from "../lib/uiText.js";
+import { TEXT, credentialIssueText, resendMessageText, retryInText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 
 export default function ConfirmationNotice({ initialEmail = "", initialCooldown = 0 }) {
@@ -13,6 +13,7 @@ export default function ConfirmationNotice({ initialEmail = "", initialCooldown 
   const [pending, setPending] = useState(false);
   const [cooldown, setCooldown] = useState(initialCooldown);
   const [message, setMessage] = useState(null);
+  const [emailError, setEmailError] = useState(null);
 
   useEffect(() => {
     if (cooldown <= 0) return undefined;
@@ -23,6 +24,13 @@ export default function ConfirmationNotice({ initialEmail = "", initialCooldown 
   async function handleSubmit(event) {
     event.preventDefault();
     if (pending || cooldown > 0) return;
+    const field = event.currentTarget.elements.namedItem("confirmation-email");
+    const issue = credentialIssueText(field.validity);
+    setEmailError(issue);
+    if (issue) {
+      field.focus();
+      return;
+    }
     setPending(true);
     setMessage(null);
 
@@ -43,13 +51,16 @@ export default function ConfirmationNotice({ initialEmail = "", initialCooldown 
   }
 
   return (
-    <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 12 }}>
+    <form noValidate onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 12 }}>
       <label htmlFor="confirmation-email"><Bilingual text={TEXT.auth.emailAddress} /></label>
-      <input id="confirmation-email" type="email" autoComplete="email" required disabled={pending}
+      <input id="confirmation-email" name="confirmation-email" type="email" autoComplete="email" required disabled={pending}
+        aria-invalid={emailError ? true : undefined} aria-describedby={emailError ? "confirmation-error" : undefined}
         value={email} onChange={(event) => {
           setEmail(event.target.value);
           setMessage(null);
+          setEmailError(null);
         }} />
+      {emailError && <p id="confirmation-error" className="credential-error" role="alert"><Bilingual text={emailError} /></p>}
       {message && <p role="status"><Bilingual text={message} /></p>}
       <button type="submit" disabled={pending || cooldown > 0} style={{
         minHeight: 44, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",

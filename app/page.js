@@ -13,9 +13,7 @@ import { readVisitor } from "../lib/visitor.js";
 import { redirect } from "next/navigation";
 import "./home.css";
 
-// The shop sign's lettering (DESIGN.md). Latin only: Khmer keeps the device's
-// Noto Khmer fonts. next/font serves the file from this site, so no request
-// goes to Google when a page loads.
+// The shop sign's Latin lettering. Khmer uses the font stack in home.css.
 const sign = Big_Shoulders({ subsets: ["latin"], axes: ["opsz"], variable: "--font-sign", display: "swap" });
 
 export default async function Home() {

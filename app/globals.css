@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Noto Sans Khmer";
+  src: url("/fonts/noto-sans-khmer.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+}
+
 :root {
   --paper: #F7F3EB;
   --surface: #FFFCF6;
@@ -13,6 +22,7 @@
   --gutter: 40px;
   --serif: Georgia, "Noto Serif Khmer", serif;
   --sans: Arial, "Noto Sans Khmer", sans-serif;
+  --khmer-sans: "Noto Sans Khmer", Arial, "Khmer OS Battambang", "Leelawadee UI", "Khmer Sangam MN", sans-serif;
 }
 
 * {
@@ -45,18 +55,51 @@ a {
 }
 
 button,
-input {
+input,
+select,
+textarea {
   font: inherit;
 }
 
-/* Only text marked Khmer itself. The page's own <html lang="km"> must not pull
-   English garment names and headings out of their own fonts. This base rule
-   comes first on purpose: role rules below with the same specificity (nav,
-   h1 and h2 Khmer) win by coming later. */
-body [lang="km"] {
-  font-family: "Noto Sans Khmer", "Khmer OS", sans-serif;
+body:lang(km),
+body [lang|="km"] {
+  font-family: var(--khmer-sans);
   letter-spacing: 0;
-  line-height: 1.9;
+  text-transform: none;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+body:lang(km) {
+  font-size: 17px;
+}
+
+body [lang|="km"] {
+  line-height: 1.7;
+}
+
+/* Keep tagged English text in the Latin face on Khmer pages. */
+:where(:lang(km)) > [lang|="en"] {
+  font-family: var(--sans);
+}
+
+:is(h1, h2, h3)[lang|="en"] {
+  font-family: var(--serif);
+}
+
+:is(button, input, select, textarea):lang(km) {
+  font-family: var(--khmer-sans);
+  line-height: 1.7;
+}
+
+button:lang(km) {
+  padding-block: 8px;
+}
+
+.credential-error {
+  margin-top: 8px;
+  color: var(--wine);
 }
 
 button,
@@ -161,12 +204,9 @@ nav a {
   font-size: 14px;
 }
 
-/* Khmer glyphs look larger than Latin ones at the same size, so a Khmer header
-   link is set a little smaller and tighter than an English one. */
 nav [lang="km"],
 .brand [lang="km"] {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 15px;
 }
 
 /* The Interface language toggle sits above every page's own header, at the
@@ -223,11 +263,8 @@ h1 {
   letter-spacing: -0.035em;
 }
 
-/* Khmer glyphs look larger than Latin ones at the same size, so a Khmer heading
-   is set smaller and tighter than an English one. */
 h1 [lang="km"] {
   font-size: 0.75em;
-  line-height: 1.5;
 }
 
 .lead {
@@ -356,7 +393,6 @@ h2 {
 
 h2 [lang="km"] {
   font-size: 0.8em;
-  line-height: 1.5;
 }
 
 .count {
@@ -410,13 +446,16 @@ h2 [lang="km"] {
 input {
   width: 100%;
   min-width: 0;
-  height: 56px;
   border: 1px solid var(--control);
   border-radius: 4px;
   padding: 12px 16px;
   background: var(--surface);
   color: var(--ink);
   font-size: 16px;
+}
+
+input:not([type="checkbox"]) {
+  min-height: 56px;
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -547,7 +586,7 @@ input[type="search"]::-webkit-search-cancel-button {
   min-width: 0;
   border-bottom: 1px solid var(--line);
   padding-bottom: 24px;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .entry-card h3 {
@@ -698,7 +737,7 @@ input[type="search"]::-webkit-search-cancel-button {
   margin-top: 4px;
   line-height: 1.9;
   white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 /* The box a Reviewer writes a Return note in, styled like the entry form's fields. */
@@ -830,22 +869,13 @@ h3 {
   font: 400 26px / 1.3 var(--serif);
 }
 
-/* Khmer in a heading keeps the heading's serif voice (DESIGN.md display,
-   heading and title), falling back to the sans if the device has no serif. */
-:is(h1, h2, h3)[lang="km"],
-:is(h1, h2, h3) [lang="km"] {
-  font-family: "Noto Serif Khmer", "Noto Sans Khmer", "Khmer OS", serif;
-  line-height: 1.5;
-}
-
 /* Khmer subscript consonants hang well below the baseline, so a Khmer link's
    underline is drawn beneath them instead of through them. */
 a:lang(km) {
   text-underline-offset: 0.55em;
 }
 
-/* Twelve-pixel bold Khmer is cramped: a Khmer label takes the caption step.
-   :where() keeps this below the header's own smaller Khmer (.brand, nav). */
+/* Give compact Khmer labels the caption size. */
 :where(.label) [lang="km"] {
   font-size: 14px;
 }
@@ -863,7 +893,7 @@ a:lang(km) {
 }
 
 .material {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   color: var(--muted);
   font-size: 14px;
 }
@@ -967,7 +997,7 @@ a:lang(km) {
 /* A Contributor's text can be one long run with no break point, such as a
    pasted address, so it may break anywhere rather than overflow a phone. */
 .entry-record {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .record-source .byline {
