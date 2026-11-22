@@ -523,6 +523,191 @@ body:has(.shop) ::selection {
   margin: 16px 0 0;
 }
 
+/* ---------- Forms and short pages: a sheet on a white mount ---------- */
+
+.shop .sheet-page {
+  padding-block: 40px 96px;
+}
+
+/* A form or a short text, mounted like a photo: white, square, a gold line
+   inside its edge, standing off the wall. */
+.shop .sheet {
+  width: min(100%, 520px);
+  margin-inline: auto;
+  padding: 40px;
+  background: var(--mount);
+  box-shadow: 0 12px 26px -16px rgba(40, 30, 20, 0.5);
+  outline: 1px solid var(--gold-line);
+  outline-offset: -6px;
+}
+
+.shop .sheet-wide {
+  width: min(100%, 760px);
+}
+
+.shop .sheet-page > .back-link {
+  display: flex;
+  width: min(100%, 520px);
+  margin-inline: auto;
+}
+
+.shop .sheet-title {
+  margin-bottom: 12px;
+  color: var(--shop-ink);
+  font: 400 clamp(28px, 3vw, 36px) / 1.3 var(--salon-face);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.shop .sheet-title [lang="km"] {
+  font: 700 clamp(26px, 2.8vw, 32px) / 1.7 var(--km-sign);
+  letter-spacing: 0;
+}
+
+.shop .sheet-intro {
+  margin-bottom: 32px;
+  color: var(--shop-muted);
+}
+
+.shop .sheet-current {
+  margin-bottom: 12px;
+}
+
+.shop .sheet-alert {
+  margin-bottom: 24px;
+}
+
+.shop .sheet h2 {
+  margin-bottom: 8px;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+}
+
+.shop .sheet h2 [lang="km"] {
+  font: 700 19px / 1.7 var(--km-sign);
+}
+
+.shop .sheet-section {
+  margin-top: 32px;
+}
+
+.shop .sheet-section p + p {
+  margin-top: 8px;
+}
+
+.shop .sheet-foot {
+  margin-top: 32px;
+}
+
+.shop .sheet-foot + .sheet-foot {
+  margin-top: 16px;
+}
+
+.shop .sheet-switch {
+  color: var(--shop-muted);
+}
+
+.shop .sheet-switch a {
+  color: var(--shop-ink);
+}
+
+/* An aside inside a sheet, such as the note about cookies: a plaster inset. */
+.shop .sheet-note {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: var(--plaster);
+}
+
+.shop .sheet-note p {
+  margin-bottom: 8px;
+  color: var(--shop-muted);
+}
+
+.shop .form-stack {
+  display: grid;
+  gap: 24px;
+}
+
+.shop .form-stack-tight {
+  gap: 12px;
+}
+
+.shop .field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--shop-ink);
+  font-weight: 700;
+}
+
+.shop .form-stack-tight > .field-label {
+  margin-bottom: 0;
+}
+
+.shop .field-hint {
+  margin-top: 8px;
+  color: var(--shop-muted);
+  font-size: 14px;
+}
+
+.shop .field-error,
+.shop .credential-error {
+  margin-top: 8px;
+  color: var(--wine);
+}
+
+.shop .form-alert {
+  color: var(--wine);
+}
+
+.shop .form-status {
+  margin-bottom: 24px;
+}
+
+.shop .form-followup {
+  margin-top: 32px;
+}
+
+.shop .button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.shop [aria-busy="true"] .button:disabled {
+  cursor: wait;
+}
+
+.shop .button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* A question that needs an answer before going on: a white panel in a wine
+   line, like the delete confirmation. */
+.shop .confirm-panel {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--wine);
+  padding: 20px;
+  background: var(--mount);
+}
+
+/* An action that reads as a link, such as "log out instead". */
+.shop .text-button {
+  min-height: 44px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--shop-ink);
+  text-decoration: underline var(--gold-line);
+  text-underline-offset: 5px;
+}
+
+.shop .text-button:hover {
+  text-decoration-color: var(--wine);
+}
+
 /* ---------- The footer ---------- */
 
 .shop .shop-footer {
@@ -601,5 +786,13 @@ body:has(.shop) ::selection {
 
   .shop .record-source {
     padding: 24px 20px 28px;
+  }
+
+  .shop .sheet-page {
+    padding-top: 24px;
+  }
+
+  .shop .sheet {
+    padding: 28px 20px 32px;
   }
 }

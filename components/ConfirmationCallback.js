@@ -5,21 +5,21 @@ import { TEXT } from "../lib/uiText.js";
 import { useConfirmationCallback } from "../lib/useConfirmationCallback.js";
 import Bilingual from "./Bilingual.js";
 import ConfirmationNotice from "./ConfirmationNotice.js";
+import Shop from "./Shop.js";
 
 export default function ConfirmationCallback() {
   const { message, canResend } = useConfirmationCallback();
 
   return (
-    <main style={{
-      minHeight: "100vh", background: "var(--paper)", color: "var(--ink)",
-      padding: "48px 24px", display: "grid", placeItems: "center",
-    }}>
-      <section aria-labelledby="confirmation-title" style={{ width: "100%", maxWidth: 440 }}>
-        <h1 id="confirmation-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.auth.emailConfirmation} /></h1>
-        <p role="status" style={{ marginBottom: 24 }}><Bilingual text={message} /></p>
-        {canResend && <ConfirmationNotice />}
-        <p><Link href="/login" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.callback.goToLogin} inline /></Link></p>
-      </section>
-    </main>
+    <Shop>
+      <main className="container sheet-page">
+        <section className="sheet" aria-labelledby="confirmation-title">
+          <h1 id="confirmation-title" className="sheet-title"><Bilingual text={TEXT.auth.emailConfirmation} /></h1>
+          <p role="status" className="form-status"><Bilingual text={message} /></p>
+          {canResend && <ConfirmationNotice />}
+          <p className="sheet-foot"><Link href="/login"><Bilingual text={TEXT.callback.goToLogin} inline /></Link></p>
+        </section>
+      </main>
+    </Shop>
   );
 }

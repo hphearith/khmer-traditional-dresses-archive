@@ -9,13 +9,9 @@ export default function ChooseUsernameForm() {
   const { pending, usernameError, handleSubmit } = useChooseUsername();
 
   return (
-    <form noValidate onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
+    <form noValidate onSubmit={handleSubmit} aria-busy={pending} className="form-stack">
       <UsernameField pending={pending} error={usernameError} />
-      <button type="submit" disabled={pending} style={{
-        minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
-        background: "var(--wine)", color: "var(--surface)", opacity: pending ? 0.7 : 1,
-        cursor: pending ? "wait" : "pointer",
-      }}>
+      <button type="submit" className="button" disabled={pending}>
         <Bilingual text={pending ? TEXT.auth.pleaseWait : TEXT.username.save} inline />
       </button>
     </form>

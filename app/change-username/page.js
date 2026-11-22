@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Bilingual from "../../components/Bilingual.js";
 import ChangeUsernameForm from "../../components/ChangeUsernameForm.js";
+import Shop from "../../components/Shop.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { createClient } from "../../lib/supabase/server.js";
 import { TEXT, changeMessageText, yourUsernameText } from "../../lib/uiText.js";
@@ -23,34 +24,31 @@ export default async function ChangeUsernamePage() {
   const change = checkUsernameChange(changedAt);
 
   return (
-    <main style={{
-      minHeight: "100vh", background: "var(--paper)", color: "var(--ink)",
-      padding: "48px 24px", display: "grid", placeItems: "center",
-    }}>
-      <section aria-labelledby="change-username-title" style={{ width: "100%", maxWidth: 440 }}>
-        <p style={{ marginBottom: 24 }}>
-          <Link href="/" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.username.backToArchive} inline /></Link>
-        </p>
-        <h1 id="change-username-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.username.changeTitle} /></h1>
-        {username && (
-          <p style={{ marginBottom: 16 }}><Bilingual text={yourUsernameText(username)} /></p>
-        )}
-        <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-          <Bilingual text={TEXT.username.changeIntro} />
-        </p>
-        {error && (
-          <p role="alert" style={{ marginBottom: 32 }}>
-            <Bilingual text={TEXT.username.checkFailed} />
+    <Shop>
+      <main className="container sheet-page">
+        <Link className="back-link" href="/"><Bilingual text={TEXT.username.backToArchive} inline /></Link>
+        <section className="sheet" aria-labelledby="change-username-title">
+          <h1 id="change-username-title" className="sheet-title"><Bilingual text={TEXT.username.changeTitle} /></h1>
+          {username && (
+            <p className="sheet-current"><Bilingual text={yourUsernameText(username)} /></p>
+          )}
+          <p className="sheet-intro">
+            <Bilingual text={TEXT.username.changeIntro} />
           </p>
-        )}
-        {change.allowed ? (
-          <ChangeUsernameForm />
-        ) : (
-          <p role="status">
-            <Bilingual text={changeMessageText({ reason: "too-soon", allowedAt: change.allowedAt })} />
-          </p>
-        )}
-      </section>
-    </main>
+          {error && (
+            <p role="alert" className="form-alert sheet-alert">
+              <Bilingual text={TEXT.username.checkFailed} />
+            </p>
+          )}
+          {change.allowed ? (
+            <ChangeUsernameForm />
+          ) : (
+            <p role="status">
+              <Bilingual text={changeMessageText({ reason: "too-soon", allowedAt: change.allowedAt })} />
+            </p>
+          )}
+        </section>
+      </main>
+    </Shop>
   );
 }
