@@ -1,9 +1,10 @@
 "use client";
 
+import collection from "../collection.config.js";
 import { pick } from "../lib/bilingual.js";
 import { languageCookie } from "../lib/language.js";
 import { useLanguage, useSetLanguage } from "../lib/useLanguage.js";
-import { TEXT } from "../lib/uiText.js";
+import { TEXT, archiveMetadataText } from "../lib/uiText.js";
 
 // Each language is named in its own script, whatever the page is showing. The
 // flags are decoration: screen readers hear only the words, and a system that
@@ -28,6 +29,10 @@ export default function LanguageToggle() {
     if (language === current) return;
     document.cookie = languageCookie(language, window.location.protocol === "https:");
     document.documentElement.lang = language;
+    const recordTitle = document.querySelector("[data-record-title]")?.dataset.recordTitle;
+    const { title, description } = archiveMetadataText(collection, language, recordTitle);
+    document.title = title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", description);
     setLanguage(language);
   }
 

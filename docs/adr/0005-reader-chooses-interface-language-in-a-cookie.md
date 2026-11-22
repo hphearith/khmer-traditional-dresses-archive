@@ -12,7 +12,6 @@ This supersedes 0003. The interface shows one language at a time, English or Khm
 ## Consequences
 
 - Only interface text follows the choice. Official record names and materials still show both languages, Official record descriptions stay English, and Contributor entry text is never translated.
-- Placeholders, `aria-label`s and `<html lang>` follow the choice too, so they no longer combine both languages. The page `<title>` stays English.
-- The cookies page is still English only, so in Khmer only its toggle changes. Translating it is separate work.
+- Placeholders, accessibility labels, the cookies page, and document metadata follow the same choice. Record titles in metadata retain their authored names.
 - The toggle shows 🇰🇭 ខ្មែរ and 🇬🇧 English. The flags are hidden from screen readers, and the words are always shown, because flags stand for countries rather than languages and some systems draw them as letters.
 - Every Khmer string is still drafted by the AI and has to be read by a Khmer reader before it is committed.

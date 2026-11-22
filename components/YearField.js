@@ -1,4 +1,5 @@
 import { pick } from "../lib/bilingual.js";
+import { formatYear } from "../lib/formatUi.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { yearOptions } from "../lib/entry.js";
 import { TEXT } from "../lib/uiText.js";
@@ -26,7 +27,7 @@ export default function YearField({ error, initialYear = "" }) {
       <select id="year" name="year" defaultValue={initialYear} style={CONTROL}
         aria-invalid={error ? true : undefined} aria-describedby={error ? "year-error" : undefined}>
         <option value="">{pick(TEXT.provenance.notSure, language)}</option>
-        {years.map((year) => <option key={year} value={year}>{year}</option>)}
+        {years.map((year) => <option key={year} value={year}>{formatYear(year)}</option>)}
       </select>
       {error && <p id="year-error" style={{ marginTop: 8, color: "var(--wine)" }}><Bilingual text={error} /></p>}
     </div>
