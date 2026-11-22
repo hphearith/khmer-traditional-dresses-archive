@@ -20,6 +20,7 @@ export default function GarmentCard({ garment }) {
   const [title, subtitle] = garmentNames(garment, language);
   const href = garmentHref(garment.id);
   const provenance = PROVENANCE.filter(([field]) => garment[field] !== null && garment[field] !== undefined);
+  const isKm = language === "km";
 
   return (
     <article className="garment-card">
@@ -41,12 +42,26 @@ export default function GarmentCard({ garment }) {
       <h3 lang={title.lang}><Link className="card-link" href={href}>{title.text}</Link></h3>
       <p className="card-subtitle" lang={subtitle.lang}>{subtitle.text}</p>
       <p className="card-category">{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</p>
-      <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <MixedText text={garment.material} /></p>
+      <p className="material">
+        <strong><Bilingual text={TEXT.catalogue.material} inline /></strong>{" "}
+        {isKm && garment.materialKh ? (
+          <span lang="km">{garment.materialKh}</span>
+        ) : (
+          <MixedText text={garment.material} />
+        )}
+      </p>
       {provenance.length > 0 && (
         <dl className="provenance">
-          {provenance.map(([field, label]) => (
-            <div key={field}><dt><Bilingual text={label} /></dt><dd lang="en">{garment[field]}</dd></div>
-          ))}
+          {provenance.map(([field, label]) => {
+            const hasKh = isKm && garment[`${field}Kh`];
+            const val = hasKh ? garment[`${field}Kh`] : garment[field];
+            return (
+              <div key={field}>
+                <dt><Bilingual text={label} /></dt>
+                <dd lang={hasKh ? "km" : "en"}>{val}</dd>
+              </div>
+            );
+          })}
         </dl>
       )}
       {/* The description lives on the record's own page (app/garments/[id]/page.js). */}
