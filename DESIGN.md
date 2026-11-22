@@ -12,7 +12,7 @@ colors:
   plaster-shade: "#E6E4DF"
   mount: "#FFFFFF"
   rail: "#FAFAF9"
-  stone: "#B9B4AA"
+  stone: "#8D897F"
   shop-ink: "#24211E"
   shop-muted: "#5E5A55"
 typography:
@@ -194,7 +194,7 @@ Warm white plaster and stone greys carry the room; wine and gold are the sign's 
 - **Plaster Shade** (`plaster-shade`): the cove's lower edge, the shadow line above the rail, dividers between suggestions.
 - **Mount White** (`mount`): photo mounts, the hero frame, inputs, the suggestion list, empty states, and text on wine.
 - **Dado Rail** (`rail`): the 8px white rail that caps every marble band.
-- **Stone** (`stone`): the hairline on fields and secondary buttons.
+- **Stone** (`stone`): the hairline on fields and secondary buttons. It holds 3:1 against white and plaster, the minimum for a control edge, so don't lighten it.
 - **Shop Ink** (`shop-ink`): body text, headings, and the footer ground.
 - **Shop Muted** (`shop-muted`): secondary text: notes, captions, counts, unselected tabs, the email in the nav.
 
