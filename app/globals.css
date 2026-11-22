@@ -311,6 +311,12 @@ figcaption {
   scroll-margin-top: 24px;
 }
 
+/* The source section closes the Official panel with its own 80px margin. The
+   Community panel has no source section, so it keeps the same gap above the footer. */
+.home-panel-community {
+  margin-bottom: 80px;
+}
+
 .home-tabs {
   display: flex;
   gap: 8px;
@@ -1049,6 +1055,10 @@ footer p:last-child {
   .source {
     margin-block: 56px;
     padding-block: 32px;
+  }
+
+  .home-panel-community {
+    margin-bottom: 56px;
   }
 
   footer {

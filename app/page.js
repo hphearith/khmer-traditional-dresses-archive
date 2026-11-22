@@ -51,7 +51,7 @@ export default async function Home() {
         </a>
         <HomeNav>
           <a href="#collection"><Bilingual text={TEXT.home.navCollection} inline /></a>
-          <a href="#about"><Bilingual text={TEXT.home.navAbout} inline /></a>
+          <a href="/#about"><Bilingual text={TEXT.home.navAbout} inline /></a>
           {user ? (
             <>
               <span style={{ display: "flex", minHeight: 44, alignItems: "center", color: "var(--muted)", fontSize: 14 }}>
@@ -89,20 +89,25 @@ export default async function Home() {
           </figure>
         </section>
 
+        {/* The source statement describes the Official records only, so it
+            goes inside that tab: Community entries come from their Contributors. */}
         <HomeTabs
           communityEntries={community.entries} communityFailed={Boolean(community.error)}
           myEntries={mine.entries} myFailed={Boolean(mine.error)} signedIn={Boolean(user)}
+          officialSource={
+            // React asks for a key: this element crosses from the server page into
+            // the client HomeTabs, where it is one child in a list.
+            <section key="source" className="source" id="about" aria-labelledby="source-heading">
+              <div className="container source-inner">
+                <h2 id="source-heading"><Bilingual text={TEXT.home.aboutHeading} /></h2>
+                <div>
+                  <p className="source-copy"><Bilingual text={identity.source} /></p>
+                  <p className="byline"><Bilingual text={bylineText(collection.curator)} /></p>
+                </div>
+              </div>
+            </section>
+          }
         />
-
-        <section className="source" id="about" aria-labelledby="source-heading">
-          <div className="container source-inner">
-            <h2 id="source-heading"><Bilingual text={TEXT.home.aboutHeading} /></h2>
-            <div>
-              <p className="source-copy"><Bilingual text={identity.source} /></p>
-              <p className="byline"><Bilingual text={bylineText(collection.curator)} /></p>
-            </div>
-          </div>
-        </section>
       </main>
       <footer className="container">
         <p><Bilingual text={identity.name} /></p>
