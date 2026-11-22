@@ -949,6 +949,7 @@ details p {
 .record-title {
   font-size: 40px;
   line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .record-facts {
@@ -958,6 +959,7 @@ details p {
 
 .record-description {
   max-width: 65ch;
+  margin-top: 24px;
   font-size: 18px;
   line-height: 1.7;
 }
@@ -969,6 +971,30 @@ details p {
   border-top: 1px solid var(--line);
   padding-top: 24px;
   color: var(--muted);
+}
+
+/* A Contributor's photo can be any shape. Alone on its page there is no row
+   to line up with, so its mat follows the photo instead of a fixed 4:5 frame. */
+.entry-record-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  padding: 16px;
+  background: var(--fabric);
+  object-fit: contain;
+}
+
+.record-submitted {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* A Contributor's text can be one long run with no break point, such as a
+   pasted address, so it may break anywhere rather than overflow a phone. */
+.entry-record {
+  overflow-wrap: anywhere;
 }
 
 .record-source .byline {

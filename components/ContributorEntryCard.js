@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { pick } from "../lib/bilingual.js";
+import { entryHref } from "../lib/entryPages.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT, sharedByText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
@@ -22,7 +24,7 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
         <img className="entry-photo" src={entry.photo_url} alt={`${pick(TEXT.card.photoFor, language)}: ${entry.title}`} loading="lazy" />
       )}
       {entry.credit && <p className="entry-credit"><Bilingual text={sharedByText(entry.credit)} /></p>}
-      <h3>{entry.title}</h3>
+      <h3><Link className="card-link" href={entryHref(entry.id)}>{entry.title}</Link></h3>
       {showStatus && (
         <div className="entry-status">
           <StatusPill status={entry.status} />
@@ -35,10 +37,10 @@ export default function ContributorEntryCard({ entry, showStatus = false }) {
         </div>
       )}
       <ProvenanceList entry={entry} />
-      <details>
-        <summary aria-label={`${pick(TEXT.card.readStory, language)}: ${entry.title}`}><Bilingual text={TEXT.card.readStory} inline /></summary>
-        <p className="entry-story">{entry.story}</p>
-      </details>
+      {/* The story is read on the entry's own page (app/entries/[id]/page.js). */}
+      <Link className="read-link" href={entryHref(entry.id)} aria-label={`${pick(TEXT.card.readStory, language)}: ${entry.title}`}>
+        <Bilingual text={TEXT.card.readStory} inline />
+      </Link>
       {/* Offered only on the signed-in owner's own entries. The database refuses any other change or delete. */}
       {entry.mine && (
         <div className="entry-actions">
