@@ -34,7 +34,7 @@ export default function CommunityTab({
   return (
     <section className="container community" aria-labelledby="community-heading">
       <div className="section-head">
-        <div><p className="label"><Bilingual text={TEXT.tabs.community} inline /></p><h2 id="community-heading"><Bilingual text={TEXT.community.heading} /></h2></div>
+        <h2 id="community-heading"><Bilingual text={TEXT.community.heading} /></h2>
         <a className="button" href="/contribute"><Bilingual text={TEXT.page.writeTitle} inline /></a>
       </div>
       {!listFailed && list.length > 0 && (

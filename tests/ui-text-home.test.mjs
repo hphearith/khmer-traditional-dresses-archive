@@ -62,9 +62,12 @@ test("the hero caption names the garment in both languages and keeps maker and p
   assert.equal(text.km, "អាវចងពង់ ផលិតដោយ Apsara Mode Tailor នៅ Phnom Penh។");
 });
 
-test("the section labels carry no meaningless sequence numbers", async () => {
+// Each heading speaks for itself (#100): no small label above the hero, the
+// catalogue or the About banner. The Community tab's own name stays.
+test("the home page has no labels above its headings", async () => {
   const { TEXT } = await import("../lib/uiText.js");
-  for (const label of [TEXT.catalogue.label, TEXT.home.aboutLabel]) {
-    for (const half of [label.en, label.km]) assert.doesNotMatch(half, /^\d+\s*\//, half);
-  }
+  assert.equal(TEXT.home.heroLabel, undefined);
+  assert.equal(TEXT.home.aboutLabel, undefined);
+  assert.equal(TEXT.catalogue.label, undefined);
+  assert.ok(TEXT.tabs.community);
 });

@@ -30,7 +30,7 @@ export default function GarmentsArchive() {
   return (
     <section className="container catalogue" aria-labelledby="collection-heading">
       <div className="section-head">
-        <div><p className="label"><Bilingual text={TEXT.catalogue.label} inline /></p><h2 id="collection-heading"><Bilingual text={TEXT.catalogue.heading} /></h2><SharedProvenance shared={SHARED} /></div>
+        <div><h2 id="collection-heading"><Bilingual text={TEXT.catalogue.heading} /></h2><SharedProvenance shared={SHARED} /></div>
         <p className="count" role="status" aria-live="polite" aria-atomic="true"><Bilingual text={countText(filtered.length, garments.length)} /></p>
       </div>
       <div className="search-row">
