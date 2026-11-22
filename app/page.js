@@ -1,4 +1,3 @@
-import { Archivo, Marcellus } from "next/font/google";
 import collection from "../collection.config.js";
 import Bilingual from "../components/Bilingual.js";
 import HeroImage from "../components/HeroImage.js";
@@ -13,13 +12,8 @@ import { createClient } from "../lib/supabase/server.js";
 import { TEXT, bylineText, heroCaptionText, identityText } from "../lib/uiText.js";
 import { readVisitor } from "../lib/visitor.js";
 import { redirect } from "next/navigation";
+import { fontVariables } from "./fonts.js";
 import "./home.css";
-
-// The two Latin faces of the salon (the surface brief allows both). Archivo,
-// stretched wide, is only the sign's English; Marcellus is every other English
-// heading and name. Khmer uses the font stacks in home.css.
-const wide = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-wide", display: "swap" });
-const salon = Marcellus({ subsets: ["latin"], weight: "400", variable: "--font-salon", display: "swap" });
 
 // The hero shows this Official record's photo: Apsara Mode Tailor's sign is behind it.
 const heroGarment = garments.find((garment) => garment.id === "av-chang-pong");
@@ -50,7 +44,7 @@ export default async function Home() {
   if (mine.error) console.error("Reading My entries failed:", mine.error);
 
   return (
-    <div className={`shop ${wide.variable} ${salon.variable}`}>
+    <div className={`shop ${fontVariables}`}>
       <a className="skip" href="#collection"><Bilingual text={TEXT.home.skip} inline /></a>
       <div className="cove" aria-hidden="true" />
       <div className="container shop-top" id="top">

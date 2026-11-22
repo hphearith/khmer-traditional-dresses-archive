@@ -21,16 +21,16 @@ body:has(.shop) {
   /* Where words sit on the marble, a thin wash of plaster keeps the veins
      quiet behind them. */
   --marble-veil: linear-gradient(rgba(243, 242, 239, 0.4), rgba(243, 242, 239, 0.4));
-  --km-sign: "Noto Serif Khmer", var(--khmer-sans);
   background: var(--plaster);
   color: var(--shop-ink);
 }
 
-/* next/font sets --font-wide and --font-salon on .shop itself, so the faces
-   that use them are named there. */
+/* next/font sets --font-wide, --font-salon and --font-serif-khmer on .shop
+   itself (app/fonts.js), so the faces that use them are named there. */
 .shop {
   --wide-face: var(--font-wide), Arial, sans-serif;
   --salon-face: var(--font-salon), Georgia, serif;
+  --km-sign: var(--font-serif-khmer), var(--khmer-sans);
 }
 
 /* The language toggle sits in the nav row, under the coving, at the right.
