@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { pick } from "../lib/bilingual.js";
+import { garmentHref } from "../lib/garmentPages.js";
 import { garmentNames } from "../lib/garmentNames.js";
-import { scriptRuns } from "../lib/scriptRuns.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { TEXT } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
+import MixedText from "./MixedText.js";
 
 const LABELS = { lower: TEXT.catalogue.lower, upper: TEXT.catalogue.upper, ensemble: TEXT.catalogue.cardEnsemble };
 
@@ -16,6 +18,7 @@ const PROVENANCE = [
 export default function GarmentCard({ garment }) {
   const language = useLanguage();
   const [title, subtitle] = garmentNames(garment, language);
+  const href = garmentHref(garment.id);
   const provenance = PROVENANCE.filter(([field]) => garment[field] !== null && garment[field] !== undefined);
 
   return (
@@ -32,12 +35,9 @@ export default function GarmentCard({ garment }) {
         />
       </div>
       <div className="card-top label"><span>{LABELS[garment.category] ? <Bilingual text={LABELS[garment.category]} inline /> : garment.category}</span></div>
-      <h3 lang={title.lang}>{title.text}</h3>
+      <h3 lang={title.lang}><Link className="card-link" href={href}>{title.text}</Link></h3>
       <p className="card-subtitle" lang={subtitle.lang}>{subtitle.text}</p>
-      <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <span lang="en">
-        {/* The Khmer gloss in brackets is Khmer, so it gets its own lang. */}
-        {scriptRuns(garment.material).map((run, index) => (run.lang === "km" ? <span key={index} lang="km">{run.text}</span> : run.text))}
-      </span></p>
+      <p className="material"><strong><Bilingual text={TEXT.catalogue.material} inline /></strong> <MixedText text={garment.material} /></p>
       {provenance.length > 0 && (
         <dl className="provenance">
           {provenance.map(([field, label]) => (
@@ -45,10 +45,10 @@ export default function GarmentCard({ garment }) {
           ))}
         </dl>
       )}
-      <details>
-        <summary aria-label={`${pick(TEXT.catalogue.readEntry, language)}: ${title.text}`}><Bilingual text={TEXT.catalogue.readEntry} inline /></summary>
-        <p lang="en">{garment.description}</p>
-      </details>
+      {/* The description lives on the record's own page (app/garments/[id]/page.js). */}
+      <Link className="read-link" href={href} aria-label={`${pick(TEXT.catalogue.readEntry, language)}: ${title.text}`}>
+        <Bilingual text={TEXT.catalogue.readEntry} inline />
+      </Link>
     </article>
   );
 }
