@@ -24,7 +24,7 @@ export default function AuthForm({ signup = false }) {
   if (signup && confirmationEmail) {
     return (
       <div>
-        <p role="status" style={{ marginBottom: 24 }}>
+        <p role="status" className="form-status">
           <Bilingual text={resendMessageText(null)} />
         </p>
         <ConfirmationNotice initialEmail={confirmationEmail} initialCooldown={60} />
@@ -50,20 +50,16 @@ export default function AuthForm({ signup = false }) {
     <div>
       <form noValidate onSubmit={submitCredentials} onInput={(event) => {
         if (event.target.name === invalidCredential?.name) setInvalidCredential(null);
-      }} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
+      }} aria-busy={pending} className="form-stack">
         <AuthCredentialFields signup={signup} pending={pending} usernameError={usernameError} invalidCredential={invalidCredential} />
-        {error && <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={error} /></p>}
-        <button type="submit" disabled={pending} style={{
-          minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
-          background: "var(--wine)", color: "var(--surface)", opacity: pending ? 0.7 : 1,
-          cursor: pending ? "wait" : "pointer",
-        }}>
+        {error && <p role="alert" className="form-alert"><Bilingual text={error} /></p>}
+        <button type="submit" className="button" disabled={pending}>
           <Bilingual text={signup ? (pending ? TEXT.auth.signingUp : TEXT.auth.signUp) : (pending ? TEXT.auth.loggingIn : TEXT.auth.logIn)} inline />
         </button>
       </form>
       {!signup && confirmationEmail && (
-        <section aria-label={pick(TEXT.auth.emailConfirmation, language)} style={{ marginTop: 24 }}>
-          <p style={{ marginBottom: 16 }}>
+        <section aria-label={pick(TEXT.auth.emailConfirmation, language)} className="form-followup">
+          <p className="form-status">
             <Bilingual text={TEXT.auth.needsConfirmation} />
           </p>
           <ConfirmationNotice initialEmail={confirmationEmail} />

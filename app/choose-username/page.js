@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Bilingual from "../../components/Bilingual.js";
 import ChooseUsernameForm from "../../components/ChooseUsernameForm.js";
+import Shop from "../../components/Shop.js";
 import { logout } from "../../lib/logoutAction.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { createClient } from "../../lib/supabase/server.js";
@@ -20,22 +21,21 @@ export default async function ChooseUsernamePage() {
   if (username) redirect("/");
 
   return (
-    <main style={{
-      minHeight: "100vh", background: "var(--paper)", color: "var(--ink)",
-      padding: "48px 24px", display: "grid", placeItems: "center",
-    }}>
-      <section aria-labelledby="choose-username-title" style={{ width: "100%", maxWidth: 440 }}>
-        <h1 id="choose-username-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.username.chooseTitle} /></h1>
-        <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-          <Bilingual text={TEXT.username.chooseIntro} />
-        </p>
-        <ChooseUsernameForm />
-        <form action={logout} style={{ marginTop: 32 }}>
-          <button type="submit" style={{ border: 0, padding: 0, minHeight: 44, background: "transparent", color: "inherit", textDecoration: "underline", textUnderlineOffset: 5 }}>
-            <Bilingual text={TEXT.username.logOutInstead} inline />
-          </button>
-        </form>
-      </section>
-    </main>
+    <Shop>
+      <main className="container sheet-page">
+        <section className="sheet" aria-labelledby="choose-username-title">
+          <h1 id="choose-username-title" className="sheet-title"><Bilingual text={TEXT.username.chooseTitle} /></h1>
+          <p className="sheet-intro">
+            <Bilingual text={TEXT.username.chooseIntro} />
+          </p>
+          <ChooseUsernameForm />
+          <form action={logout} className="sheet-foot">
+            <button type="submit" className="text-button">
+              <Bilingual text={TEXT.username.logOutInstead} inline />
+            </button>
+          </form>
+        </section>
+      </main>
+    </Shop>
   );
 }

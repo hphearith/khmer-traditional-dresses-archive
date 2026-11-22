@@ -51,8 +51,8 @@ export default function ConfirmationNotice({ initialEmail = "", initialCooldown 
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 12 }}>
-      <label htmlFor="confirmation-email"><Bilingual text={TEXT.auth.emailAddress} /></label>
+    <form noValidate onSubmit={handleSubmit} aria-busy={pending} className="form-stack form-stack-tight">
+      <label htmlFor="confirmation-email" className="field-label"><Bilingual text={TEXT.auth.emailAddress} /></label>
       <input id="confirmation-email" name="confirmation-email" type="email" autoComplete="email" required disabled={pending}
         aria-invalid={emailError ? true : undefined} aria-describedby={emailError ? "confirmation-error" : undefined}
         value={email} onChange={(event) => {
@@ -62,10 +62,7 @@ export default function ConfirmationNotice({ initialEmail = "", initialCooldown 
         }} />
       {emailError && <p id="confirmation-error" className="credential-error" role="alert"><Bilingual text={emailError} /></p>}
       {message && <p role="status"><Bilingual text={message} /></p>}
-      <button type="submit" disabled={pending || cooldown > 0} style={{
-        minHeight: 44, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
-        background: "var(--surface)", color: "var(--wine)", cursor: pending ? "wait" : "pointer",
-      }}>
+      <button type="submit" className="button secondary" disabled={pending || cooldown > 0}>
         <Bilingual text={pending ? TEXT.auth.sending : cooldown > 0 ? retryInText(cooldown) : TEXT.auth.resend} inline />
       </button>
     </form>

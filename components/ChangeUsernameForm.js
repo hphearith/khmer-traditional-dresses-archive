@@ -17,16 +17,13 @@ export default function ChangeUsernameForm() {
   }, [asking]);
 
   return (
-    <form noValidate onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
+    <form noValidate onSubmit={handleSubmit} aria-busy={pending} className="form-stack">
       {/* Kept on screen but locked while confirming, so going back keeps what was typed. */}
       <UsernameField pending={pending || Boolean(asking)} error={usernameError} />
       {asking ? (
         <ChangeUsernameConfirm ref={confirmRef} asking={asking} pending={pending} onConfirm={confirm} onCancel={cancel} />
       ) : (
-        <button type="submit" style={{
-          minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",
-          background: "var(--wine)", color: "var(--surface)", cursor: "pointer",
-        }}>
+        <button type="submit" className="button">
           <Bilingual text={TEXT.username.change} inline />
         </button>
       )}
