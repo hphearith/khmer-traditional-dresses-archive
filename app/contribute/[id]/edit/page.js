@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import Bilingual from "../../../../components/Bilingual.js";
 import EntryForm from "../../../../components/EntryForm.js";
+import Shop from "../../../../components/Shop.js";
 import ReturnNote from "../../../../components/ReturnNote.js";
 import { formValuesFromEntry, isOwnedBy } from "../../../../lib/entry.js";
 import { photoUrl } from "../../../../lib/photoStorage.js";
@@ -43,32 +44,32 @@ export default async function EditEntryPage({ params }) {
   else if (!entry) notFound();
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--paper)", color: "var(--ink)", padding: "48px 16px" }}>
-      <section aria-labelledby="edit-title" style={{ width: "100%", maxWidth: 640, margin: "0 auto" }}>
-        <p style={{ marginBottom: 24 }}>
-          <Link href="/?tab=community" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
-        </p>
-        <h1 id="edit-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.page.editTitle} /></h1>
-        {error ? (
-          <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.editLoadFailed} /></p>
-        ) : !isOwnedBy(entry.owner, user.id) ? (
-          <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.editNotOwner} /></p>
-        ) : (
-          <>
-            {/* The intro is all about going back to review, which a Reviewer's own
-                entry does not do. If the check fails, this shows, as for a Contributor. */}
-            {!isReviewer && (
-              <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-                <Bilingual text={TEXT.page.editIntro} />
-              </p>
-            )}
-            {/* Only a Returned entry shows its note: a Pending one may still carry it, unasked for here. */}
-            {entry.status === "returned" && <ReturnNote heading={TEXT.review.note.name} note={entry.return_note} />}
-            <EntryForm userId={user.id} entryId={entry.id} initial={formValuesFromEntry(entry)}
-              photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />
-          </>
-        )}
-      </section>
-    </main>
+    <Shop>
+      <main className="container sheet-page sheet-page-form">
+        <Link className="back-link" href="/?tab=community"><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
+        <section className="sheet sheet-form" aria-labelledby="edit-title">
+          <h1 id="edit-title" className="sheet-title"><Bilingual text={TEXT.page.editTitle} /></h1>
+          {error ? (
+            <p role="alert" className="form-alert"><Bilingual text={TEXT.page.editLoadFailed} /></p>
+          ) : !isOwnedBy(entry.owner, user.id) ? (
+            <p role="alert" className="form-alert"><Bilingual text={TEXT.page.editNotOwner} /></p>
+          ) : (
+            <>
+              {/* The intro is all about going back to review, which a Reviewer's own
+                  entry does not do. If the check fails, this shows, as for a Contributor. */}
+              {!isReviewer && (
+                <p className="sheet-intro">
+                  <Bilingual text={TEXT.page.editIntro} />
+                </p>
+              )}
+              {/* Only a Returned entry shows its note: a Pending one may still carry it, unasked for here. */}
+              {entry.status === "returned" && <ReturnNote heading={TEXT.review.note.name} note={entry.return_note} />}
+              <EntryForm userId={user.id} entryId={entry.id} initial={formValuesFromEntry(entry)}
+                photo={{ path: entry.photo_path, url: photoUrl(supabase, entry.photo_path) }} />
+            </>
+          )}
+        </section>
+      </main>
+    </Shop>
   );
 }

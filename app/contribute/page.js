@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Bilingual from "../../components/Bilingual.js";
 import EntryForm from "../../components/EntryForm.js";
+import Shop from "../../components/Shop.js";
 import { readUsername } from "../../lib/readUsername.js";
 import { readIsReviewer } from "../../lib/review.js";
 import { createClient } from "../../lib/supabase/server.js";
@@ -29,17 +30,17 @@ export default async function ContributePage() {
   if (!error && !username) redirect("/choose-username");
 
   return (
-    <main style={{ minHeight: "100vh", background: "var(--paper)", color: "var(--ink)", padding: "48px 16px" }}>
-      <section aria-labelledby="contribute-title" style={{ width: "100%", maxWidth: 640, margin: "0 auto" }}>
-        <p style={{ marginBottom: 24 }}>
-          <Link href="/?tab=community" style={{ color: "var(--wine)" }}><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
-        </p>
-        <h1 id="contribute-title" style={{ fontSize: 40, marginBottom: 16 }}><Bilingual text={TEXT.page.writeTitle} /></h1>
-        <p style={{ color: "var(--muted)", marginBottom: 32 }}>
-          <Bilingual text={isReviewer ? TEXT.page.writeIntroReviewer : TEXT.page.writeIntro} />
-        </p>
-        <EntryForm userId={user.id} isReviewer={isReviewer} />
-      </section>
-    </main>
+    <Shop>
+      <main className="container sheet-page sheet-page-form">
+        <Link className="back-link" href="/?tab=community"><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
+        <section className="sheet sheet-form" aria-labelledby="contribute-title">
+          <h1 id="contribute-title" className="sheet-title"><Bilingual text={TEXT.page.writeTitle} /></h1>
+          <p className="sheet-intro">
+            <Bilingual text={isReviewer ? TEXT.page.writeIntroReviewer : TEXT.page.writeIntro} />
+          </p>
+          <EntryForm userId={user.id} isReviewer={isReviewer} />
+        </section>
+      </main>
+    </Shop>
   );
 }

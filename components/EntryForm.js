@@ -28,7 +28,7 @@ export default function EntryForm({ userId, isReviewer = false, entryId = null, 
   if (submitted) return <SubmittedNotice />;
 
   return (
-    <form onSubmit={handleSubmit} onChange={draft.handleChange} onCompositionEnd={draft.handleChange} noValidate aria-busy={pending} style={{ display: "grid", gap: 24 }}>
+    <form onSubmit={handleSubmit} onChange={draft.handleChange} onCompositionEnd={draft.handleChange} noValidate aria-busy={pending} className="form-stack">
       <EntryField key={`title-${restoreKey}`} name="title" label={TEXT.form.title} required error={errors.title} initialValue={values.title} />
       <EntryField key={`story-${restoreKey}`} name="story" label={TEXT.form.story} required multiline error={errors.story} initialValue={values.story}
         hint={TEXT.form.storyHint} />
@@ -40,9 +40,8 @@ export default function EntryForm({ userId, isReviewer = false, entryId = null, 
       <EntryField key={`credited_as-${restoreKey}`} name="credited_as" label={TEXT.form.creditedAs} error={errors.credited_as} initialValue={values.credited_as}
         hint={TEXT.form.creditedAsHint} />
       <ProvenanceFields key={`provenance-${restoreKey}`} errors={errors} initial={values} />
-      {formError && <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={formError} /></p>}
-      <button className="button" type="submit" disabled={pending}
-        style={{ opacity: pending ? 0.7 : 1, cursor: pending ? "wait" : "pointer" }}>
+      {formError && <p role="alert" className="form-alert"><Bilingual text={formError} /></p>}
+      <button className="button" type="submit" disabled={pending}>
         <Bilingual text={saveLabel} inline />
       </button>
     </form>

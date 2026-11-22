@@ -7,7 +7,7 @@ import Bilingual from "./Bilingual.js";
 // screen reader announces the text when it appears.
 export default function RestoredNotice({ restored, editing }) {
   return (
-    <p role="status" style={{ color: "var(--wine)", fontWeight: 700 }}>
+    <p role="status" className="form-alert restored-notice">
       {restored && <Bilingual text={editing ? TEXT.form.restoredEdit : TEXT.form.restored} />}
     </p>
   );
