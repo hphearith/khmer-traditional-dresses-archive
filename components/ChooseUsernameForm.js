@@ -9,7 +9,7 @@ export default function ChooseUsernameForm() {
   const { pending, usernameError, handleSubmit } = useChooseUsername();
 
   return (
-    <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 20 }}>
+    <form onSubmit={handleSubmit} aria-busy={pending} style={{ display: "grid", gap: 24 }}>
       <UsernameField pending={pending} error={usernameError} />
       <button type="submit" disabled={pending} style={{
         minHeight: 48, border: "1px solid var(--wine)", borderRadius: 4, padding: "8px 16px",

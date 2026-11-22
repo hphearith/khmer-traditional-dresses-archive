@@ -13,17 +13,17 @@ export default function CookieInformationPage() {
         </p>
 
         <section aria-labelledby="guest-heading" style={{ marginBottom: 24 }}>
-          <h2 id="guest-heading" style={{ fontSize: 28, marginBottom: 8 }}>Guest browsing</h2>
+          <h2 id="guest-heading" style={{ fontSize: 26, marginBottom: 8 }}>Guest browsing</h2>
           <p>You can browse the archive without signing in or using account cookies.</p>
         </section>
 
         <section aria-labelledby="contributor-heading" style={{ marginBottom: 24 }}>
-          <h2 id="contributor-heading" style={{ fontSize: 28, marginBottom: 8 }}>Signing in</h2>
+          <h2 id="contributor-heading" style={{ fontSize: 26, marginBottom: 8 }}>Signing in</h2>
           <p>Essential cookies keep your account secure and remember you as you move between pages.</p>
         </section>
 
         <section aria-labelledby="language-heading" style={{ marginBottom: 24 }}>
-          <h2 id="language-heading" style={{ fontSize: 28, marginBottom: 8 }}>Your language choice</h2>
+          <h2 id="language-heading" style={{ fontSize: 26, marginBottom: 8 }}>Your language choice</h2>
           <p style={{ marginBottom: 8 }}>
             The archive is shown in Khmer unless you choose English with the language buttons at the top of every
             page. When you press one, a cookie named <code>{LANGUAGE_COOKIE}</code> is saved in this browser holding
@@ -37,7 +37,7 @@ export default function CookieInformationPage() {
         </section>
 
         <section aria-labelledby="drafts-heading" style={{ marginBottom: 24 }}>
-          <h2 id="drafts-heading" style={{ fontSize: 28, marginBottom: 8 }}>Local drafts on this device</h2>
+          <h2 id="drafts-heading" style={{ fontSize: 26, marginBottom: 8 }}>Local drafts on this device</h2>
           <p style={{ marginBottom: 8 }}>
             While you write or edit an entry, the text you have typed is saved in your browser&rsquo;s local
             storage on this device as a local draft, so you can come back to it after leaving the page, reloading or
@@ -58,7 +58,7 @@ export default function CookieInformationPage() {
         </section>
 
         <section aria-labelledby="optional-heading" style={{ marginBottom: 32 }}>
-          <h2 id="optional-heading" style={{ fontSize: 28, marginBottom: 8 }}>Analytics and advertising</h2>
+          <h2 id="optional-heading" style={{ fontSize: 26, marginBottom: 8 }}>Analytics and advertising</h2>
           <p>We do not use analytics or advertising cookies.</p>
         </section>
 

@@ -278,7 +278,7 @@ The page is one centred column of sections: `min(1200px, calc(100% - 2 × gutter
 6. The source banner: full-bleed oxblood, 80px from its neighbours, with a 48px gap between a `1fr 1.6fr` split.
 7. The footer: a top rule, 14px muted text, and the course note capped at 640px.
 
-**Form and account pages** (log in, sign up, contribute, edit, choose or change username, review, cookies) are a single centred column, 440px wide for auth and 640px for entry forms. They have 48px of block padding on the paper ground and use the same buttons and fields as the home page. Form fields sit on a 20px grid gap. The spacing scale’s nearest steps are 16px and 24px, and new forms should use one of them.
+**Form and account pages** (log in, sign up, contribute, edit, choose or change username, review, cookies) are a single centred column, 440px wide for auth and 640px for entry forms. They have 48px of block padding on the paper ground and use the same buttons and fields as the home page. Form fields sit on a 24px grid gap.
 
 **Rhythm:** headings have 24px before their content, images 16px before their caption, related label and value pairs 4–8px, and adjacent controls at least 8px. Catalogue gaps are 48px between rows and 24px between columns. Open cards have no padded outer box. Padding belongs inside image wells and controls.
 
