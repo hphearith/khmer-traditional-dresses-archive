@@ -14,7 +14,7 @@ const TABS = [
   { id: "community", label: TEXT.tabs.community },
 ];
 
-export default function HomeTabs({ communityEntries, communityFailed, myEntries, myFailed, signedIn }) {
+export default function HomeTabs({ communityEntries, communityFailed, myEntries, myFailed, signedIn, officialSource }) {
   const language = useLanguage();
   // The page-level tab lives in the address (?tab=), and so does the Community
   // view (?view=). GarmentsArchive keeps its own separate category filter state,
@@ -64,8 +64,9 @@ export default function HomeTabs({ communityEntries, communityFailed, myEntries,
       {/* Both panels stay mounted so the Official search and filters survive a tab switch. */}
       <div role="tabpanel" id="home-panel-official" aria-labelledby="home-tab-official" hidden={homeTab !== "official"}>
         <GarmentsArchive />
+        {officialSource}
       </div>
-      <div role="tabpanel" id="home-panel-community" aria-labelledby="home-tab-community" hidden={homeTab !== "community"}>
+      <div className="home-panel-community" role="tabpanel" id="home-panel-community" aria-labelledby="home-tab-community" hidden={homeTab !== "community"}>
         <CommunityTab
           entries={communityEntries} failed={communityFailed} myEntries={myEntries} myFailed={myFailed}
           signedIn={signedIn} view={view} onViewChange={selectView}
