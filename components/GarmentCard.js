@@ -23,7 +23,9 @@ export default function GarmentCard({ garment }) {
 
   return (
     <article className="garment-card">
-      <div className="swatch has-image">
+      {/* The photo opens the record too. Keyboard users reach it by the title
+          link, so the photo is skipped by Tab and the same link is not met twice. */}
+      <Link className="swatch has-image" href={href} tabIndex={-1}>
         <img
           className="swatch-image"
           src={garment.imageUrl}
@@ -33,7 +35,7 @@ export default function GarmentCard({ garment }) {
           height="5"
           loading="lazy"
         />
-      </div>
+      </Link>
       {/* The grey step the dress stands on in the salon (app/home.css). */}
       <div className="plinth" aria-hidden="true" />
       <h3 lang={title.lang}><Link className="card-link" href={href}>{title.text}</Link></h3>
