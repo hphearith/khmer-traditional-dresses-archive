@@ -1030,6 +1030,12 @@ footer p:last-child {
     padding-block: 32px 56px;
   }
 
+  /* The note repeats the lead. On a phone every line pushes the records down,
+     so it shows from 640px up only. */
+  .hero-note {
+    display: none;
+  }
+
   .section-head {
     align-items: start;
     flex-direction: column;
