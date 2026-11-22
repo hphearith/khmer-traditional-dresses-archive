@@ -15,11 +15,22 @@ const CATEGORIES = { lower: TEXT.catalogue.lower, upper: TEXT.catalogue.upper, e
 export default function GarmentRecord({ garment, source, byline }) {
   const language = useLanguage();
   const [title, subtitle] = garmentNames(garment, language);
+  const isKm = language === "km";
+  const material = isKm && garment.materialKh ? (
+    <span lang="km">{garment.materialKh}</span>
+  ) : (
+    <MixedText text={garment.material} />
+  );
+  const maker = isKm && garment.makerKh ? garment.makerKh : garment.maker;
+  const place = isKm && garment.placeKh ? garment.placeKh : garment.place;
+  const description = isKm && garment.descriptionKh ? garment.descriptionKh : garment.description;
+  const descLang = isKm && garment.descriptionKh ? "km" : "en";
+
   const rows = [
     [TEXT.catalogue.filterLabel, CATEGORIES[garment.category] ? <Bilingual text={CATEGORIES[garment.category]} inline /> : garment.category],
-    [TEXT.catalogue.material, <MixedText text={garment.material} />],
-    [TEXT.card.makerShort, <span lang="en">{garment.maker}</span>],
-    [TEXT.provenance.place, <span lang="en">{garment.place}</span>],
+    [TEXT.catalogue.material, material],
+    [TEXT.card.makerShort, <span lang={isKm && garment.makerKh ? "km" : "en"}>{maker}</span>],
+    [TEXT.provenance.place, <span lang={isKm && garment.placeKh ? "km" : "en"}>{place}</span>],
   ];
 
   return (
@@ -35,7 +46,7 @@ export default function GarmentRecord({ garment, source, byline }) {
             <div key={index}><dt><Bilingual text={label} /></dt><dd>{value}</dd></div>
           ))}
         </dl>
-        <p className="record-description" lang="en">{garment.description}</p>
+        <p className="record-description" lang={descLang}>{description}</p>
         <div className="record-source">
           <p><Bilingual text={source} /></p>
           <p className="byline"><Bilingual text={byline} /></p>
