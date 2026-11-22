@@ -4,6 +4,7 @@ import { cache } from "react";
 import collection from "../../../collection.config.js";
 import Bilingual from "../../../components/Bilingual.js";
 import EntryRecord from "../../../components/EntryRecord.js";
+import Shop from "../../../components/Shop.js";
 import { isEntryId } from "../../../lib/entryPages.js";
 import { getLanguage } from "../../../lib/getLanguage.js";
 import { readEntry } from "../../../lib/readEntries.js";
@@ -37,16 +38,18 @@ export default async function EntryPage({ params }) {
   if (!entry && !error) notFound();
 
   return (
-    <main className="container record-page" data-record-title={entry?.title}>
-      <Link className="back-link" href="/?tab=community"><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
-      {error ? (
-        <div className="empty" role="alert">
-          <h1 className="record-title"><Bilingual text={TEXT.community.loadFailed} /></h1>
-          <p><Bilingual text={TEXT.community.loadFailedHelp} /></p>
-        </div>
-      ) : (
-        <EntryRecord entry={entry} submitted={submittedText(entry.created_at)} />
-      )}
-    </main>
+    <Shop>
+      <main className="container record-page" data-record-title={entry?.title}>
+        <Link className="back-link" href="/?tab=community"><Bilingual text={TEXT.page.backToCommunity} inline /></Link>
+        {error ? (
+          <div className="empty" role="alert">
+            <h1 className="record-title"><Bilingual text={TEXT.community.loadFailed} /></h1>
+            <p><Bilingual text={TEXT.community.loadFailedHelp} /></p>
+          </div>
+        ) : (
+          <EntryRecord entry={entry} submitted={submittedText(entry.created_at)} />
+        )}
+      </main>
+    </Shop>
   );
 }

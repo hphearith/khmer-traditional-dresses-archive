@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import collection from "../../../collection.config.js";
 import Bilingual from "../../../components/Bilingual.js";
 import GarmentRecord from "../../../components/GarmentRecord.js";
+import Shop from "../../../components/Shop.js";
 import garments from "../../../data/garments.js";
 import { findGarment } from "../../../lib/garmentPages.js";
 import { getLanguage } from "../../../lib/getLanguage.js";
@@ -30,9 +31,11 @@ export default async function GarmentPage({ params }) {
   const identity = identityText(collection);
 
   return (
-    <main className="container record-page" data-record-title={garmentTitle(garment)}>
-      <Link className="back-link" href="/#collection"><Bilingual text={TEXT.username.backToArchive} inline /></Link>
-      <GarmentRecord garment={garment} source={identity.source} byline={bylineText(collection.curator)} />
-    </main>
+    <Shop>
+      <main className="container record-page" data-record-title={garmentTitle(garment)}>
+        <Link className="back-link" href="/#collection"><Bilingual text={TEXT.username.backToArchive} inline /></Link>
+        <GarmentRecord garment={garment} source={identity.source} byline={bylineText(collection.curator)} />
+      </main>
+    </Shop>
   );
 }

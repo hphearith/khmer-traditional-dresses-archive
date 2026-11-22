@@ -166,7 +166,7 @@ The archive is the inside of Apsara Mode Tailor in Phnom Penh, the curator's fam
 
 The world was pinned by the curator in their own words ("more in line with my mother's fancy tailor shop", "A's sign with B's Salon"). It rejects the museum collection page and the enamel shopfront that made the tailor shop "look like it's a barber shop". Density is a salon's: the sign is brief and large, the counter (heading, count, filters, search) is compact, and the dresses carry the page, each one on a white mount over a grey plinth. On phones the dresses become a row you swipe along.
 
-The tokens above are normative. In code they are custom properties declared on `body:has(.shop)` in `app/home.css` (`colors.wine` is `--wine`, `colors.gold-line` is `--gold-line`), the two Latin faces are set on `.shop` through `next/font/google` in `app/page.js` (`--font-wide`, `--font-salon`), and every rule is scoped under `.shop`. **Scope today: only the home page (`app/page.js`) wears this system.** Every other page still renders on `app/globals.css`'s older styles; see **Pages not yet in the salon** under Components.
+The tokens above are normative. In code they are custom properties declared on `body:has(.shop)` in `app/salon.css` (`colors.wine` is `--wine`, `colors.gold-line` is `--gold-line`), the web faces are set on `.shop` through `next/font/google` in `app/fonts.js` (`--font-wide`, `--font-salon`, `--font-serif-khmer`), and every rule is scoped under `.shop`. A page joins the salon by wrapping itself in `components/Shop.js`, which adds the `.shop` wrapper with the fonts, brings `app/salon.css`, draws the inner-page header and closes with the footer; `app/home.css` holds only the home page's own rules. **Scope today: the home page, the Official record and Contributor entry pages, and the not-found page.** The rest still render on `app/globals.css`'s older styles; see **Pages not yet in the salon** under Components.
 
 **Key Characteristics:**
 - A white sign face with raised wine Khmer above wide gold English, the Khmer always on top and larger.
@@ -307,11 +307,17 @@ A white card in a gold hairline, centred, with a Marcellus 24px heading (Khmer 7
 - **Brand:** the archive's name in gold lettering, Marcellus capitals 15px with 0.1em tracking, Khmer in serif 700. Links are ink 14px, underlined in `gold-line`, turning wine on hover. Every target is at least 44px tall.
 - **Language toggle:** the flag-emoji toggle stays, by `docs/adr/0005`. It sits at the right of the nav row; the chosen language is ink with a gold underline, the other muted.
 
+### Inner-page header
+Every page but the home page opens with the same header (`components/ShopHeader.js`): the coving, the nav row (the brand, Collection and About the archive, and the language toggle at the right; account links stay on the home page), then a **slim sign strip**, a link home. The strip is the sign's white face cut down to about 80px: the gold tools at 72px (48px on phones), the Khmer name in raised wine serif 800 at `clamp(22px, 2.6vw, 30px)` above the English in Archivo 125% gold capitals at `clamp(12px, 1.3vw, 15px)`, then the soffit. Khmer above and larger, as on the full sign. An inner page fills the screen, so a short page still ends on the footer.
+
+### Record page
+An Official record or a Contributor entry on its own page: the back link, then the photo beside its text (one column below 1000px, photo first, at most 440px). The photo hangs like the house dress: whole, 12px of white mount, a gold line at −6px and the hero shadow; a Contributor's photo keeps its own shape. The title is Marcellus capitals `clamp(32px, 3.6vw, 46px)` with 0.06em tracking (a Khmer title in serif 700); a Contributor's title keeps its own case. The facts are a two-column list on `plaster-shade` hairlines under a `gold-line` rule. The archive's source closes an Official record on a marble panel behind its 8px rail, under a 72% plaster wash so no vein runs through the words. A page that is only a message (not found, failed to load) is a centred empty-state card.
+
 ### Footer
 Shop ink ground, warm off-white text (`#E9E5DD`), the archive's name in white Marcellus capitals; two columns, one below 1000px. Focus outlines here are `gold-line` so they show on the ink.
 
 ### Pages not yet in the salon
-Only the home page uses Sign and Salon. The record pages (`/garments/[id]`), entry pages, sign-in and sign-up, contribute and edit, review, choose and change username, and cookies still render on `app/globals.css`'s older system: a cream ground, Georgia with Noto Serif Khmer headings, a fabric photo mat (`--fabric`), a different and darker wine (`--wine` #702F36 there, not the salon's #8E1A24), rounded 4px controls and a 999px status pill. They move to the salon in their own issues. Until then, keep work on those pages consistent with `globals.css`, and do not use these tokens there piecemeal.
+Sign-in and sign-up, the email confirmation page, choose and change username, cookies, contribute and edit, and review still render on `app/globals.css`'s older system: a cream ground, Georgia with Noto Serif Khmer headings, a fabric photo mat (`--fabric`), a different and darker wine (`--wine` #702F36 there, not the salon's #8E1A24), rounded 4px controls and a 999px status pill. They move to the salon in their own issues. Until then, keep work on those pages consistent with `globals.css`, and do not use these tokens there piecemeal.
 
 ## Do's and Don'ts
 
