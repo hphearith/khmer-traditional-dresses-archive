@@ -1,14 +1,9 @@
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { PHOTO_EXTENSIONS } from "../lib/photo.js";
-import { TEXT, photoHintText } from "../lib/uiText.js";
+import { TEXT, photoHintText, entryPhotoText } from "../lib/uiText.js";
 import { usePhotoPreview } from "../lib/usePhotoPreview.js";
 import Bilingual from "./Bilingual.js";
-
-const CONTROL = {
-  width: "100%", minWidth: 0, border: "1px solid var(--control)", borderRadius: 4,
-  padding: "12px 16px", background: "var(--surface)", color: "var(--ink)", font: "inherit", fontSize: 16,
-};
 
 // The entry's one photo. accept narrows the file picker only; lib/photo.js and
 // the storage bucket check the type and size again, because a direct call can send anything.
@@ -18,23 +13,30 @@ const CONTROL = {
 // A photo chosen here is shown at once, in place of the current one, before it is saved.
 export default function PhotoField({ error, current = null }) {
   const language = useLanguage();
-  const { preview, handleChange } = usePhotoPreview();
+  const { preview, fileName, handleChange } = usePhotoPreview();
   const describedBy = ["photo-hint", error && "photo-error"].filter(Boolean).join(" ");
 
   return (
     <div>
-      <label htmlFor="photo" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
+      <label id="photo-label" htmlFor="photo" style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
         <Bilingual text={current ? TEXT.photo.replaceLabel : TEXT.photo.label}
           note={current ? TEXT.form.optional : TEXT.form.required} noteHidden />
       </label>
       {(preview || current) && (
         <img src={preview ?? current.url}
-          alt={preview ? pick(TEXT.photo.chosenAlt, language) : `${pick(TEXT.photo.currentAlt, language)}: ${current.title}`}
+          alt={preview ? pick(TEXT.photo.chosenAlt, language) : pick(entryPhotoText(current.title, true), language)}
           style={{ display: "block", maxWidth: "100%", maxHeight: 240, marginBottom: 12, borderRadius: 4 }} />
       )}
-      <input id="photo" name="photo" type="file" accept={Object.keys(PHOTO_EXTENSIONS).join(",")}
-        style={CONTROL} aria-required={current ? undefined : "true"} aria-invalid={error ? true : undefined}
-        aria-describedby={describedBy} onChange={handleChange} />
+      <div className="photo-control">
+        <input id="photo" name="photo" type="file" accept={Object.keys(PHOTO_EXTENSIONS).join(",")}
+          className="photo-input" aria-labelledby="photo-label"
+          aria-required={current ? undefined : "true"} aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy} onChange={handleChange} />
+        <label htmlFor="photo" className="button secondary photo-picker" aria-hidden="true">
+          <Bilingual text={TEXT.photo.choose} inline />
+        </label>
+        <span aria-hidden="true">{fileName || <Bilingual text={TEXT.photo.nothingChosen} inline />}</span>
+      </div>
       <p id="photo-hint" style={{ marginTop: 8, fontSize: 14, color: "var(--muted)" }}>
         <Bilingual text={photoHintText(Boolean(current))} />
       </p>

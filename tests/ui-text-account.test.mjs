@@ -84,6 +84,16 @@ test("sign-in controls and validation use the standard Khmer phrases", () => {
   assert.equal(TEXT.auth.email.km, "អ៊ីមែល");
   assert.equal(TEXT.auth.password.km, "ពាក្យសម្ងាត់");
   assert.equal(credentialIssueText({ valueMissing: true }).km, "តម្រូវឱ្យបំពេញ");
-  assert.equal(credentialIssueText({ typeMismatch: true }).km, "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូវ");
+  assert.equal(credentialIssueText({ typeMismatch: true }).km, "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូវ។");
   assert.equal(credentialIssueText({}), null);
+});
+
+test("the sign-in and cookies pages share the same Khmer session explanation", () => {
+  assert.match(TEXT.cookies.signInBody.km, /រក្សាការចូលគណនីពេលប្ដូរទំព័រ/);
+  assert.ok(TEXT.auth.cookiesText.km.startsWith(TEXT.cookies.signInBody.km + " "));
+  assert.match(TEXT.cookies.draftStorage.km, /រូបថត និងប្រអប់យល់ព្រម/);
+});
+
+test("confirmation recovery clearly says to sign in or reopen the email link", () => {
+  assert.match(TEXT.callback.networkFailed.km, /សូមព្យាយាមចូលគណនី ឬបើកតំណភ្ជាប់ក្នុងអ៊ីមែលម្ដងទៀត។$/);
 });

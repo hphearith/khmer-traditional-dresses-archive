@@ -38,7 +38,7 @@ export default async function ContributePage() {
         <p style={{ color: "var(--muted)", marginBottom: 32 }}>
           <Bilingual text={isReviewer ? TEXT.page.writeIntroReviewer : TEXT.page.writeIntro} />
         </p>
-        <EntryForm userId={user.id} />
+        <EntryForm userId={user.id} isReviewer={isReviewer} />
       </section>
     </main>
   );

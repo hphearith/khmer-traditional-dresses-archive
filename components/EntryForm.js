@@ -1,6 +1,6 @@
 "use client";
 
-import { TEXT } from "../lib/uiText.js";
+import { TEXT, entrySaveActionText } from "../lib/uiText.js";
 import { useEntryDraft } from "../lib/useEntryDraft.js";
 import { useEntryForm } from "../lib/useEntryForm.js";
 import Bilingual from "./Bilingual.js";
@@ -20,11 +20,11 @@ import SubmittedNotice from "./SubmittedNotice.js";
 // comes back when the form is reopened; it is cleared once the entry is saved.
 // userId is the signed-in account, so a Local draft is never shown to anyone else.
 // Once a new entry is saved, the form gives way to a notice that it waits for review.
-export default function EntryForm({ userId, entryId = null, initial = {}, photo = null }) {
+export default function EntryForm({ userId, isReviewer = false, entryId = null, initial = {}, photo = null }) {
   const draft = useEntryDraft({ userId, entryId, initial });
   const { pending, submitted, errors, formError, handleSubmit } = useEntryForm({ entryId, photoPath: photo?.path, onSaved: draft.onSaved });
   const { values, restoreKey } = draft;
-  const saveLabel = entryId ? TEXT.form.saveChanges : TEXT.form.saveEntry;
+  const saveLabel = entrySaveActionText({ editing: Boolean(entryId), isReviewer, pending });
   if (submitted) return <SubmittedNotice />;
 
   return (
@@ -32,7 +32,8 @@ export default function EntryForm({ userId, entryId = null, initial = {}, photo 
       <EntryField key={`title-${restoreKey}`} name="title" label={TEXT.form.title} required error={errors.title} initialValue={values.title} />
       <EntryField key={`story-${restoreKey}`} name="story" label={TEXT.form.story} required multiline error={errors.story} initialValue={values.story}
         hint={TEXT.form.storyHint} />
-      <RestoredNotice restored={draft.restored} />
+      <RestoredNotice restored={draft.restored} editing={Boolean(entryId)} />
+      {!draft.restored && <p className="subtle"><Bilingual text={TEXT.form.localDraft} /></p>}
       {/* A new entry needs its one photo. An edit may replace it, or keep it by choosing nothing. */}
       <PhotoField error={errors.photo} current={entryId && photo ? { url: photo.url, title: initial.title } : null} />
       <ConsentField error={errors.consent} onlyWithNewPhoto={Boolean(entryId)} />
@@ -42,7 +43,7 @@ export default function EntryForm({ userId, entryId = null, initial = {}, photo 
       {formError && <p role="alert" style={{ color: "var(--wine)" }}><Bilingual text={formError} /></p>}
       <button className="button" type="submit" disabled={pending}
         style={{ opacity: pending ? 0.7 : 1, cursor: pending ? "wait" : "pointer" }}>
-        <Bilingual text={pending ? TEXT.form.saving : saveLabel} inline />
+        <Bilingual text={saveLabel} inline />
       </button>
     </form>
   );

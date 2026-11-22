@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { pick } from "../lib/bilingual.js";
 import { useLanguage } from "../lib/useLanguage.js";
 import { RETURN_NOTE_LIMIT, checkReturnNote } from "../lib/returnNote.js";
-import { TEXT, characterCountText } from "../lib/uiText.js";
+import { TEXT, characterCountText, namedEntryText } from "../lib/uiText.js";
 import Bilingual from "./Bilingual.js";
 
 // The box a Reviewer writes a Return note in, on one Pending card. Only
@@ -32,7 +32,7 @@ export default function ReturnNoteForm({ entry, sending, onSend, onCancel }) {
 
   return (
     <form className="entry-confirm return-note-form" onSubmit={send}
-      aria-label={`${pick(TEXT.review.note.name, language)}: ${entry.title}`}>
+      aria-label={pick(namedEntryText(TEXT.review.note.name, entry.title), language)}>
       <label htmlFor={id} className="return-note-heading"><Bilingual text={TEXT.review.note.name} /></label>
       <textarea ref={box} id={id} rows={5} value={text} readOnly={sending}
         onChange={(event) => setText(event.target.value)} aria-describedby={`${id}-hint ${id}-count`} />
@@ -42,7 +42,7 @@ export default function ReturnNoteForm({ entry, sending, onSend, onCancel }) {
       </p>
       <div className="entry-confirm-actions">
         <button type="submit" className="button" disabled={sending || !check.ok}
-          aria-label={`${pick(TEXT.review.note.sendBack, language)}: ${entry.title}`}>
+          aria-label={pick(namedEntryText(TEXT.review.note.sendBack, entry.title), language)}>
           <Bilingual text={TEXT.review.note.sendBack} inline />
         </button>
         <button type="button" className="button secondary" onClick={onCancel} disabled={sending}>
